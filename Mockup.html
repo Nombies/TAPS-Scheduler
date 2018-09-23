@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)file:///C:/Users/kraus/Dropbox/CSE/120/HTML%20Mockup/Mockup.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<style>
+
+.floatdiv{
+	background-color: rgba(255, 255, 255, 0.8);
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	border-radius: 1vw;
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vw 2vw;
+	text-align: center;
+	position: fixed;
+	cursor: pointer;
+	z-index: 99999999;
+}
+
+.slidecover{
+	position: fixed;
+	width: 30vw;
+	height: 100vh;
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	background-color: rgba(255, 255, 255, 0.99);
+	box-shadow: rgba(0, 0, 0, 1) 0px 0.5vw 5vw;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	padding: 10vh 0;
+	overflow-y: auto;
+}
+
+.menuitem{
+	background-color: rgba(255, 255, 255, 0.8);
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	border-radius: 1vw;
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vw 2vw;
+	text-align: center;
+	cursor: pointer;
+	margin: 1vw auto;
+	width: 90%;
+	display: block;
+	overflow: visible;
+}
+
+.centermenu{
+	width: 80vw;
+	height: 90vh;
+	background-color: rgba(255, 255, 255, 0.99);
+	border: 1px solid rgba(200, 200, 200, 0.99);
+	border-radius: 1vw;
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vw 2vw;
+	text-align: center;
+	position: fixed;
+	top: 5vh;
+	left: 10vw;
+	overflow-y: scroll;
+}
+
+.centermenu > .menuitem{
+	width: 45%;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+	border-radius: 0.5vmin;
+}
+
+.menuitem > p{
+    font-size: 5vmin;
+    margin: 3vh 0;
+}
+
+</style>
+
+</head>
+
+<body>
+<div class="floatdiv" title="C1" style="top: 2vw;left: 2vw;width: 7vw;height: 7vw;">
+<img src="https://i.imgur.com/2lpTR99.png" style="width: 7vw;">
+</div>
+
+<div class="slidecover">
+<div class="menuitem" style="order: 1;">
+	<p>Task List</p>
+</div>
+<div class="menuitem" style="order: 2;">
+	<p>Employee List</p>
+</div>
+<div class="menuitem" style="order: 3;">
+	<p>TOR</p>
+</div>
+
+<div class="menuitem" style="order: 4;">
+	<p>Shift Exchange</p>
+</div>
+
+<div class="menuitem" style="order: 5;">
+	<p>Settings</p>
+</div>
+</div>
+
+
+<div class="centermenu">
+
+</div>
+
+
+
+<img src="https://i.imgur.com/uu5lgvN.png" onclick="focuscalendar()" style="width: 95vw;">
+
+
+
+<script>
+function focuscalendar(){
+	$('.slidecover').hide('slide', {direction: 'left'}, 1);
+	$('.centermenu').hide('fade', {direction: 'right'}, 1);
+}
+
+$( document ).ready(function() {
+	var edit = true;
+	if(!edit) $("body > div.slidecover > div:nth-child(1)").hide('fade', {direction: 'right'}, 1);
+	$('.slidecover').hide('slide', {direction: 'left'}, 1);
+	$('.centermenu').hide('fade', {direction: 'right'}, 1);
+	$('.floatdiv').click(function(){
+		$('.slidecover').toggle('slide', {direction: 'left'}, 400);
+		$('.centermenu').hide('fade', {direction: 'right'}, 100);
+	});
+	
+	$('body > div.slidecover > div:nth-child(1)').click(function(){	//click task list 
+		$('.centermenu').show('fade', {direction: 'right'}, 400);
+		$('.slidecover').hide('slide', {direction: 'left'}, 100);
+		
+		for(var i=0;i<20;i++){
+			var taskitem = document.createElement("div");
+			taskitem.classList.add("menuitem");
+			taskitem.innerHTML="<p>Task "+i+"</p>"
+			$(".centermenu")[0].append(taskitem);
+		}
+		
+		$('.centermenu > .menuitem').click(function(){	//click task list 
+			console.log("clicked");
+			$(this).parent().empty();
+		});
+	});
+
+});
+</script></body></html>
