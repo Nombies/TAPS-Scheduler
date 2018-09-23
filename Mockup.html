@@ -130,7 +130,7 @@ $( document ).ready(function() {
 		$('.centermenu').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
 		
-		if($(".centermenu").children().length!=0){
+		if($(".centermenu").children().length==0){
 			for(var i=0;i<20;i++){
 				var taskitem = document.createElement("div");
 				taskitem.classList.add("menuitem");
