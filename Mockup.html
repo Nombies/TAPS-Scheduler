@@ -127,7 +127,11 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 
 <div class="centermenu">
 	
-	<form action="" method="post" class="mainform" id="taskform">
+	
+	
+</div>
+
+<form action="" method="post" class="mainform" id="FromTemplate" id="taskform" style="display: none">
 			    <p>Name    
 			    <input type="text" name="Name" value=""></p>  
 			
@@ -173,10 +177,6 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 			    <p>Delete After<input type="text" name="Delete After" value=""> 
 			    <input type="checkbox" name="Persist" value="">Persistent</p>        
 	</form>
-	
-</div>
-
-
 
 
 
@@ -214,8 +214,13 @@ $( document ).ready(function() {
 		}
 		
 		$('.centermenu > .menuitem').click(function(){	//click task list 
-			console.log("clicked");
 			$(this).parent().empty();
+			
+			var clone = $("#FromTemplate").clone();
+			clone.attr("id","");
+			clone.show();
+			$(".centermenu").append(clone)
+			
 		});
 	});
 
