@@ -3,7 +3,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <style>
-
 .floatdiv{
 	background-color: rgba(255, 255, 255, 0.8);
 	border: 1px solid rgba(200, 200, 200, 0.8);
@@ -14,7 +13,6 @@
 	cursor: pointer;
 	z-index: 99999999;
 }
-
 .slidecover{
 	position: fixed;
 	width: 30vmin;
@@ -29,7 +27,6 @@
 	padding: 10vh 0;
 	overflow-y: auto;
 }
-
 .menuitem{
 	background-color: rgba(255, 255, 255, 0.8);
 	border: 1px solid rgba(200, 200, 200, 0.8);
@@ -42,7 +39,6 @@
 	display: block;
 	overflow: visible;
 }
-
 .centermenu{
 	width: 80vw;
 	height: 95vh;
@@ -56,42 +52,67 @@
 	left: 10vw;
 	overflow-y: scroll;
 }
-
 .centermenu > .menuitem{
 	width: 30vmin;
 	margin: 0.25vmin 0.25vmin;
 	display: inline-block;
 	border-radius: 0.5vmin;
 }
-
 .menuitem > p{
     font-size: 5vmin;
     margin: 3vh 0;
 }
-
 .mainform{
 	text-align: left;
 	margin: 0 5%;
 }
-
 .mainform > p{
 	font-size: 4vmin;
 }
-
 .mainform > table > tbody > tr > td{
 	text-align: center;
 	font-size: 4vmin;
+}
+#Candobutton{
+	background-color: rgba(255, 255, 255, 0.8);
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	font-size: 4vmin;
+	width: 30vmin;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+	border-radius: 0.5vmin;
+	width: 90%;
+	cursor: pointer;
+}
+.Candotask{
+	background-color: rgba(255, 255, 255, 0.8);
+	border: 1px solid rgba(255, 0, 0, 0.8);
+	border-radius: 1vmin;
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	cursor: pointer;
+	margin: 1vmin auto;
+	width: 90%;
+	display: block;
+	overflow: visible;
+}
+
+.centermenu > .Candotask{
+	width: 30vmin;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+	border-radius: 0.5vmin;
 }
 
 input[type='checkbox'] {
     width:5vw;
     height:3vmin;
 }
-
 input[type="range"]{
 	width: 25vw;
 }
-
 input[type="text"], input[type="time"], input[type="textarea"], textarea{
 	font-size: 3vmin;
 }
@@ -130,6 +151,7 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 <div class="centermenu" id="TOR" style="display:none"></div>
 <div class="centermenu" id="ShiftX" style="display:none"></div>
 <div class="centermenu" id="Settings" style="display:none"></div>
+<div class="centermenu" id ="Cando" style ="display:none"></div>
 
 <form action="" method="post" class="mainform" id="taskform" style="display: none">
 			    <p>Name    
@@ -175,7 +197,8 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 			    <input type="range" name="Repeat" value="5" min="0" max="7"></p>    
 			
 			    <p>Delete After<input type="text" name="Delete After" value=""> 
-			    <input type="checkbox" name="Persist" value="" checked=checked>Persistent</p>        
+			    <input type="checkbox" name="Persist" value="" checked=checked>Persistent</p>  
+     
 	</form>
 <form action="" method="post" class="mainform" id="employeeform" style="display: none">
 	<p>First Name:   
@@ -198,7 +221,7 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 
     <p><input type="checkbox" name="empmodify" value="">Modify Employees</p>
     <br>
-
+    <div id = 'Candobutton'>Tasks</div>
 </form>
 
 
@@ -211,15 +234,14 @@ function focuscalendar(){
 	$('.slidecover').hide('slide', {direction: 'left'}, 1);
 	HideCenters();
 }
-
 function HideCenters(){
 	$('.centermenu#Tasks').hide('fade', {direction: 'right'}, 100);
 	$('.centermenu#Employees').hide('fade', {direction: 'right'}, 100);
 	$('.centermenu#TOR').hide('fade', {direction: 'right'}, 100);
 	$('.centermenu#ShiftX').hide('fade', {direction: 'right'}, 100);
 	$('.centermenu#Settings').hide('fade', {direction: 'right'}, 100);
+	$('.centermenu#Cando').hide('fade', {direction: 'right'}, 100);
 }
-
 $(document).ready(function() {
 	var edit = true;
 	if(!edit) $("body > div.slidecover > div:nth-child(1)").hide('fade', {direction: 'right'}, 1);
@@ -258,7 +280,6 @@ $(document).ready(function() {
 	$('body > div.slidecover > div:nth-child(2)').click(function(){//click employee list
 		$('.centermenu#Employees').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
-
 		if($(".centermenu#Employees").children().length==0){
 			for(var i=0;i<20;i++){
 				var empitem = document.createElement("div");
@@ -268,21 +289,20 @@ $(document).ready(function() {
 			}
 		}
 		
-		$('.centermenu > .menuitem').click(function(){	//click task list 
+		$('.centermenu#Employees > .menuitem').click(function(){
 			$(this).parent().empty();
 			
-			var clone = $("#employeeform").clone();
+			var clone = $("#employeeform").clone(true);
 			clone.attr("id","");
 			clone.show();
-			$(".centermenu#Employees").append(clone)
-			
-		});
-	});
 	
+			$(".centermenu#Employees").append(clone)
+		});
+
+	});
 	$('body > div.slidecover > div:nth-child(3)').click(function(){//click TOR
 		
 	});
-
 	$('body > div.slidecover > div:nth-child(4)').click(function(){//click shift exchange
 		
 	});
@@ -290,5 +310,31 @@ $(document).ready(function() {
 	$('body > div.slidecover > div:nth-child(5)').click(function(){//click settings
 		
 	});
+
+	$('#employeeform > #Candobutton').click(function(){
+		$('.centermenu#Employees').hide('fade', {direction: 'right'}, 100);
+		$('.centermenu#Cando').show('fade', {direction: 'right'}, 400);
+		if($(".centermenu#Cando").children().length==0){
+			for(var i=0;i<20;i++){
+				var canitem = document.createElement("div");
+				canitem.classList.add("Candotask");
+				canitem.innerHTML="<p>Task "+i+"</p>"
+				$(".centermenu#Cando")[0].append(canitem);
+			}
+		}
+		$('.centermenu#Cando > .Candotask').click(function(){
+		
+		var color = $(this).css("border-color");
+		var g = "rgba(0, 255, 0, 0.8)";
+		var r = "rgba(255, 0, 0, 0.8)";
+			if(color == r){
+				$(this).css("border-color",g);
+			}else if(color == g){
+				$(this).css("border-color",r);
+			}
+	
+		});
+	});
+
 });
 </script></body></html>
