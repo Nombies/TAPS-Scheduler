@@ -131,7 +131,7 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 <div class="centermenu" id="ShiftX" style="display:none"></div>
 <div class="centermenu" id="Settings" style="display:none"></div>
 
-<form action="" method="post" class="mainform" id="FromTemplate" id="taskform" style="display: none">
+<form action="" method="post" class="mainform" id="taskform" style="display: none">
 			    <p>Name    
 			    <input type="text" name="Name" value=""></p>  
 			
@@ -177,7 +177,7 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 			    <p>Delete After<input type="text" name="Delete After" value=""> 
 			    <input type="checkbox" name="Persist" value="" checked=checked>Persistent</p>        
 	</form>
-<form action="" method="post" class="mainform"  id="renamethis" id="employeeform" style="display: none">
+<form action="" method="post" class="mainform" id="employeeform" style="display: none">
 	<p>First Name:   
     <input type="text" name="First" value=""></p>  
 
@@ -245,7 +245,7 @@ $(document).ready(function() {
 		$('.centermenu#Tasks > .menuitem').click(function(){	//click task list 
 			$(this).parent().empty();
 			
-			var clone = $("#FromTemplate").clone();
+			var clone = $("#taskform").clone();
 			clone.attr("id","");
 			clone.show();
 			$(clone).find("input[name='Name']").eq(0)[0].value=$(this).find("p")[0].innerHTML;
@@ -271,7 +271,7 @@ $(document).ready(function() {
 		$('.centermenu > .menuitem').click(function(){	//click task list 
 			$(this).parent().empty();
 			
-			var clone = $("#renamethis").clone();
+			var clone = $("#employeeform").clone();
 			clone.attr("id","");
 			clone.show();
 			$(".centermenu#Employees").append(clone)
