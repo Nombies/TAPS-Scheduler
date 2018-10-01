@@ -104,7 +104,7 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 <img src="https://i.imgur.com/2lpTR99.png" style="width: 7vmin;">
 </div>
 
-<div class="slidecover">
+<div class="slidecover" style="display:none">
 <div class="menuitem" style="order: 1;">
 	<p>Task List</p>
 </div>
@@ -125,11 +125,11 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 </div>
 
 
-<div class="centermenu">
-	
-	
-	
-</div>
+<div class="centermenu" id="Tasks" style="display:none"></div>
+<div class="centermenu" id="Employees" style="display:none"></div>
+<div class="centermenu" id="TOR" style="display:none"></div>
+<div class="centermenu" id="ShiftX" style="display:none"></div>
+<div class="centermenu" id="Settings" style="display:none"></div>
 
 <form action="" method="post" class="mainform" id="FromTemplate" id="taskform" style="display: none">
 			    <p>Name    
@@ -139,10 +139,10 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 			    <textarea rows="3" cols="50" name="Instructions" form="taskform"></textarea>
 				
 			    <p>Earliest Start
-			    <input type="time" name="EarliestStart" value=""></p>        
+			    <input type="time" name="EarliestStart" value="07:00"></p>        
 			
 			    <p>Latest End
-			    <input type="time" name="LatestEnd" value=""></p>        
+			    <input type="time" name="LatestEnd" value="16:00"></p>        
 			    
 			    <table>
 			    <tr>
@@ -159,23 +159,23 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 				<tr>				
 			    <td>Days</td>    
 			    <td><input type="checkbox" name="Sun" value=""></td>    
-			    <td><input type="checkbox" name="Mon" value=""></td>    
-			    <td><input type="checkbox" name="Tues" value=""></td>    
-			    <td><input type="checkbox" name="Wed" value=""></td>    
-			    <td><input type="checkbox" name="Thurs" value=""></td>    
-			    <td><input type="checkbox" name="Fri" value=""></td>    
+			    <td><input type="checkbox" name="Mon" value="" checked=checked></td>    
+			    <td><input type="checkbox" name="Tues" value="" checked=checked></td>    
+			    <td><input type="checkbox" name="Wed" value="" checked=checked></td>    
+			    <td><input type="checkbox" name="Thurs" value="" checked=checked></td>    
+			    <td><input type="checkbox" name="Fri" value="" checked=checked></td>    
 			    <td><input type="checkbox" name="Sat" value=""></td>    
 				</tr>
 				</table>
 				
 			    <p>Duration   
-			    <input type="text" name="Duration" value=""></p>     
+			    <input type="text" name="Duration" value="4"></p>     
 			
 			    <p>Repeat    
-			    <input type="range" name="Repeat" value="0" min="0" max="7"></p>    
+			    <input type="range" name="Repeat" value="5" min="0" max="7"></p>    
 			
 			    <p>Delete After<input type="text" name="Delete After" value=""> 
-			    <input type="checkbox" name="Persist" value="">Persistent</p>        
+			    <input type="checkbox" name="Persist" value="" checked=checked>Persistent</p>        
 	</form>
 
 
@@ -187,42 +187,66 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 <script>
 function focuscalendar(){
 	$('.slidecover').hide('slide', {direction: 'left'}, 1);
-	$('.centermenu').hide('fade', {direction: 'right'}, 1);
+	HideCenters();
 }
 
-$( document ).ready(function() {
+function HideCenters(){
+	$('.centermenu#Tasks').hide('fade', {direction: 'right'}, 100);
+	$('.centermenu#Employees').hide('fade', {direction: 'right'}, 100);
+	$('.centermenu#TOR').hide('fade', {direction: 'right'}, 100);
+	$('.centermenu#ShiftX').hide('fade', {direction: 'right'}, 100);
+	$('.centermenu#Settings').hide('fade', {direction: 'right'}, 100);
+}
+
+$(document).ready(function() {
 	var edit = true;
 	if(!edit) $("body > div.slidecover > div:nth-child(1)").hide('fade', {direction: 'right'}, 1);
-	$('.slidecover').hide('slide', {direction: 'left'}, 1);
-	$('.centermenu').hide('fade', {direction: 'right'}, 1);
+	
 	$('.floatdiv').click(function(){
 		$('.slidecover').toggle('slide', {direction: 'left'}, 400);
-		$('.centermenu').hide('fade', {direction: 'right'}, 100);
+		HideCenters();
 	});
 	
 	$('body > div.slidecover > div:nth-child(1)').click(function(){	//click task list 
-		$('.centermenu').show('fade', {direction: 'right'}, 400);
+		$('.centermenu#Tasks').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
 		
-		if($(".centermenu").children().length==0){
+		if($(".centermenu#Tasks").children().length==0){
 			for(var i=0;i<20;i++){
 				var taskitem = document.createElement("div");
 				taskitem.classList.add("menuitem");
 				taskitem.innerHTML="<p>Task "+i+"</p>"
-				$(".centermenu")[0].append(taskitem);
+				$(".centermenu#Tasks")[0].append(taskitem);
 			}
 		}
 		
-		$('.centermenu > .menuitem').click(function(){	//click task list 
+		$('.centermenu#Tasks > .menuitem').click(function(){	//click task list 
 			$(this).parent().empty();
 			
 			var clone = $("#FromTemplate").clone();
 			clone.attr("id","");
 			clone.show();
-			$(".centermenu").append(clone)
+			$(clone).find("input[name='Name']").eq(0)[0].value=$(this).find("p")[0].innerHTML;
+			$(".centermenu#Tasks").append(clone)
 			
 		});
 	});
+	
+	
+	$('body > div.slidecover > div:nth-child(2)').click(function(){//click employee list
+		
+	});
+	
+	$('body > div.slidecover > div:nth-child(3)').click(function(){//click TOR
+		
+	});
 
+	$('body > div.slidecover > div:nth-child(4)').click(function(){//click shift exchange
+		
+	});
+	
+	$('body > div.slidecover > div:nth-child(5)').click(function(){//click settings
+		
+	});
 });
 </script></body></html>
