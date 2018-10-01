@@ -177,7 +177,29 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 			    <p>Delete After<input type="text" name="Delete After" value=""> 
 			    <input type="checkbox" name="Persist" value="" checked=checked>Persistent</p>        
 	</form>
+<form action="" method="post" class="mainform"  id="rename this" id="employeeform" style="display: none">
+	<p>First Name:   
+    <input type="text" name="First" value=""></p>  
 
+    <p>Middle:
+    <input type="text" name="Middle" value=""></p>
+
+	<p>Last Name:
+    <input type="text" name="Last" value=""></p>
+
+	<p>Email:
+    <input type="text" name="Email" value=""></p>
+
+    <p>Phone number:
+    <input type="text" name="Pnumber" value=""></p>
+
+    <p>Permissions:</p>
+    <p><input type="checkbox" name="taskmodify" value="">Modify Tasks</p>
+
+    <p><input type="checkbox" name="empmodify" value="">Modify Employees</p>
+    <br>
+
+</form>
 
 
 <img src="https://i.imgur.com/uu5lgvN.png" onclick="focuscalendar()" style="width: 95vw;">
@@ -234,7 +256,27 @@ $(document).ready(function() {
 	
 	
 	$('body > div.slidecover > div:nth-child(2)').click(function(){//click employee list
+		$('.centermenu#Employees').show('fade', {direction: 'right'}, 400);
+		$('.slidecover').hide('slide', {direction: 'left'}, 100);
+
+		if($(".centermenu#Employees").children().length==0){
+			for(var i=0;i<20;i++){
+				var empitem = document.createElement("div");
+				empitem.classList.add("menuitem");
+				empitem.innerHTML="<p>Employee "+i+"</p>"
+				$(".centermenu#Employees")[0].append(empitem);
+			}
+		}
 		
+		$('.centermenu > .menuitem').click(function(){	//click task list 
+			$(this).parent().empty();
+			
+			var clone = $("#renamethis").clone();
+			clone.attr("id","");
+			clone.show();
+			$(".centermenu#Employees").append(clone)
+			
+		});
 	});
 	
 	$('body > div.slidecover > div:nth-child(3)').click(function(){//click TOR
