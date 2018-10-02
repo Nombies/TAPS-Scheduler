@@ -250,17 +250,6 @@ $(document).ready(function() {
 				$(".centermenu#Tasks")[0].append(taskitem);
 			}
 		}
-		
-		$('.centermenu#Tasks > .menuitem').click(function(){	//click task list 
-			$(this).parent().empty();
-			
-			var clone = $("#taskform").clone();
-			clone.attr("id","");
-			clone.show();
-			$(clone).find("input[name='Name']").eq(0)[0].value=$(this).find("p")[0].innerHTML;
-			$(".centermenu#Tasks").append(clone)
-			
-		});
 	});
 	
 	
@@ -275,17 +264,8 @@ $(document).ready(function() {
 				$(".centermenu#Employees")[0].append(empitem);
 			}
 		}
-		
-		$('.centermenu#Employees > .menuitem').click(function(){
-			$(this).parent().empty();
-			var clone = $("#employeeform").clone(true);
-			clone.attr("id","");
-			clone.show();
-	
-			$(".centermenu#Employees").append(clone)
-		});
-
 	});
+	
 	$('body > div.slidecover > div:nth-child(3)').click(function(){//click TOR
 		
 	});
@@ -309,10 +289,47 @@ $(document).ready(function() {
 				$(".centermenu#Cando")[0].append(canitem);
 			}
 		}
-		$('.centermenu#Cando > .menuitem').click(function(){
-			$(this).toggleClass("Candotask",200);
-		});
 	});
 
+	
+	
+	
+	
+	$('body').on('click', '.centermenu#Cando > .menuitem', function(){
+		$(this).toggleClass("Candotask",200);
+	});
+	
+	
+	$('body').on('click', '.centermenu#Employees > .menuitem', function(){
+		$(this).parent().empty();
+		var clone = $("#employeeform").clone(true);
+		clone.attr("id","");
+		clone.show();
+
+		$(".centermenu#Employees").append(clone)
+	});
+	
+	$('body').on('click', '.centermenu#Employees > .menuitem', function(){
+		$(this).parent().empty();
+		var clone = $("#employeeform").clone(true);
+		clone.attr("id","");
+		clone.show();
+
+		$(".centermenu#Employees").append(clone)
+	});
+	
+	$('body').on('click', '.centermenu#Tasks > .menuitem', function(){
+		$(this).parent().empty();
+			
+		var clone = $("#taskform").clone();
+		clone.attr("id","");
+		clone.show();
+		$(clone).find("input[name='Name']").eq(0)[0].value=$(this).find("p")[0].innerHTML;
+		$(".centermenu#Tasks").append(clone)
+	});
+	
+	
+	
+	
 });
 </script></body></html>
