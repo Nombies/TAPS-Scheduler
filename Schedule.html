@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html><head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<style>
+.calendarbox{
+	width: 99%;
+	min-height: 50vh;
+	
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.day{
+	width: 100%;
+	min-height: 10vh;
+	background-color: rgba(0,0,0,0.1);
+	border: 0.5vmin solid;
+	
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.employee{
+	width: 100%;
+	min-height: 10vh;
+	background-color: rgba(200,200,200,0.1);
+	border: 0.5vmin solid;
+	
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.employeename{
+	
+}
+
+.task{
+	height: 10vh;
+	width: 100%;
+	background-color: rgba(0,0,0,0.3);
+	border: 0.1vmin solid rgba(0,0,0,0.1);
+}
+</style>
+</head>
+<body>
+<div class="calendarbox">
+<button style="width: 100%" onclick="showall=!showall; showcalendar(showall);">Toggle</button>
+<div class="day" style="border-color: rgba(200, 200, 200, 0.5)"></div>
+<div class="day" style="border-color: rgba(200, 200, 255, 0.5)"></div>
+<div class="day" style="border-color: rgba(200, 255, 200, 0.5)"></div>
+<div class="day" style="border-color: rgba(255, 165, 000, 0.5)"></div>
+<div class="day" style="border-color: rgba(132, 011, 130, 0.5)"></div>
+<div class="day" style="border-color: rgba(255, 193, 204, 0.5)"></div>
+<div class="day" style="border-color: rgba(200, 200, 200, 0.5)"></div>
+</div>
+
+<script>
+var showall=false;
+
+showcalendar(showall);
+
+function showcalendar(all){
+	$(".day").empty();
+	if(!all){
+		var emp="<div class='employee'>"
+		for(var i=0;i<24;i++){
+			emp+="<div class='task'></div>";
+		}
+		emp+="</div>"
+		$(".day").append(emp);
+	}else{
+		for(var j=0;j<27;j++){
+			var emp = "<div class='employee' id='employee+"+j+"'><div class='employeename'>Employee"+j+"</div>";
+			for(var i=0;i<24;i++){
+				emp+="<div class='task'></div>";
+			}
+			emp+="</div>";
+			$(".day").append(emp);
+		}
+	}
+}
+</script>
+</body>
+</html>
