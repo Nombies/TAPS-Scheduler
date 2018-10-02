@@ -88,11 +88,75 @@
 }
 .Cantdotask{
 	background-color: rgba(200, 0, 0, 0.2);
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	font-size: 4vmin;
+	width: 30vmin;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+	border-radius: 0.5vmin;
+	width: 30%;
+
 }
 .Candotask{
 	background-color: rgba(0, 200, 0, 0.2); 
-}
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	font-size: 4vmin;
+	width: 30vmin;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+	border-radius: 0.5vmin;
+	width: 30%;
 
+}
+#AllCan{
+	background-color: rgba(0, 200, 0, 0.2); 
+	width: 30%;
+	cursor: pointer;
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	font-size: 4vmin;
+	width: 30vmin;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+}
+#AllCant{
+	background-color: rgba(200, 0, 0, 0.2);
+	width: 30%;
+	cursor: pointer;
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	font-size: 4vmin;
+	width: 30vmin;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+}
+#LegendContainer{
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	background-color: rgba(255, 255, 255, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	font-size: 4vmin;
+	width: 30vmin;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+	border-radius: 0.5vmin;
+	width: 90%;
+}
+.Legend{
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	border-radius: 1vmin;
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	display: inline-block;
+	margin: 1vmin auto;
+	width: 30%;
+}
 input[type='checkbox'] {
     width:5vw;
     height:3vmin;
@@ -103,19 +167,15 @@ input[type="range"]{
 input[type="text"], input[type="time"], input[type="textarea"], textarea{
 	font-size: 3vmin;
 }
-
 .submit, .cancel{
 	width:45%;
 }
-
 .cancel{
 	float: left;
 }
-
 .submit{
 	float: right;
 }
-
 </style>
 
 </head>
@@ -300,11 +360,11 @@ $(document).ready(function() {
 	$('body > div.slidecover > div:nth-child(5)').click(function(){//click settings
 		
 	});
-
 	$('#employeeform > #Candobutton').click(function(){
 		$('.centermenu#Employees').hide('fade', {direction: 'right'}, 100);
 		$('.centermenu#Cando').show('fade', {direction: 'right'}, 400);
-		if($(".centermenu#Cando").children().length==0){
+		$(".centermenu#Cando").eq(0).append("<div id ='LegendContainer'><div class ='Candotask' class = 'Legend'>Can Assign</div><div class ='Cantdotask' classe = 'Legend'>Can't Assign</div></div><div><div class ='Legend' id ='AllCan'>Can Do All</div><div class ='Legend' id ='AllCant'>Can't Do Any</div></div>");
+		if($(".centermenu#Cando").children().length==2){
 			for(var i=0;i<20;i++){
 				var canitem = document.createElement("div");
 				canitem.classList.add("Cantdotask");
@@ -312,13 +372,13 @@ $(document).ready(function() {
 				canitem.innerHTML="<p>Task "+i+"</p>"
 				$(".centermenu#Cando")[0].append(canitem);
 			}
+			$(".centermenu#Cando").eq(0).append('<div style= "margin:0 5%"><div class="menuitem cancel"><p>Cancel</p></div><div class="menuitem submit"><p>Submit</p></div></div>');
 		}
 	});
+	
+	
+	
 
-	
-	
-	
-	
 	$('body').on('click', '.centermenu#Cando > .menuitem', function(){
 		$(this).toggleClass("Candotask",200);
 	});
@@ -329,7 +389,6 @@ $(document).ready(function() {
 		var clone = $("#employeeform").clone(true);
 		clone.attr("id","");
 		clone.show();
-
 		$(".centermenu#Employees").append(clone)
 	});
 	
@@ -353,6 +412,14 @@ $(document).ready(function() {
 		$(this).closest(".centermenu").empty();
 		HideCenters();
 	});
-	
+	$('body').on('click', '#AllCant', function(){
+		$('.centermenu#Cando > .menuitem').removeClass("Candotask");
+	});
+	$('body').on('click', '#AllCan', function(){
+		if($('.centermenu#Cando > .menuitem').hasClass("Candotask")){
+			$('.centermenu#Cando > .menuitem').removeClass("Candotask");
+		}
+		$('.centermenu#Cando > .menuitem').addClass("Candotask");
+	});
 });
 </script></body></html>
