@@ -18,6 +18,9 @@
         outline: none;
         border: 1px solid #4CAF50;
       }
+      input[type = submit]:focus{
+        outline: none;
+      }
       input[type = text]{
         width: 100%;
         line-height: 2.2em;
@@ -30,6 +33,13 @@
         border-radius: 5px;
         border-width: thin;
       }
+      input[type = submit]{
+        color: #FFFFFF;
+        background-color: #333333;
+        border-width: 0;
+        border-radius: 20px;
+        padding: 10px 20px 10px 20px;
+      }
       .loginContainer{
         border-radius: 5px;
         position: relative;
@@ -40,11 +50,11 @@
         margin-top: 7em;
         padding: 15px 27px 15px 27px;
         overflow: auto;
-        color: #545454;
         background-color: #FFFFFF;
       }
 
       .innerElement{
+        color: #545454;
         padding-bottom: 5px;
       }
       .bottomSpacing{
