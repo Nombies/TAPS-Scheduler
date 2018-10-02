@@ -136,7 +136,7 @@
 	margin: 0.25vmin 0.25vmin;
 	display: inline-block;
 }
-#LegendContainer{
+.headContainer{
 	background-color: rgba(245, 245, 245, 0.8);
 	text-align: center;
 	font-size: 4vmin;
@@ -145,6 +145,19 @@
 	display: inline-block;
 	border-radius: 0.5vmin;
 	width: 90%;
+}
+.otherShiftX{
+
+}
+.acceptShiftX{
+	width:45%;
+	float: right;
+}
+.yourShiftX{
+
+}
+.cancelShiftX{
+	width:45%;
 }
 input[type='checkbox'] {
     width:5vw;
@@ -364,6 +377,7 @@ $(document).ready(function() {
 	});
 	
 	$('body > div.slidecover > div:nth-child(3)').click(function(){//click TOR
+		$('.centermenu#TOR').empty();
 		$('.centermenu#TOR').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
 		var clone = $("#torform").clone(true);
@@ -373,7 +387,27 @@ $(document).ready(function() {
 		
 	});
 	$('body > div.slidecover > div:nth-child(4)').click(function(){//click shift exchange
-		
+		$('.centermenu#ShiftX').show('fade', {direction: 'right'}, 400);
+		$('.slidecover').hide('slide', {direction: 'left'}, 100);
+		if($(".centermenu#ShiftX").children().length==0){
+			$(".centermenu#ShiftX").eq(0).append("<div class ='headContainer'>Posted By Others</div>");
+			for(var i=2;i<5;i++){
+				var shifts = document.createElement("div");
+				shifts.classList.add("menuitem");
+				shifts.classList.add("otherShiftX")
+				shifts.innerHTML="<p>Shift "+i+"</p>"
+				$(".centermenu#ShiftX")[0].append(shifts);
+			}
+			$(".centermenu#ShiftX").eq(0).append("<div class ='headContainer'>Posted By You</div>");
+			for(var i=0;i<2;i++){
+				var shifts = document.createElement("div");
+				shifts.classList.add("menuitem");
+				shifts.classList.add("yourShiftX");
+				shifts.innerHTML="<p>Shift "+i+"</p>"
+				$(".centermenu#ShiftX")[0].append(shifts);
+			}
+			$(".centermenu#ShiftX").eq(0).append('<p></p><div style= "margin:0 5%"><div class="menuitem cancel"><p>Cancel</p></div><div class="menuitem submit"><p>Submit</p></div></div>');
+		}
 	});
 	
 	$('body > div.slidecover > div:nth-child(5)').click(function(){//click settings
@@ -383,7 +417,7 @@ $(document).ready(function() {
 		$('.centermenu#Employees').hide('fade', {direction: 'right'}, 100);
 		$('.centermenu#Cando').show('fade', {direction: 'right'}, 400);
 		if($(".centermenu#Cando").children().length==0){
-			$(".centermenu#Cando").eq(0).append("<div id ='LegendContainer'>This employee will be assigned green tasks, click 'All' to select all tasks, click 'None' to deselect all tasks.</div><div><div class ='Legend' id ='AllCan'>All</div><div class ='Legend' id ='AllCant'>None</div></div>");
+			$(".centermenu#Cando").eq(0).append("<div class ='headContainer'>This employee will be assigned green tasks, click 'All' to select all tasks, click 'None' to deselect all tasks.</div><div><div class ='Legend' id ='AllCan'>All</div><div class ='Legend' id ='AllCant'>None</div></div>");
 			for(var i=0;i<20;i++){
 				var canitem = document.createElement("div");
 				canitem.classList.add("Cantdotask");
@@ -438,6 +472,15 @@ $(document).ready(function() {
 			$('.centermenu#Cando > .menuitem').removeClass("Candotask");
 		}
 		$('.centermenu#Cando > .menuitem').addClass("Candotask");
+	});
+
+	$('body').on('click','.otherShiftX',function(){
+		$(this).parent().empty();
+		$('.centermenu#ShiftX').eq(0).append('<div style = "font-size: 4vmin; text-align:left; margin:0 5%" ><p>Name: Some Shift</p> <p>Instructions:</p><p>Some InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome Instructions</p><p>Start Time: 12:00 AM</p><p>End Time: 12:00 AM</p><div style= "margin:0 5%"><div class="menuitem cancel"><p>Cancel</p></div><div class="menuitem acceptShiftX"><p>Accept</p></div></div>');
+	});
+	$('body').on('click','.yourShiftX',function(){
+		$(this).parent().empty();
+		$('.centermenu#ShiftX').eq(0).append('<div style = "font-size: 4vmin; text-align:left; margin:0 5%" ><p>Name: Some Shift</p> <p>Instructions:</p><p>Some InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome Instructions</p><p>Start Time: 12:00 AM</p><p>End Time: 12:00 AM</p><div style= "margin:0 5%"><div class="menuitem cancel"><p>Cancel</p></div></div>');
 	});
 });
 </script></body></html>
