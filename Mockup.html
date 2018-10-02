@@ -309,14 +309,6 @@ $(document).ready(function() {
 		$(".centermenu#Employees").append(clone)
 	});
 	
-	$('body').on('click', '.centermenu#Employees > .menuitem', function(){
-		$(this).parent().empty();
-		var clone = $("#employeeform").clone(true);
-		clone.attr("id","");
-		clone.show();
-
-		$(".centermenu#Employees").append(clone)
-	});
 	
 	$('body').on('click', '.centermenu#Tasks > .menuitem', function(){
 		$(this).parent().empty();
