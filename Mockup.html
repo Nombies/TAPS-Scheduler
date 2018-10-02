@@ -103,6 +103,19 @@ input[type="range"]{
 input[type="text"], input[type="time"], input[type="textarea"], textarea{
 	font-size: 3vmin;
 }
+
+.submit, .cancel{
+	width:45%;
+}
+
+.cancel{
+	float: left;
+}
+
+.submit{
+	float: right;
+}
+
 </style>
 
 </head>
@@ -184,7 +197,12 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 			    <input type="range" name="Repeat" value="5" min="0" max="7"></p>    
 			
 			    <p>Delete After<input type="text" name="Delete After" value=""> 
-			    <input type="checkbox" name="Persist" value="" checked=checked>Persistent</p>  
+			    <input type="checkbox" name="Persist" value="" checked=checked>Persistent</p>
+				<div>
+				<div class="menuitem cancel"><p>Cancel</p></div>
+				
+				<div class="menuitem submit"><p>Submit</p></div>
+				</div>
      
 	</form>
 <form action="" method="post" class="mainform" id="employeeform" style="display: none">
@@ -209,6 +227,12 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
     <p><input type="checkbox" name="empmodify" value="">Modify Employees</p>
     <br>
     <div id = 'Candobutton'>Tasks</div>
+	
+	<div>
+	<div class="menuitem cancel"><p>Cancel</p></div>
+				
+	<div class="menuitem submit"><p>Submit</p></div>
+	</div>
 </form>
 
 
@@ -320,8 +344,15 @@ $(document).ready(function() {
 		$(".centermenu#Tasks").append(clone)
 	});
 	
+	$('body').on('click', '.menuitem.cancel', function(){
+		$(this).closest(".centermenu").empty();
+		HideCenters();
+	});
 	
-	
+	$('body').on('click', '.menuitem.submit', function(){
+		$(this).closest(".centermenu").empty();
+		HideCenters();
+	});
 	
 });
 </script></body></html>
