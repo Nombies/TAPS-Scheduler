@@ -100,7 +100,7 @@
 
 }
 .Candotask{
-	background-color: rgba(0, 200, 0, 0.2); 
+	background-color: rgba(0, 200, 0, 0.2);
 	border: 1px solid rgba(200, 200, 200, 0.8);
 	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
 	text-align: center;
@@ -113,7 +113,7 @@
 
 }
 #AllCan{
-	background-color: rgba(0, 200, 0, 0.2); 
+	background-color: rgba(0, 200, 0, 0.2);
 	width: 30%;
 	cursor: pointer;
 	border: 1px solid rgba(200, 200, 200, 0.8);
@@ -205,6 +205,9 @@ input[type="text"], input[type="time"], input[type="textarea"],input[type='date'
 <div class="menuitem" style="order: 5;">
 	<p>Settings</p>
 </div>
+<div onclick="logoutFunction()" class="menuitem" style="order: 6;">
+	<p>Logout</p>
+</div>
 </div>
 
 
@@ -216,60 +219,60 @@ input[type="text"], input[type="time"], input[type="textarea"],input[type='date'
 <div class="centermenu" id ="Cando" style ="display:none"></div>
 
 <form action="" method="post" class="mainform" id="taskform" style="display: none">
-			    <p>Name:   
-			    <input type="text" name="Name" value=""></p>  
-			
+			    <p>Name:
+			    <input type="text" name="Name" value=""></p>
+
 			    <p>Instructions:</p>
 			    <textarea rows="3" cols="50" name="Instructions" form="taskform"></textarea>
-				
+
 			    <p>Earliest Start:
-			    <input type="time" name="EarliestStart" value="07:00"></p>        
-			
+			    <input type="time" name="EarliestStart" value="07:00"></p>
+
 			    <p>Latest End:
-			    <input type="time" name="LatestEnd" value="16:00"></p>        
-			    
+			    <input type="time" name="LatestEnd" value="16:00"></p>
+
 			    <table>
 			    <tr>
 				<td></td>
-				<td>Sun</td>    
-			    <td>Mon</td>    
-			    <td>Tues</td>    
-			    <td>Wed</td>    
-			    <td>Thurs</td>    
-			    <td>Fri</td>    
-			    <td>Sat</td>    
+				<td>Sun</td>
+			    <td>Mon</td>
+			    <td>Tues</td>
+			    <td>Wed</td>
+			    <td>Thurs</td>
+			    <td>Fri</td>
+			    <td>Sat</td>
 			    </tr>
-				
-				<tr>				
-			    <td>Days</td>    
-			    <td><input type="checkbox" name="Sun" value=""></td>    
-			    <td><input type="checkbox" name="Mon" value="" checked=checked></td>    
-			    <td><input type="checkbox" name="Tues" value="" checked=checked></td>    
-			    <td><input type="checkbox" name="Wed" value="" checked=checked></td>    
-			    <td><input type="checkbox" name="Thurs" value="" checked=checked></td>    
-			    <td><input type="checkbox" name="Fri" value="" checked=checked></td>    
-			    <td><input type="checkbox" name="Sat" value=""></td>    
+
+				<tr>
+			    <td>Days</td>
+			    <td><input type="checkbox" name="Sun" value=""></td>
+			    <td><input type="checkbox" name="Mon" value="" checked=checked></td>
+			    <td><input type="checkbox" name="Tues" value="" checked=checked></td>
+			    <td><input type="checkbox" name="Wed" value="" checked=checked></td>
+			    <td><input type="checkbox" name="Thurs" value="" checked=checked></td>
+			    <td><input type="checkbox" name="Fri" value="" checked=checked></td>
+			    <td><input type="checkbox" name="Sat" value=""></td>
 				</tr>
 				</table>
-				
-			    <p>Duration:   
-			    <input type="text" name="Duration" value="4"></p>     
-			
-			    <p>Repeat:    
-			    <input type="range" name="Repeat" value="5" min="0" max="7"></p>    
-			
-			    <p>Delete After: <input type="text" name="Delete After" value=""> 
+
+			    <p>Duration:
+			    <input type="text" name="Duration" value="4"></p>
+
+			    <p>Repeat:
+			    <input type="range" name="Repeat" value="5" min="0" max="7"></p>
+
+			    <p>Delete After: <input type="text" name="Delete After" value="">
 			    <input type="checkbox" name="Persist" value="" checked=checked>Persistent</p>
 				<div>
 				<div class="menuitem cancel"><p>Cancel</p></div>
-				
+
 				<div class="menuitem submit"><p>Submit</p></div>
 				</div>
-     
+
 	</form>
 <form action="" method="post" class="mainform" id="employeeform" style="display: none">
-	<p>First Name:   
-    <input type="text" name="First" value=""></p>  
+	<p>First Name:
+    <input type="text" name="First" value=""></p>
 
     <p>Middle:
     <input type="text" name="Middle" value=""></p>
@@ -288,45 +291,48 @@ input[type="text"], input[type="time"], input[type="textarea"],input[type='date'
 
     <br>
 
-	
+
 	<div>
 		<div id = 'Candobutton'>Tasks</div>
 		<div class="menuitem cancel"><p>Cancel</p></div>
-					
+
 		<div class="menuitem submit"><p>Submit</p></div>
 	</div>
 </form>
 
 <form action="" method="post" class="mainform" id="torform" style="display: none">
-			    <p>Subject:  
-			    <input type="text" name="Subject" value=""></p>  
-			
+			    <p>Subject:
+			    <input type="text" name="Subject" value=""></p>
+
 			    <p>Reason:</p>
 			    <textarea rows="3" cols="50" name="Reason" form="torform"></textarea>
-				
+
 			    <p>Start Date:
-			    <input type="date" name="StartD" value=""></p>        
-			
+			    <input type="date" name="StartD" value=""></p>
+
 			    <p>End Date:
-			    <input type="date" name="EndD" value=""></p>        
+			    <input type="date" name="EndD" value=""></p>
 
 			    <p>Start Time:
-			    <input type="time" name="StartT" value=""></p>        
-			
+			    <input type="time" name="StartT" value=""></p>
+
 			    <p>End Time:
 			    <input type="time" name="EndT" value=""></p>
 				<div>
 				<div class="menuitem cancel"><p>Cancel</p></div>
-				
+
 				<div class="menuitem submit"><p>Submit</p></div>
 				</div>
-     
+
 	</form>
 <img src="https://i.imgur.com/uu5lgvN.png" onclick="focuscalendar()" style="width: 95vw;">
 
 
 
 <script>
+function logoutFunction(){
+	window.location.href = "login.html";
+}
 function focuscalendar(){
 	$('.slidecover').hide('slide', {direction: 'left'}, 1);
 	HideCenters();
@@ -342,16 +348,16 @@ function HideCenters(){
 $(document).ready(function() {
 	var edit = true;
 	if(!edit) $("body > div.slidecover > div:nth-child(1)").hide('fade', {direction: 'right'}, 1);
-	
+
 	$('.floatdiv').click(function(){
 		$('.slidecover').toggle('slide', {direction: 'left'}, 400);
 		HideCenters();
 	});
-	
-	$('body > div.slidecover > div:nth-child(1)').click(function(){	//click task list 
+
+	$('body > div.slidecover > div:nth-child(1)').click(function(){	//click task list
 		$('.centermenu#Tasks').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
-		
+
 		if($(".centermenu#Tasks").children().length==0){
 			for(var i=0;i<20;i++){
 				var taskitem = document.createElement("div");
@@ -361,8 +367,8 @@ $(document).ready(function() {
 			}
 		}
 	});
-	
-	
+
+
 	$('body > div.slidecover > div:nth-child(2)').click(function(){//click employee list
 		$('.centermenu#Employees').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
@@ -375,7 +381,7 @@ $(document).ready(function() {
 			}
 		}
 	});
-	
+
 	$('body > div.slidecover > div:nth-child(3)').click(function(){//click TOR
 		$('.centermenu#TOR').empty();
 		$('.centermenu#TOR').show('fade', {direction: 'right'}, 400);
@@ -384,7 +390,7 @@ $(document).ready(function() {
 		clone.attr("id","");
 		clone.show();
 		$(".centermenu#TOR").append(clone)
-		
+
 	});
 	$('body > div.slidecover > div:nth-child(4)').click(function(){//click shift exchange
 		$('.centermenu#ShiftX').show('fade', {direction: 'right'}, 400);
@@ -409,9 +415,9 @@ $(document).ready(function() {
 			$(".centermenu#ShiftX").eq(0).append('<p></p><div style= "margin:0 5%"><div class="menuitem cancel"><p>Cancel</p></div><div class="menuitem submit"><p>Submit</p></div></div>');
 		}
 	});
-	
+
 	$('body > div.slidecover > div:nth-child(5)').click(function(){//click settings
-		
+
 	});
 	$('#Candobutton').click(function(){
 		$('.centermenu#Employees').hide('fade', {direction: 'right'}, 100);
@@ -428,15 +434,15 @@ $(document).ready(function() {
 			$(".centermenu#Cando").eq(0).append('<div style= "margin:0 5%"><div class="menuitem cancel"><p>Cancel</p></div><div class="menuitem submit"><p>Submit</p></div></div>');
 		}
 	});
-	
-	
-	
+
+
+
 
 	$('body').on('click', '.centermenu#Cando > .menuitem', function(){
 		$(this).toggleClass("Candotask",200);
 	});
-	
-	
+
+
 	$('body').on('click', '.centermenu#Employees > .menuitem', function(){
 		$(this).parent().empty();
 		var clone = $("#employeeform").clone(true);
@@ -444,22 +450,22 @@ $(document).ready(function() {
 		clone.show();
 		$(".centermenu#Employees").append(clone)
 	});
-	
+
 	$('body').on('click', '.centermenu#Tasks > .menuitem', function(){
 		$(this).parent().empty();
-			
+
 		var clone = $("#taskform").clone();
 		clone.attr("id","");
 		clone.show();
 		$(clone).find("input[name='Name']").eq(0)[0].value=$(this).find("p")[0].innerHTML;
 		$(".centermenu#Tasks").append(clone)
 	});
-	
+
 	$('body').on('click', '.menuitem.cancel', function(){
 		$(this).closest(".centermenu").empty();
 		HideCenters();
 	});
-	
+
 	$('body').on('click', '.menuitem.submit', function(){
 		$(this).closest(".centermenu").empty();
 		HideCenters();

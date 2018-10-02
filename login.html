@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <style>
+      body{
+        background-color: #EBEBEB;
+      }
+
+      input[type = text]:focus{
+        outline: none;
+        border: 1px solid #4CAF50;
+      }
+      input[type = password]:focus{
+        outline: none;
+        border: 1px solid #4CAF50;
+      }
+      input[type = text]{
+        width: 100%;
+        line-height: 2.2em;
+        border-radius: 5px;
+        border-width: thin;
+      }
+      input[type = password]{
+        width: 100%;
+        line-height: 2.2em;
+        border-radius: 5px;
+        border-width: thin;
+      }
+      .loginContainer{
+        border-radius: 5px;
+        position: relative;
+        left: 27%;
+        top:50%;
+        width: 40%;
+        height: 40%;
+        margin-top: 7em;
+        padding: 15px 27px 15px 27px;
+        overflow: auto;
+        color: #545454;
+        background-color: #FFFFFF;
+      }
+
+      .innerElement{
+        padding-bottom: 5px;
+      }
+      .bottomSpacing{
+        padding-top: 20px;
+      }
+
+
+
+      p {
+        margin: 0;
+        font-size: 0.9em;
+      }
+    </style>
+
+    <script>
+
+
+    </script>
+
+    <title>TAPS Login</title>
+
+    <body>
+
+      <div class = 'loginContainer'>
+        <form action="C:/Users/abrah/Documents/CSE120/TAPS-Scheduler-master/TAPS-Scheduler-master/Mockup.html" method="POST">
+          <div class = 'innerElement'>
+            <h2>TAPS Login<h2>
+          </div>
+
+          <div class = 'innerElement'>
+            <p><b>Email</b></p>
+          </div>
+          <div class = 'innerElement'>
+            <input type="text" name="email">
+          </div>
+          <div class = 'innerElement bottomSpacing'>
+            <p><b>Password</b></p>
+          </div>
+          <div class = 'innerElement'>
+            <input type="password" name="password">
+          </div>
+          <div class = 'innerElement bottomSpacing'>
+            <input type="submit" value="Submit">
+          </div>
+        </form>
+      </div>
+
+
+    </body>
+
+</html>
