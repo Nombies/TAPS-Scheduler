@@ -86,24 +86,11 @@
 	width: 90%;
 	cursor: pointer;
 }
-.Candotask{
-	background-color: rgba(255, 255, 255, 0.8);
-	border: 1px solid rgba(255, 0, 0, 0.8);
-	border-radius: 1vmin;
-	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
-	text-align: center;
-	cursor: pointer;
-	margin: 1vmin auto;
-	width: 90%;
-	display: block;
-	overflow: visible;
+.Cantdotask{
+	background-color: rgba(200, 0, 0, 0.2);
 }
-
-.centermenu > .Candotask{
-	width: 30vmin;
-	margin: 0.25vmin 0.25vmin;
-	display: inline-block;
-	border-radius: 0.5vmin;
+.Candotask{
+	background-color: rgba(0, 200, 0, 0.2) !important; 
 }
 
 input[type='checkbox'] {
@@ -291,7 +278,6 @@ $(document).ready(function() {
 		
 		$('.centermenu#Employees > .menuitem').click(function(){
 			$(this).parent().empty();
-			
 			var clone = $("#employeeform").clone(true);
 			clone.attr("id","");
 			clone.show();
@@ -317,22 +303,14 @@ $(document).ready(function() {
 		if($(".centermenu#Cando").children().length==0){
 			for(var i=0;i<20;i++){
 				var canitem = document.createElement("div");
-				canitem.classList.add("Candotask");
+				canitem.classList.add("Cantdotask");
+				canitem.classList.add("menuitem");
 				canitem.innerHTML="<p>Task "+i+"</p>"
 				$(".centermenu#Cando")[0].append(canitem);
 			}
 		}
-		$('.centermenu#Cando > .Candotask').click(function(){
-		
-		var color = $(this).css("border-color");
-		var g = "rgba(0, 255, 0, 0.8)";
-		var r = "rgba(255, 0, 0, 0.8)";
-			if(color == r){
-				$(this).css("border-color",g);
-			}else if(color == g){
-				$(this).css("border-color",r);
-			}
-	
+		$('.centermenu#Cando > .menuitem').click(function(){
+			$(this).toggleClass("Candotask",1000);
 		});
 	});
 
