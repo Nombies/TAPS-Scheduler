@@ -352,8 +352,8 @@ $(document).ready(function() {
 	$('#employeeform > #Candobutton').click(function(){
 		$('.centermenu#Employees').hide('fade', {direction: 'right'}, 100);
 		$('.centermenu#Cando').show('fade', {direction: 'right'}, 400);
-		$(".centermenu#Cando").eq(0).append("<div id ='LegendContainer'>This employee will be assigned green tasks, click 'All' to select all tasks, click 'None' to deselect all tasks.</div><div><div class ='Legend' id ='AllCan'>All</div><div class ='Legend' id ='AllCant'>None</div></div>");
-		if($(".centermenu#Cando").children().length==2){
+		if($(".centermenu#Cando").children().length==0){
+			$(".centermenu#Cando").eq(0).append("<div id ='LegendContainer'>This employee will be assigned green tasks, click 'All' to select all tasks, click 'None' to deselect all tasks.</div><div><div class ='Legend' id ='AllCan'>All</div><div class ='Legend' id ='AllCant'>None</div></div>");
 			for(var i=0;i<20;i++){
 				var canitem = document.createElement("div");
 				canitem.classList.add("Cantdotask");
