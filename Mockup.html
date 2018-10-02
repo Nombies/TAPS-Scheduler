@@ -83,7 +83,7 @@
 	margin: 0.25vmin 0.25vmin;
 	display: inline-block;
 	border-radius: 0.5vmin;
-	width: 90%;
+	width: 100%;
 	cursor: pointer;
 }
 .Cantdotask{
@@ -203,16 +203,16 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 <div class="centermenu" id ="Cando" style ="display:none"></div>
 
 <form action="" method="post" class="mainform" id="taskform" style="display: none">
-			    <p>Name    
+			    <p>Name:   
 			    <input type="text" name="Name" value=""></p>  
 			
-			    <p>Instructions</p>
+			    <p>Instructions:</p>
 			    <textarea rows="3" cols="50" name="Instructions" form="taskform"></textarea>
 				
-			    <p>Earliest Start
+			    <p>Earliest Start:
 			    <input type="time" name="EarliestStart" value="07:00"></p>        
 			
-			    <p>Latest End
+			    <p>Latest End:
 			    <input type="time" name="LatestEnd" value="16:00"></p>        
 			    
 			    <table>
@@ -239,13 +239,13 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
 				</tr>
 				</table>
 				
-			    <p>Duration   
+			    <p>Duration:   
 			    <input type="text" name="Duration" value="4"></p>     
 			
-			    <p>Repeat    
+			    <p>Repeat:    
 			    <input type="range" name="Repeat" value="5" min="0" max="7"></p>    
 			
-			    <p>Delete After<input type="text" name="Delete After" value=""> 
+			    <p>Delete After: <input type="text" name="Delete After" value=""> 
 			    <input type="checkbox" name="Persist" value="" checked=checked>Persistent</p>
 				<div>
 				<div class="menuitem cancel"><p>Cancel</p></div>
@@ -271,20 +271,44 @@ input[type="text"], input[type="time"], input[type="textarea"], textarea{
     <input type="text" name="Pnumber" value=""></p>
 
     <p>Permissions:</p>
-    <p><input type="checkbox" name="taskmodify" value="">Modify Tasks</p>
+    <p><input type="checkbox" name="taskmodify" value="">Modify Tasks <input type="checkbox" name="empmodify" value="">Modify Employees</p>
 
-    <p><input type="checkbox" name="empmodify" value="">Modify Employees</p>
     <br>
-    <div id = 'Candobutton'>Tasks</div>
+
 	
 	<div>
-	<div class="menuitem cancel"><p>Cancel</p></div>
-				
-	<div class="menuitem submit"><p>Submit</p></div>
+		<div id = 'Candobutton'>Tasks</div>
+		<div class="menuitem cancel"><p>Cancel</p></div>
+					
+		<div class="menuitem submit"><p>Submit</p></div>
 	</div>
 </form>
 
+<form action="" method="post" class="mainform" id="torform" style="display: none">
+			    <p>Subject:  
+			    <input type="text" name="Subject" value=""></p>  
+			
+			    <p>Reason:</p>
+			    <textarea rows="3" cols="50" name="Reason" form="torform"></textarea>
+				
+			    <p>Start Date:
+			    <input type="date" name="StartD" value=""></p>        
+			
+			    <p>End Date:
+			    <input type="date" name="EndD" value=""></p>        
 
+			    <p>Start Time:
+			    <input type="time" name="StartT" value=""></p>        
+			
+			    <p>End Time:
+			    <input type="time" name="EndT" value=""></p>
+				<div>
+				<div class="menuitem cancel"><p>Cancel</p></div>
+				
+				<div class="menuitem submit"><p>Submit</p></div>
+				</div>
+     
+	</form>
 <img src="https://i.imgur.com/uu5lgvN.png" onclick="focuscalendar()" style="width: 95vw;">
 
 
@@ -340,6 +364,12 @@ $(document).ready(function() {
 	});
 	
 	$('body > div.slidecover > div:nth-child(3)').click(function(){//click TOR
+		$('.centermenu#TOR').show('fade', {direction: 'right'}, 400);
+		$('.slidecover').hide('slide', {direction: 'left'}, 100);
+		var clone = $("#torform").clone(true);
+		clone.attr("id","");
+		clone.show();
+		$(".centermenu#TOR").append(clone)
 		
 	});
 	$('body > div.slidecover > div:nth-child(4)').click(function(){//click shift exchange
@@ -380,7 +410,6 @@ $(document).ready(function() {
 		clone.show();
 		$(".centermenu#Employees").append(clone)
 	});
-	
 	
 	$('body').on('click', '.centermenu#Tasks > .menuitem', function(){
 		$(this).parent().empty();
