@@ -18,7 +18,7 @@
 	width: 100%;
 	min-height: 5vh;
 	background-color: rgba(0,0,0,0.1);
-	border: 0.5vmin solid;
+	border: 1vmin solid;
 	
 	display: flex;
 	flex-direction: column;
@@ -41,7 +41,8 @@
 }
 
 .employeename{
-	
+	min-width: 10vw;
+	max-width: 10vw; 
 }
 
 .task{
@@ -55,25 +56,36 @@
 	width: 100%;
 	text-align: center;
 }
+
+.toggleall{
+	width: 10vmin;
+	height: 5vmin;
+	border-radius: 20%;
+	position: fixed;
+	bottom: 2%;
+	right: 2%;
+}
+
+
 </style>
 </head>
 <body>
 <div class="calendarbox">
-<button style="width: 100%" onclick="showall=!showall; showcalendar(showall);">Toggle</button>
-<div class="dayheader"><p>Sunday</p></div>
-<div class="day" style="border-color: rgba(200, 200, 200, 0.5)"></div>
-<div class="dayheader"><p>Monday</p></div>
-<div class="day" style="border-color: rgba(200, 200, 255, 0.5)"></div>
-<div class="dayheader"><p>Tuesday</p></div>
-<div class="day" style="border-color: rgba(200, 255, 200, 0.5)"></div>
-<div class="dayheader"><p>Wednesday</p></div>
-<div class="day" style="border-color: rgba(255, 165, 000, 0.5)"></div>
-<div class="dayheader"><p>Thursday</p></div>
-<div class="day" style="border-color: rgba(132, 011, 130, 0.5)"></div>
-<div class="dayheader"><p>Friday</p></div>
-<div class="day" style="border-color: rgba(255, 193, 204, 0.5)"></div>
-<div class="dayheader"><p>Saturday</p></div>
-<div class="day" style="border-color: rgba(200, 200, 200, 0.5)"></div>
+<button class="toggleall" onclick="showall=!showall; showcalendar(showall);">All</button>
+<div class="dayheader" style="background-color: rgba(200, 200, 200, 0.7)"><p>Sunday</p></div>
+<div class="day" style="border-color: rgba(200, 200, 200, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(91, 155, 213, 0.7)"><p>Monday</p></div>
+<div class="day" style="border-color: rgba(91, 155, 213, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(112, 173, 71, 0.7)"><p>Tuesday</p></div>
+<div class="day" style="border-color: rgba(112, 173, 71, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(255, 153, 51, 0.7)"><p>Wednesday</p></div>
+<div class="day" style="border-color: rgba(255, 153, 51, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(153, 102, 255, 0.7)"><p>Thursday</p></div>
+<div class="day" style="border-color: rgba(153, 102, 255, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(255, 51, 204, 0.7)"><p>Friday</p></div>
+<div class="day" style="border-color: rgba(255, 51, 204, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(200, 200, 200, 0.7)"><p>Saturday</p></div>
+<div class="day" style="border-color: rgba(200, 200, 200, 0.7)"></div>
 </div>
 
 <script>
