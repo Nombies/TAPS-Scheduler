@@ -16,7 +16,7 @@
 
 .day{
 	width: 100%;
-	min-height: 10vh;
+	min-height: 5vh;
 	background-color: rgba(0,0,0,0.1);
 	border: 0.5vmin solid;
 	
@@ -29,7 +29,7 @@
 
 .employee{
 	width: 100%;
-	min-height: 10vh;
+	min-height: 5vh;
 	background-color: rgba(200,200,200,0.1);
 	border: 0.5vmin solid;
 	
@@ -45,22 +45,34 @@
 }
 
 .task{
-	height: 10vh;
+	height: 5vh;
 	width: 100%;
 	background-color: rgba(0,0,0,0.3);
 	border: 0.1vmin solid rgba(0,0,0,0.1);
+}
+
+.dayheader{
+	width: 100%;
+	text-align: center;
 }
 </style>
 </head>
 <body>
 <div class="calendarbox">
 <button style="width: 100%" onclick="showall=!showall; showcalendar(showall);">Toggle</button>
+<div class="dayheader"><p>Sunday</p></div>
 <div class="day" style="border-color: rgba(200, 200, 200, 0.5)"></div>
+<div class="dayheader"><p>Monday</p></div>
 <div class="day" style="border-color: rgba(200, 200, 255, 0.5)"></div>
+<div class="dayheader"><p>Tuesday</p></div>
 <div class="day" style="border-color: rgba(200, 255, 200, 0.5)"></div>
+<div class="dayheader"><p>Wednesday</p></div>
 <div class="day" style="border-color: rgba(255, 165, 000, 0.5)"></div>
+<div class="dayheader"><p>Thursday</p></div>
 <div class="day" style="border-color: rgba(132, 011, 130, 0.5)"></div>
+<div class="dayheader"><p>Friday</p></div>
 <div class="day" style="border-color: rgba(255, 193, 204, 0.5)"></div>
+<div class="dayheader"><p>Saturday</p></div>
 <div class="day" style="border-color: rgba(200, 200, 200, 0.5)"></div>
 </div>
 
