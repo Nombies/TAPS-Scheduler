@@ -611,4 +611,15 @@ function showcalendar(all){
 	});
 </script>
 
+
+<script>
+if(document.location.href.search("email=employeeE")!=-1){
+	$("body").append("<style>body > div.slidecover > div:nth-child(1){display:none;}</style>")
+}else if(document.location.href.search("email=employeeT")!=-1){
+	$("body").append("<style>#Employees > form > div > div.menuitem.submit{display:none;}</style>")
+}else{
+	$("body").append("<style>body > div.slidecover > div:nth-child(1){display:none;}</style>")
+}
+</script>
+
 </body></html>
