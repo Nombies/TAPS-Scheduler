@@ -533,6 +533,7 @@ $(document).ready(function() {
 		var clone = $("#employeeform").clone(true);
 		clone.attr("id","");
 		clone.show();
+		$(clone).find("input[name='First']").eq(0)[0].value=$(this).find("p")[0].innerHTML;
 		$(".centermenu#Employees").append(clone)
 	});
 
