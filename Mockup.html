@@ -219,11 +219,15 @@ input[type="text"], input[type="time"], input[type="textarea"],input[type='date'
 }
 
 .employeename{
+	margin: auto;
+	text-align: center;
 	min-width: 10vw;
 	max-width: 10vw; 
 }
 
 .task{
+	margin: auto;
+	text-align: center;
 	height: 5vh;
 	width: 100%;
 	background-color: rgba(0,0,0,0.3);
@@ -242,6 +246,10 @@ input[type="text"], input[type="time"], input[type="textarea"],input[type='date'
 	position: fixed;
 	bottom: 2%;
 	right: 2%;
+}
+
+.assigned{
+	background-color: rgba(0, 0, 100, 0.3);
 }
 </style>
 
@@ -395,7 +403,7 @@ input[type="text"], input[type="time"], input[type="textarea"],input[type='date'
 	</form>
 	
 <div class="calendarbox">
-<button class="toggleall" onclick="showall=!showall; showcalendar(showall);">All</button>
+<button class="toggleall" onclick="showall=!showall; showcalendar();">All</button>
 <div class="dayheader" style="background-color: rgba(200, 200, 200, 0.7)"><p>Sunday</p></div>
 <div class="day" style="border-color: rgba(200, 200, 200, 0.7)"></div>
 <div class="dayheader" style="background-color: rgba(91, 155, 213, 0.7)"><p>Monday</p></div>
@@ -579,28 +587,38 @@ $(document).ready(function() {
 
 <script>
 var showall=false;
+var currentuser=0;
 
-showcalendar(showall);
+var tasks = ["Sweeping", "CPU", "Sign Cleaning", "Office", "Citations", "Reserved", "Sign Check", "Campus Check"];
 
-function showcalendar(all){
+
+gencalendar(false);
+showcalendar();
+
+function showcalendar(){
+	$(".employee").toggle();
+	$(".employeename").toggle();
+	$(".employee#employee"+currentuser).show();
+}
+
+function gencalendar(all){
 	$(".day").empty();
-	if(!all){
-		var emp="<div class='employee'>"
-		for(var i=0;i<24;i++){
-			emp+="<div class='task'></div>";
-		}
-		emp+="</div>"
-		$(".day").append(emp);
-	}else{
 		for(var j=0;j<2;j++){
-			var emp = "<div class='employee' id='employee+"+j+"'><div class='employeename'>Employee"+j+"</div>";
+			var emp = "<div class='employee' id='employee"+j+"'><div class='employeename'>Employee"+j+"</div>";
 			for(var i=0;i<24;i++){
 				emp+="<div class='task'></div>";
 			}
 			emp+="</div>";
 			$(".day").append(emp);
 		}
-	}
+		
+    $(".task").each(function(){
+        if(Math.random()<0.2){
+			$(this)[0].innerHTML=tasks[Math.floor(Math.random()*tasks.length) + 1];
+			$(this).addClass("assigned");
+		}
+    });
+		
 }
 
 
