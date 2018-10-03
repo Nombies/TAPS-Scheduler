@@ -113,6 +113,13 @@ function showcalendar(all){
 		}
 	}
 }
+
+
+	$('body').on('click','.dayheader',function(){
+		$(".dayheader ,.day").toggle();
+		$(this).show();
+		$(this).next(".day").show();
+	});
 </script>
 </body>
 </html>
