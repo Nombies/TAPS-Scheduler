@@ -180,6 +180,71 @@ input[type="text"], input[type="time"], input[type="textarea"],input[type='date'
 }
 </style>
 
+<style>
+.calendarbox{
+	width: 99%;
+	min-height: 50vh;
+	
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.day{
+	width: 100%;
+	min-height: 5vh;
+	background-color: rgba(0,0,0,0.1);
+	border: 1vmin solid;
+	
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.employee{
+	width: 100%;
+	min-height: 5vh;
+	background-color: rgba(200,200,200,0.1);
+	border: 0.5vmin solid;
+	
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.employeename{
+	min-width: 10vw;
+	max-width: 10vw; 
+}
+
+.task{
+	height: 5vh;
+	width: 100%;
+	background-color: rgba(0,0,0,0.3);
+	border: 0.1vmin solid rgba(0,0,0,0.1);
+}
+
+.dayheader{
+	width: 100%;
+	text-align: center;
+}
+
+.toggleall{
+	width: 10vmin;
+	height: 5vmin;
+	border-radius: 20%;
+	position: fixed;
+	bottom: 2%;
+	right: 2%;
+}
+</style>
+
 </head>
 
 <body>
@@ -328,7 +393,24 @@ input[type="text"], input[type="time"], input[type="textarea"],input[type='date'
 				</div>
 
 	</form>
-<img src="https://i.imgur.com/uu5lgvN.png" onclick="focuscalendar()" style="width: 95vw;">
+	
+<div class="calendarbox">
+<button class="toggleall" onclick="showall=!showall; showcalendar(showall);">All</button>
+<div class="dayheader" style="background-color: rgba(200, 200, 200, 0.7)"><p>Sunday</p></div>
+<div class="day" style="border-color: rgba(200, 200, 200, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(91, 155, 213, 0.7)"><p>Monday</p></div>
+<div class="day" style="border-color: rgba(91, 155, 213, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(112, 173, 71, 0.7)"><p>Tuesday</p></div>
+<div class="day" style="border-color: rgba(112, 173, 71, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(255, 153, 51, 0.7)"><p>Wednesday</p></div>
+<div class="day" style="border-color: rgba(255, 153, 51, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(153, 102, 255, 0.7)"><p>Thursday</p></div>
+<div class="day" style="border-color: rgba(153, 102, 255, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(255, 51, 204, 0.7)"><p>Friday</p></div>
+<div class="day" style="border-color: rgba(255, 51, 204, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(200, 200, 200, 0.7)"><p>Saturday</p></div>
+<div class="day" style="border-color: rgba(200, 200, 200, 0.7)"></div>
+</div>
 
 
 
@@ -492,4 +574,40 @@ $(document).ready(function() {
 		$('.centermenu#ShiftX').eq(0).append('<div style = "font-size: 4vmin; text-align:left; margin:0 5%" ><p>Name: Some Shift</p> <p>Instructions:</p><p>Some InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome InstructionsSome Instructions</p><p>Start Time: 12:00 AM</p><p>End Time: 12:00 AM</p><div style= "margin:0 5%"><div class="menuitem cancel"><p>Cancel</p></div></div>');
 	});
 });
-</script></body></html>
+</script>
+
+<script>
+var showall=false;
+
+showcalendar(showall);
+
+function showcalendar(all){
+	$(".day").empty();
+	if(!all){
+		var emp="<div class='employee'>"
+		for(var i=0;i<24;i++){
+			emp+="<div class='task'></div>";
+		}
+		emp+="</div>"
+		$(".day").append(emp);
+	}else{
+		for(var j=0;j<27;j++){
+			var emp = "<div class='employee' id='employee+"+j+"'><div class='employeename'>Employee"+j+"</div>";
+			for(var i=0;i<24;i++){
+				emp+="<div class='task'></div>";
+			}
+			emp+="</div>";
+			$(".day").append(emp);
+		}
+	}
+}
+
+
+	$('body').on('click','.dayheader',function(){
+		$(".dayheader ,.day").toggle();
+		$(this).show();
+		$(this).next(".day").show();
+	});
+</script>
+
+</body></html>
