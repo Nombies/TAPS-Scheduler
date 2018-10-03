@@ -228,7 +228,7 @@ input[type="text"], input[type="time"], input[type="textarea"],input[type='date'
 .task{
 	margin: auto;
 	text-align: center;
-	height: 5vh;
+	height: 6vh;
 	width: 100%;
 	background-color: rgba(0,0,0,0.3);
 	border: 0.1vmin solid rgba(0,0,0,0.1);
@@ -614,7 +614,7 @@ function gencalendar(all){
 		
     $(".task").each(function(){
         if(Math.random()<0.2){
-			$(this)[0].innerHTML=tasks[Math.floor(Math.random()*tasks.length) + 1];
+			$(this)[0].innerHTML="<p>"+tasks[Math.floor(Math.random()*tasks.length)]+"</p>";
 			$(this).addClass("assigned");
 		}
     });
