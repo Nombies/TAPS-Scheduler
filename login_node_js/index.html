@@ -1,0 +1,31 @@
+<html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      var email, pass;
+      $("#submit").click(function(){
+        var email=$("#email").val();
+        var pass=$("#password").val();
+        //this says where to post
+        $.post("http://localhost:5000/api/login",
+          {email:email, password:pass}, function(data){
+            if(data === 'done'){
+              alert("login success");
+            }
+          });
+      });
+    });
+  </script>
+  <body>
+    <form method="POST">
+      Email: <input type="text" id="email">
+      Password: <input type="password" id="password">
+      <input type="submit" id = "submit" value="Submit">
+    </form>
+
+
+  </body>
+</html>

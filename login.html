@@ -4,6 +4,21 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+    <script>
+      $(document).ready(function(){
+        var email, pass;
+        $("#submit").click(function(){
+          email=$("#email").val();
+          pass=$("#password").val();
+          $.post("http://localhost:5000/api/login",
+            {email: email, password: pass}, function(){
+              if(data === 'done'){
+                alert("login success");
+              }
+            });
+        });
+      });
+    </script>
 
     <style>
       body{
@@ -82,25 +97,24 @@
     <body>
 
       <div class = 'loginContainer'>
-        <form action="Mockup.html" method="GET">
+        <form action = "Mockup.html" method="POST">
           <div class = 'innerElement'>
             <h2>TAPS Login<h2>
           </div>
-
           <div class = 'innerElement'>
             <p><b>Email</b></p>
           </div>
           <div class = 'innerElement'>
-            <input type="text" name="email">
+            <input type="text" id="email">
           </div>
           <div class = 'innerElement bottomSpacing'>
             <p><b>Password</b></p>
           </div>
           <div class = 'innerElement'>
-            <input type="password" name="password">
+            <input type="password" id="password">
           </div>
           <div class = 'innerElement bottomSpacing'>
-            <input type="submit" value="Submit">
+            <input type="submit" id = "submit" value="Submit">
           </div>
         </form>
       </div>
