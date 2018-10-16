@@ -39,5 +39,5 @@ exports.updateTask = (req, res) =>{
     }
     console.log('Row upated: ${this.changes}');
     db.end();
-  })
+  });
 }
