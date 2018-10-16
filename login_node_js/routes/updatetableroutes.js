@@ -11,8 +11,26 @@ let db = new sqlite3.Database('./../Databases/TAPS.db', (err) =>{
 let updateTask = 'UPDATE task SET name = ?, instructions = ? , '+
                   'earliest_start = ?, latest_end = ?, duration = ?,' +
                   'reps_in_week = ?, sunday = ?, monday = ?, tuesday = ?,'+
-                  'wednesday = ?, thursday = ?, friday = ?, saturday = ?'+
+                  'wednesday = ?, thursday = ?, friday = ?, saturday = ?,'+
                   'employees_needed = ? WHERE taskID = ?;'
+
+function errorUpdateCheck(error,res, name){
+  if(error) {
+    console.error(error.message);
+    res.send({
+      "code":400,
+      "failed":"bad request"
+    });
+  }
+  //if query ran fine
+  else{
+    console.log('update successfully');
+    res.send({
+      "code":200,
+      "success":name+" update successfully"
+    });
+  }
+}
 
 exports.updateTask = (req, res) =>{
   var taskID = req.body.taskID;
@@ -30,14 +48,11 @@ exports.updateTask = (req, res) =>{
   var friday = req.body.friday;
   var saturday = req.body.saturday;
   var employees_needed = req.body.employees_needed;
-
+  console.log("name: " + name + " instructions: " + instructions + "\n" );
   db.run(updateTask, [name,instructions,earliest_start,latest_end,duration,
   reqs_in_week,sunday,monday,tuesday,wednesday,thursday,friday,saturday,
   employees_needed,taskID], (err) =>{
-    if(err) {
-      return console.error(err.message);
-    }
-    console.log('Row upated: ${this.changes}');
-    db.end();
+    //If error occurs with json post request
+    errorUpdateCheck(err,res,"Task");
   });
 }

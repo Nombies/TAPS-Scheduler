@@ -1,7 +1,8 @@
 var express = require("express");
 var login = require('./routes/loginroutes');
-var updateTable = require('./routes/updatetableroutes')
-//var updateDB = require('./routes/databaseroutes');
+var addToDB = require('./routes/addtotableroutes')
+var updateDB = require('./routes/updatetableroutes');
+var deleteFromDB = require('./routes/deletetableroutes');
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -24,7 +25,12 @@ router.get('/', (req, res)=>{
 //two apis are defined here
 //router.post('/register', login.register);
 router.post('/login',login.login);
-router.post('/addTask',updateTable.addTask);
-router.post('/addCanDo',updateTable.addCanDo);
+
+router.post('/addTask',addToDB.addTask);
+router.post('/addCanDo',addToDB.addCanDo);
+
+router.post('/updateTask',updateDB.updateTask);
+
+router.post('/deleteTask',deleteFromDB.deleteTask);
 app.use('/api', router);
 app.listen(5000);
