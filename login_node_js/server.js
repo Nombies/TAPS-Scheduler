@@ -1,5 +1,7 @@
 var express = require("express");
 var login = require('./routes/loginroutes');
+var updateTable = require('./routes/updatetableroutes')
+//var updateDB = require('./routes/databaseroutes');
 var bodyParser = require('body-parser');
 
 var app = express();
@@ -22,5 +24,7 @@ router.get('/', (req, res)=>{
 //two apis are defined here
 //router.post('/register', login.register);
 router.post('/login',login.login);
+router.post('/addTask',updateTable.addTask);
+router.post('/addCanDo',updateTable.addCanDo);
 app.use('/api', router);
 app.listen(5000);
