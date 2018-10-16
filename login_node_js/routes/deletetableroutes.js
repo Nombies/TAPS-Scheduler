@@ -33,7 +33,7 @@ function errorDeleteCheck(error,res, name){
   }
 }
 
-exports.qDeleteTask = (req, res) =>{
+exports.deleteTask = (req, res) =>{
   var taskID = req.body.taskID;
 
   db.run(qDeleteTask, [taskID], (err) =>{

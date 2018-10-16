@@ -2,6 +2,7 @@ var express = require("express");
 var login = require('./routes/loginroutes');
 var addToDB = require('./routes/addtotableroutes')
 var updateDB = require('./routes/updatetableroutes');
+var searchDB = require('./routes/searchtableroutes');
 var deleteFromDB = require('./routes/deletetableroutes');
 var bodyParser = require('body-parser');
 
@@ -34,6 +35,8 @@ router.post('/addShiftX',addToDB.addShiftX);
 
 router.post('/updateTask',updateDB.updateTask);
 router.post('/updateCanDo',updateDB.updateCanDo);
+
+router.post('/getAllSchedule',searchDB.getAllSchedule);
 
 router.post('/deleteTask',deleteFromDB.deleteTask);
 app.use('/api', router);
