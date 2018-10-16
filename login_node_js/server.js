@@ -28,8 +28,12 @@ router.post('/login',login.login);
 
 router.post('/addTask',addToDB.addTask);
 router.post('/addCanDo',addToDB.addCanDo);
+router.post('/addSchedule',addToDB.addSchedule);
+router.post('/addTOR',addToDB.addTOR);
+router.post('/addShiftX',addToDB.addShiftX);
 
 router.post('/updateTask',updateDB.updateTask);
+router.post('/updateCanDo',updateDB.updateCanDo);
 
 router.post('/deleteTask',deleteFromDB.deleteTask);
 app.use('/api', router);

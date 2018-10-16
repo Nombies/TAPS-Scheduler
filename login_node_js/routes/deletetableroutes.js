@@ -7,10 +7,14 @@ let db = new sqlite3.Database('./../Databases/TAPS.db', (err) =>{
   console.log('Connected to the database');
 });
 
-let deleteTask = 'DELETE FROM task WHERE taskID = ?;';
-let deleteEmployee = 'DELETE FROM employee WHERE employeeID = ?';
-let deleteCanDo = 'DELETE FROM can_do WHERE employeeID = ? AND taskID = ?';
-
+let qDeleteTask = 'DELETE FROM task WHERE taskID = ?;';
+let qDeleteEmployee = 'DELETE FROM employee WHERE employeeID = ?';
+let qDeleteCanDo = 'DELETE FROM can_do WHERE employeeID = ? AND taskID = ?';
+let qDeleteNotAvailable = 'DELETE FROM not_available WHERE employeeID = ? AND'+
+                          'start_time = ? AND end_time = ? AND day = ? AND' +
+                          'start_date = ? AND end_date = ?;';
+let qDeleteScheudle = 'DELETE FROM schedule WHERE scheduleID = ?';
+let qDeleteTOR = 'DELETE FROM TOR WHERE torID = ?';
 function errorDeleteCheck(error,res, name){
   if(error) {
     console.error(error.message);
@@ -29,27 +33,65 @@ function errorDeleteCheck(error,res, name){
   }
 }
 
-exports.deleteTask = (req, res) =>{
+exports.qDeleteTask = (req, res) =>{
   var taskID = req.body.taskID;
 
-  db.run(deleteTask, [taskID], (err) =>{
+  db.run(qDeleteTask, [taskID], (err) =>{
     errorDeleteCheck(err,res,"Task");
   });
 }
 
-exports.deleteEmployee = (req, res) =>{
+exports.qDeleteEmployee = (req, res) =>{
   var employeeID = req.body.employeeID;
 
-  db.run(deleteEmployee, [employeeID], (err) =>{
+  db.run(qDeleteEmployee, [employeeID], (err) =>{
     errorDeleteCheck(err,res,"Employee");
   });
 }
 
-exports.deleteCanDo = (req, res) =>{
+exports.qDeleteCanDo = (req, res) =>{
   var employeeID = req.body.employeeID;
   var taskID = req.body.taskID;
 
-  db.run(deleteCanDo, [employeeID,taskID], (err) =>{
+  db.run(qDeleteCanDo, [employeeID,taskID], (err) =>{
     errorDeleteCheck(err,res,"Can Do");
+  });
+}
+//TODO::test
+exports.deleteNotAvailable = (req,res) =>{
+  var empID = req.body.employeeID;
+  var start_time = req.body.start_time;
+  var end_time = req.body.end_time;
+  var day = req.body.day;
+  var start_date = req.body.start_date;
+  var end_date = req.body.end_date;
+
+  db.run(qDeleteNotAvailable, [empID,start_time,end_time,day,start_date,end_date], (err) =>{
+    errorDeleteCheck(err,res,"Not Available");
+  });
+
+}
+//TODO::test
+exports.deleteSchedule = (req,res) =>{
+  var scheduleID = req.body.scheduleID;
+
+  db.run(qDeleteScheudle, [scheduleID], (err) =>{
+    errorDeleteCheck(err,res,"Schedule");
+  });
+}
+//TODO::test
+exports.deleteTOR = (req,res) =>{
+  var torID = req.body.torID;
+
+  db.run(qDeleteTOR, [torID], (err) =>{
+    errorDeleteCheck(err,res,"TOR");
+  });
+}
+//TODO::test
+exports.deleteShiftX = (req,res) =>{
+  var postID = req.body.postID;
+
+  db.run(qDeleteShiftX,[postID], (err) =>{
+    errorDeleteCheck(err,res,"ShiftX");
   });
 }

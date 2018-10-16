@@ -12,7 +12,9 @@ let updateTask = 'UPDATE task SET name = ?, instructions = ? , '+
                   'earliest_start = ?, latest_end = ?, duration = ?,' +
                   'reps_in_week = ?, sunday = ?, monday = ?, tuesday = ?,'+
                   'wednesday = ?, thursday = ?, friday = ?, saturday = ?,'+
-                  'employees_needed = ? WHERE taskID = ?;'
+                  'employees_needed = ? WHERE taskID = ?;';
+let updateCanDo = 'UPDATE can_do SET employeeID = ?, taskID = ? WHERE '+
+                  'employeeID = ? AND taskID = ?;';
 
 function errorUpdateCheck(error,res, name){
   if(error) {
@@ -54,5 +56,16 @@ exports.updateTask = (req, res) =>{
   employees_needed,taskID], (err) =>{
     //If error occurs with json post request
     errorUpdateCheck(err,res,"Task");
+  });
+}
+
+exports.updateCanDo = (req,res) =>{
+  var prevEmployeeID = req.body.prevEmployeeID;
+  var prevTaskID = req.body.prevTaskID;
+  var nEmpID = req.body.newEmployeeID;
+  var nTaskID = req.body.newTaskID;
+
+  db.run(updateCanDo,[nEmpID,nTaskID,prevEmployeeID,prevTaskID], (err) =>{
+    errorUpdateCheck(err,res,'Can Do');
   });
 }
