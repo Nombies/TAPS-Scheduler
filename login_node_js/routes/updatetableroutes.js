@@ -42,6 +42,7 @@ exports.addTask = (req,res) =>{
         });
       }
       console.log('row with rowid ${this.lastID} was inserted');
+      db.end();
     });
 
 }
@@ -50,6 +51,7 @@ exports.addCanDo = (req,res) =>{
   var empID = req.body.employeeID;
   var taskID = req.body.taskID;
 
+  console.log(empID + ' '+ taskID);
   db.run(addCanDo, [empID,taskID], (err) =>{
     if(err){
       return console.log(err.message);
@@ -59,5 +61,23 @@ exports.addCanDo = (req,res) =>{
       });
     }
     console.log('row with rowid ${this.lastID} was inserted');
+    db.end();
+  });
+}
+
+exports.FUNCTIONNAME = function(req,res) {
+  //make variables for each attribute in table 
+  var attributeOne = req.body.ATTRIBUTE_NAME_FROM_POST_REQUEST
+
+  db.run(QUERY_VARIABLE, [ARRAY OF ATTRIBUTE VARIABLES], (err) =>{
+    if(err){
+      return console.log(err.message);
+      res.send({
+        "code":400,
+        "failed":"error occured"
+      });
+    }
+    console.log('row with rowid ${this.lastID} was inserted');
+    db.end();
   });
 }
