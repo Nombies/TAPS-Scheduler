@@ -42,35 +42,6 @@ exports.getAllSchedule = (req,res) =>{
       console.log('search error');
       throw err;
     }
-    rows.forEach((row)=>{
-      console.log( scheduleID += (row.scheduleID + ','));
-        taskID += (row.taskID + ',');
-        start_time += (row.start_time + ',');
-        end_time += (row.end_time + ',');
-        employeeID += (row.employeeID + ',');
-        task_name += (row.task_name + ',');
-        task_date += (row.task_date + ',');
-        day_of_week += (row.day_of_week + ',');
-    });
-    //remove last comma
-    scheduleID = scheduleID.substring(0,scheduleID.length - 1);
-    taskID = taskID.substring(0,taskID.length - 1);
-    start_time = start_time.substring(0,start_time.length - 1);
-    end_time = end_time.substring(0,end_time.length - 1);
-    employeeID = employeeID.substring(0,employeeID.length - 1);
-    task_name = task_name.substring(0,task_name.length - 1);
-    task_date = task_date.substring(0,task_date.length - 1);
-    day_of_week = day_of_week.substring(0,day_of_week.length - 1);
-    console.log('test' + scheduleID);
-    res.send({
-      'scheduleID': '['+scheduleID+']',
-      'taskID': '['+taskID+']',
-      'start_time':'['+start_time+']',
-      'end_time':'['+end_time+']',
-      'employeeID':'['+employeeID+']',
-      'task_name':'['+task_name+']',
-      'task_date':'['+task_date+']',
-      'day_of_week':'['+day_of_week+']'
-    });
+    res.send(rows);
   });
 }

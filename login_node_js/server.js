@@ -5,7 +5,8 @@ var updateDB = require('./routes/updatetableroutes');
 var searchDB = require('./routes/searchtableroutes');
 var deleteFromDB = require('./routes/deletetableroutes');
 var bodyParser = require('body-parser');
-
+//TODO::look up morgan module
+var morgan = require('morgan');
 var app = express();
 //used to parse incoming requests as json
 app.use(bodyParser.urlencoded({extended: true}));
@@ -17,6 +18,7 @@ app.use((req, res, next) =>{
   next();
 });
 
+app.use(morgan('dev'));
 var router = express.Router();
 
 //test router
