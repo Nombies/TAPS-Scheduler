@@ -39,6 +39,7 @@ exports.getAllSchedule = (req,res) =>{
 
   db.all(qSearchAllSchedule, [], (err,rows) =>{
     if(err){
+      console.log('search error');
       throw err;
     }
     rows.forEach((row)=>{

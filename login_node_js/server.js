@@ -36,7 +36,7 @@ router.post('/addShiftX',addToDB.addShiftX);
 router.post('/updateTask',updateDB.updateTask);
 router.post('/updateCanDo',updateDB.updateCanDo);
 
-router.post('/getAllSchedule',searchDB.getAllSchedule);
+router.get('/getAllSchedule',searchDB.getAllSchedule);
 
 router.post('/deleteTask',deleteFromDB.deleteTask);
 app.use('/api', router);
