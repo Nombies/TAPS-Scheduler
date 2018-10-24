@@ -16,6 +16,10 @@ let qAddCanDo = 'INSERT INTO can_do VALUES (?,?);';
 let qAddNotAvailable = 'INSERT INTO not_available VALUES (?,?,?,?,?,?);';
 let qAddSchedule = 'INSERT INTO schedule VALUES (?,?,?,?,?,?,?,?);';
 let qAddTOR = 'INSERT INTO TOR VALUES (?,?,?,?,?,?,?,?,?,?);';
+let qAddEmployee = 'INSERT INTO employee(employeeID,first_name,last_name,email,'+
+                    'phone_number,modify_task,modify_emp_attr,username,salt,'+
+                    'password_hash) VALUES (?,?,?,?,?,?,?,?,?,?)';
+let qAddShiftX = 'INSERT INTO shiftX VALUES (?,?,?,?)';
 
 function addErrorCheck(error,res,name){
   if(error) {
@@ -57,7 +61,8 @@ exports.addTask = (req,res) =>{
       addErrorCheck(err,res, "Task");
     });
 }
-//TODO::test
+//Works with no middlename
+//TODO::add where middlename is added
 exports.addEmployee = (req,res) =>{
   var employeeID = req.body.employeeID;
   var first_name = req.body.first_name;
@@ -85,7 +90,7 @@ exports.addCanDo = (req,res) =>{
     addErrorCheck(err,res,"Can Do");
   });
 }
-//TODO::test
+
 exports.addNotAvailable = (req,res) =>{
   var empID = req.body.employeeID;
   var start_time = req.body.start_time;
@@ -98,6 +103,7 @@ exports.addNotAvailable = (req,res) =>{
     addErrorCheck(err,res,"Not Available");
   });
 }
+
 exports.addSchedule = (req,res) =>{
   var scheduleID = req.body.scheduleID;
   var taskID = req.body.taskID;
@@ -112,7 +118,7 @@ exports.addSchedule = (req,res) =>{
     addErrorCheck(err,res,"Schedule");
   });
 }
-//TODO::test
+//TODO::add supervisor_comment as optional
 exports.addTOR = (req,res) =>{
   var torID = req.body.torID;
   var employeeID = req.body.employeeID;
@@ -129,7 +135,7 @@ exports.addTOR = (req,res) =>{
     addErrorCheck(err,res,"TOR");
   });
 }
-//TODO::test
+
 exports.addShiftX = (req,res) =>{
   var postID = req.body.postID;
   var employeeID = req.body.employeeID;

@@ -41,7 +41,7 @@ exports.deleteTask = (req, res) =>{
   });
 }
 
-exports.qDeleteEmployee = (req, res) =>{
+exports.deleteEmployee = (req, res) =>{
   var employeeID = req.body.employeeID;
 
   db.run(qDeleteEmployee, [employeeID], (err) =>{
@@ -49,7 +49,7 @@ exports.qDeleteEmployee = (req, res) =>{
   });
 }
 
-exports.qDeleteCanDo = (req, res) =>{
+exports.deleteCanDo = (req, res) =>{
   var employeeID = req.body.employeeID;
   var taskID = req.body.taskID;
 
