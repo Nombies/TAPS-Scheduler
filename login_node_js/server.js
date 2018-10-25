@@ -27,7 +27,8 @@ router.get('/', (req, res)=>{
 });
 //two apis are defined here
 //router.post('/register', login.register);
-router.post('/login',login.login);
+router.put('/login',login.login);
+router.put('/signup',login.signup);
 //use put when you don't want duplicates
 router.put('/addTask',addToDB.addTask);
 router.put('/addEmployee',addToDB.addEmployee);
@@ -48,4 +49,4 @@ router.put('/getScheduleWithEmployees',searchDB.getScheduleWithEmployees);
 
 router.post('/deleteTask',deleteFromDB.deleteTask);
 app.use('/api', router);
-app.listen(5000);
+app.listen(5000, '0.0.0.0');
