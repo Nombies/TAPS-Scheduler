@@ -27,26 +27,26 @@ router.get('/', (req, res)=>{
 });
 //two apis are defined here
 //router.post('/register', login.register);
-router.put('/login',login.login);
-router.put('/signup',login.signup);
+router.post('/login',login.login);
+router.post('/signup',login.signup);
 //use put when you don't want duplicates
-router.put('/addTask',addToDB.addTask);
-router.put('/addEmployee',addToDB.addEmployee);
-router.put('/addNotAvailable',addToDB.addNotAvailable);
-router.put('/addTOR',addToDB.addTOR);
-router.put('/addShiftX',addToDB.addShiftX);
-router.put('/addCanDo',addToDB.addCanDo);
-router.put('/addSchedule',addToDB.addSchedule);
+router.post('/addTask',addToDB.addTask);
+router.post('/addEmployee',addToDB.addEmployee);
+router.post('/addNotAvailable',addToDB.addNotAvailable);
+router.post('/addTOR',addToDB.addTOR);
+router.post('/addShiftX',addToDB.addShiftX);
+router.post('/addCanDo',addToDB.addCanDo);
+router.post('/addSchedule',addToDB.addSchedule);
 
-router.put('/updateTask',updateDB.updateTask);
-router.put('/updateCanDo',updateDB.updateCanDo);
+router.post('/updateTask',updateDB.updateTask);
+router.post('/updateCanDo',updateDB.updateCanDo);
 
 router.get('/getAllSchedule',searchDB.getAllSchedule);
-router.put('/getCanDoByEmployeeID',searchDB.getCanDoByEmployeeID);
-router.put('/getEmployeeAttributesByEmployeeID',searchDB.getEmployeeAttributesByEmployeeID);
-router.put('/getShiftXByEmployeeID',searchDB.getShiftXByEmployeeID);
-router.put('/getScheduleWithEmployees',searchDB.getScheduleWithEmployees);
+router.post('/getCanDoByEmployeeID',searchDB.getCanDoByEmployeeID);
+router.post('/getEmployeeAttributesByEmployeeID',searchDB.getEmployeeAttributesByEmployeeID);
+router.post('/getShiftXByEmployeeID',searchDB.getShiftXByEmployeeID);
+router.post('/getScheduleWithEmployees',searchDB.getScheduleWithEmployees);
 
 router.post('/deleteTask',deleteFromDB.deleteTask);
 app.use('/api', router);
-app.listen(3000, '0.0.0.0');
+app.listen(4000, '0.0.0.0');
