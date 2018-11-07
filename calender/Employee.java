@@ -1,6 +1,9 @@
 package calender;
 
+import java.util.*; 
+
 public class Employee {
+	static List<Employee> emplist = new ArrayList<Employee>();
 	String FirstName;
 	String MiddleName;
 	String LastName;
@@ -30,6 +33,7 @@ public class Employee {
 		this.PassHash = PassHash;
 		myWeek = new Week();
 		workhr = 0;
+		emplist.add(this);
 	}
 	public String getFirstName(){return FirstName;}
 	public String getMiddleName(){return MiddleName;}
