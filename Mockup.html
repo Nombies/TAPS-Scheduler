@@ -466,12 +466,16 @@ $(document).ready(function() {
 		$('.centermenu#Employees').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
 		if($(".centermenu#Employees").children().length==0){
-			for(var i=0;i<20;i++){
-				var empitem = document.createElement("div");
-				empitem.classList.add("menuitem");
-				empitem.innerHTML="<p>Employee "+i+"</p>"
-				$(".centermenu#Employees")[0].append(empitem);
-			}
+            
+            jQuery.get( "http://54.183.177.213:4000/api/getAllEmployees", function( data ) {
+                for(var i=0;i<data.length;i++){
+                    var empitem = document.createElement("div");
+                    empitem.classList.add("menuitem");
+                    empitem.innerHTML="<p>"+data[i]["first_name"]+"</p>"
+                    jQuery.data( empitem, "empdata", data[i] );
+                    $(".centermenu#Employees")[0].append(empitem);
+                }
+            });
 		}
 	});
 
@@ -537,11 +541,17 @@ $(document).ready(function() {
 
 
 	$('body').on('click', '.centermenu#Employees > .menuitem', function(){
-		$(this).parent().empty();
-		var clone = $("#employeeform").clone(true);
+        console.log($(this)[0]);
+        console.log(jQuery.data($(this)[0],"empdata"));
+        var data = jQuery.data($(this)[0],"empdata")["first_name"];
+        $(this).parent().empty();
+        
+        var clone = $("#employeeform").clone(true);
 		clone.attr("id","");
 		clone.show();
-		$(clone).find("input[name='First']").eq(0)[0].value=$(this).find("p")[0].innerHTML;
+        //debugger;
+		$(clone).find("input[name='First']").eq(0)[0].value=data;
+        
 		$(".centermenu#Employees").append(clone)
 	});
 
@@ -551,7 +561,7 @@ $(document).ready(function() {
 		var clone = $("#taskform").clone();
 		clone.attr("id","");
 		clone.show();
-		$(clone).find("input[name='Name']").eq(0)[0].value=$(this).find("p")[0].innerHTML;
+		$(clone).find("input[name='Name']").eq(0)[0].value=$(this).find(".menuitem")[0].innerHTML;
 		$(".centermenu#Tasks").append(clone)
 	});
 
