@@ -1,7 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 var bcrypt = require('bcrypt');
 //this variable db connects to the database
-let db = new sqlite3.Database('./../Databases/TAPS.db', (err)=> {
+let db = new sqlite3.Database('../../currTAPS.db', (err)=> {
   if(err){
     return console.error(err.message);
   }

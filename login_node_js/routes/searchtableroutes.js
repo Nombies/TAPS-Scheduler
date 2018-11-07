@@ -1,11 +1,11 @@
-  const sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require('sqlite3').verbose();
 
-  let db = new sqlite3.Database('./../Databases/TAPS.db', (err) =>{
-    if(err){
-      return console.error(err.message);
-    }
-    console.log('Connected to the database');
-  });
+let db = new sqlite3.Database('../../currTAPS.db', (err) =>{
+  if(err){
+    return console.error(err.message);
+  }
+  console.log('Connected to the database');
+});
 
 let qSearchAllSchedule = 'SELECT * FROM schedule';
 let qSearchEmployeeByID = 'SELECT * FROM employee WHERE employeeID = ?';
@@ -13,6 +13,7 @@ let qSearchCanDoByEmployeeID = 'SELECT * FROM can_do WHERE employeeID = ?';
 let qSearchShiftXByEmployeeID = 'SELECT * FROM shiftX WHERE employeeID = ?';
 let qSearchScheduleWithEmployees = 'SELECT * FROM schedule WHERE taskID = ? AND '+
                                    'start_time = ? AND end_time = ? AND task_date =?;';
+let qSearchAllEmployees = 'SELECT * FROM employee;'
 
 function searchErrorCheck(error,res,name,rows){
   if(error){
@@ -33,13 +34,19 @@ function errorMessage(error,res){
 }
 //make a json object with an array in each attribute
 exports.getAllSchedule = (req,res) =>{
-  db.all(qSearchAllSchedule, [], (err,rows) =>{
-    searchErrorCheck(err,res,'can do',rows);
+    db.all(qSearchAllSchedule, [], (err,rows) =>{
+    searchErrorCheck(err,res,'get all employees',rows);
   });
+}
+exports.getAllEmployees = (req,res) =>{
+	db.all(qSearchAllEmployees, [], (err,rows) =>{
+		searchErrorCheck(err,res,'all employees',rows);
+	});
 }
 //send json of taskID and employeeID based on inputed ID
 exports.getCanDoByEmployeeID = (req,res) =>{
-  var employeeID = req.body.employeeID;
+ console.log(req.body); 
+ var employeeID = req.body.employeeID;
   db.all(qSearchCanDoByEmployeeID, [employeeID], (err,rows) =>{
     searchErrorCheck(err,res,'can do',rows);
   });

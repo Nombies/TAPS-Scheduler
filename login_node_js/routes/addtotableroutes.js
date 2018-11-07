@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 
-let db = new sqlite3.Database('./../Databases/TAPS.db', (err) =>{
+let db = new sqlite3.Database('../../currTAPS.db', (err) =>{
   if(err){
     return console.error(err.message);
   }
@@ -64,6 +64,8 @@ exports.addTask = (req,res) =>{
 //Works with no middlename
 //TODO::add where middlename is added
 exports.addEmployee = (req,res) =>{
+  console.log(req.body);
+  console.log('first name ' + req.body.first_name);
   var employeeID = req.body.employeeID;
   var first_name = req.body.first_name;
   var last_name = req.body.last_name;
@@ -74,7 +76,7 @@ exports.addEmployee = (req,res) =>{
   var username = req.body.username;
   var salt = req.body.salt;
   var password = req.body.password;
-
+  console.log('employeeID ' + employeeID + ' first_name '+first_name);
   db.run(qAddEmployee, [employeeID,first_name,last_name,email,phone_number,modify_task,
         modify_emp_attr,username,salt,password], (err)=>{
           addErrorCheck(err,res,"Employee");

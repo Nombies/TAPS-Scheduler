@@ -42,11 +42,14 @@ router.post('/updateTask',updateDB.updateTask);
 router.post('/updateCanDo',updateDB.updateCanDo);
 
 router.get('/getAllSchedule',searchDB.getAllSchedule);
+router.get('/getAllEmployees',searchDB.getAllEmployees);
 router.post('/getCanDoByEmployeeID',searchDB.getCanDoByEmployeeID);
 router.post('/getEmployeeAttributesByEmployeeID',searchDB.getEmployeeAttributesByEmployeeID);
 router.post('/getShiftXByEmployeeID',searchDB.getShiftXByEmployeeID);
 router.post('/getScheduleWithEmployees',searchDB.getScheduleWithEmployees);
 
 router.post('/deleteTask',deleteFromDB.deleteTask);
+router.post('/deleteEmployee',deleteFromDB.deleteEmployee);
+
 app.use('/api', router);
 app.listen(4000, '0.0.0.0');
