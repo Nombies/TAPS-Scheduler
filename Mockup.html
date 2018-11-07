@@ -468,13 +468,22 @@ $(document).ready(function() {
 		if($(".centermenu#Employees").children().length==0){
             
             jQuery.get( "http://54.183.177.213:4000/api/getAllEmployees", function( data ) {
+				
+				var maxid = -1;
+				
                 for(var i=0;i<data.length;i++){
                     var empitem = document.createElement("div");
                     empitem.classList.add("menuitem");
                     empitem.innerHTML="<p>"+data[i]["first_name"]+"</p>"
                     jQuery.data( empitem, "empdata", data[i] );
                     $(".centermenu#Employees")[0].append(empitem);
+					if(data[i]["employeeID"]>maxid) maxid=data[i]["employeeID"];
                 }
+				    var empitem = document.createElement("div");
+                    empitem.classList.add("menuitem");
+                    empitem.innerHTML="<p>"+"+"+"</p>"
+                    jQuery.data( empitem, "empdata", {"first_name":"NEW","employeeID":""+(maxid+1)+""} );
+                    $(".centermenu#Employees")[0].append(empitem);
             });
 		}
 	});
@@ -556,12 +565,15 @@ $(document).ready(function() {
 	});
 
 	$('body').on('click', '.centermenu#Tasks > .menuitem', function(){
+		debugger;
+		var data = $(this).find("p")[0].innerHTML;
 		$(this).parent().empty();
 
 		var clone = $("#taskform").clone();
 		clone.attr("id","");
 		clone.show();
-		$(clone).find("input[name='Name']").eq(0)[0].value=$(this).find(".menuitem")[0].innerHTML;
+		
+		$(clone).find("input[name='Name']").eq(0)[0].value=data;
 		$(".centermenu#Tasks").append(clone)
 	});
 
