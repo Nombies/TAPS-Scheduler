@@ -1,6 +1,10 @@
 package calender;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Task {
+	static List<Task> tasklist = new ArrayList<Task>();
 	int TaskID;
 	String name;
 	String instruction;
@@ -24,6 +28,7 @@ public class Task {
 		this.Days = Days;
 		this.empNeeded = empNeeded;
 		this.priority = priority;
+		tasklist.add(this);
 	}
 	public int getTaskID(){return TaskID;}
 	public String getName(){return name;}
@@ -35,4 +40,6 @@ public class Task {
 	public boolean[] getDays(){return Days;}
 	public int getEmpNeeded() {return empNeeded;}
 	public int getPriority() {return priority;}
+	
+	public void subDuration(int subDuration) {duration = duration - subDuration;}
 }
