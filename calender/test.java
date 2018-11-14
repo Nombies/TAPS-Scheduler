@@ -6,9 +6,9 @@ public class test {
 		// TODO Auto-generated method stub
 		boolean [] testing = new boolean [7];
 		Time xd = new Time("7:00AM");
-		Employee test = new Employee("chad","test","donkey","1@hotm.com","415-111-1234",2,true,true,"lol2","aeag","adsgadf");
-		Employee test2 = new Employee("donatello","test","donkey","1@hotm.com","415-111-1234",2,true,true,"lol2","aeag","adsgadf");
-		Task omegalul = new Task(1,"name","instr",xd,xd,1,1,testing,1,2);
+		//Employee test = new Employee("chad","test","donkey","1@hotm.com","415-111-1234",2,true,true,"lol2","aeag","adsgadf");
+		//Employee test2 = new Employee("donatello","test","donkey","1@hotm.com","415-111-1234",2,true,true,"lol2","aeag","adsgadf");
+		//Task omegalul = new Task(1,"name","instr",xd,xd,1,1,testing,1,2);
 		/*
 		System.out.println(test.getFirstName());
 		System.out.println(test.getMiddleName());
@@ -25,7 +25,7 @@ public class test {
 		//System.out.println(omegalul.getName());
 		//test.setTask(omegalul, 1, xd);
 		
-		System.out.println(test.emplist.get(1).getFirstName());
+		//System.out.println(test.emplist.get(1).getFirstName());
 	}
 
 }
