@@ -51,10 +51,11 @@
 	text-align: center;
 	font-size: 1.5vmin;
 	height: 6vh;
-	width: 100%;
+	width: 4%;
 	background-color: rgba(0,0,0,0.3);
 	border: 0.1vmin solid rgba(0,0,0,0.1);
-	box-sizing: border-box
+	/*box-sizing: border-box;*/
+    word-wrap: break-word;
 }
 
 .dayheader{
