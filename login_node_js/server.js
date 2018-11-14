@@ -40,6 +40,10 @@ router.post('/addSchedule',addToDB.addSchedule);
 
 router.post('/updateTask',updateDB.updateTask);
 router.post('/updateCanDo',updateDB.updateCanDo);
+router.post('/updateNotAvailable',updateDB.updateNotAvailable);
+router.post('/updateSchedule',updateDB.updateSchedule);
+router.post('/updateTOR',updateDB.updateTOR);
+router.post('/updateShiftX',updateDB.updateShiftX);
 
 router.get('/getAllSchedule',searchDB.getAllSchedule);
 router.get('/getAllEmployees',searchDB.getAllEmployees);
@@ -50,6 +54,11 @@ router.post('/getScheduleWithEmployees',searchDB.getScheduleWithEmployees);
 
 router.post('/deleteTask',deleteFromDB.deleteTask);
 router.post('/deleteEmployee',deleteFromDB.deleteEmployee);
+router.post('/deleteCanDo',deleteFromDB.deleteCanDo);
+router.post('/deleteNotAvailable',deleteFromDB.deleteNotAvailable);
+router.post('/deleteSchedule',deleteFromDB.deleteSchedule);
+router.post('/deleteTOR',deleteFromDB.deleteTOR);
+router.post('/deleteShiftX',deleteFromDB.deleteShiftX);
 
 app.use('/api', router);
 app.listen(4000, '0.0.0.0');
