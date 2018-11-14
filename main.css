@@ -1,0 +1,176 @@
+
+.floatdiv{
+	background-color: rgba(255, 255, 255, 0.8);
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	border-radius: 1vmin;
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	position: fixed;
+	cursor: pointer;
+	z-index: 99999999;
+}
+.slidecover{
+	position: fixed;
+	width: 30vmin;
+	height: 100vh;
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	background-color: rgba(255, 255, 255, 0.99);
+	box-shadow: rgba(0, 0, 0, 1) 0px 0.5vmin 5vmin;
+	top: 0;
+	left: 0;
+	display: flex;
+	flex-direction: column;
+	padding: 10vh 0;
+	overflow-y: auto;
+}
+.menuitem{
+	background-color: rgba(255, 255, 255, 0.8);
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	border-radius: 1vmin;
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	cursor: pointer;
+	margin: 1vmin auto;
+	width: 90%;
+	display: block;
+	overflow: visible;
+}
+.centermenu{
+	width: 80vw;
+	height: 95vh;
+	background-color: rgba(255, 255, 255, 0.99);
+	border: 1px solid rgba(200, 200, 200, 0.99);
+	border-radius: 1vw;
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vw 2vw;
+	text-align: center;
+	position: fixed;
+	top: 2.5vh;
+	left: 10vw;
+	overflow-y: scroll;
+}
+.centermenu > .menuitem{
+	width: 30vmin;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+	border-radius: 0.5vmin;
+}
+.menuitem > p{
+    font-size: 5vmin;
+    margin: 3vh 0;
+}
+.mainform{
+	text-align: left;
+	margin: 0 5%;
+}
+.mainform > p{
+	font-size: 4vmin;
+}
+.mainform > table > tbody > tr > td{
+	text-align: center;
+	font-size: 4vmin;
+}
+#Candobutton{
+	background-color: rgba(255, 255, 255, 0.8);
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	font-size: 4vmin;
+	width: 30vmin;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+	border-radius: 0.5vmin;
+	width: 100%;
+	cursor: pointer;
+}
+.Cantdotask{
+	background-color: rgba(200, 0, 0, 0.2);
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	font-size: 4vmin;
+	width: 30vmin;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+	border-radius: 0.5vmin;
+	width: 30%;
+
+}
+.Candotask{
+	background-color: rgba(0, 200, 0, 0.2);
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	font-size: 4vmin;
+	width: 30vmin;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+	border-radius: 0.5vmin;
+	width: 30%;
+
+}
+#AllCan{
+	background-color: rgba(0, 200, 0, 0.2);
+	width: 30%;
+	cursor: pointer;
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	font-size: 4vmin;
+	width: 30vmin;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+}
+#AllCant{
+	background-color: rgba(200, 0, 0, 0.2);
+	width: 30%;
+	cursor: pointer;
+	border: 1px solid rgba(200, 200, 200, 0.8);
+	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+	text-align: center;
+	font-size: 4vmin;
+	width: 30vmin;
+	margin: 0.25vmin 0.25vmin;
+	display: inline-block;
+}
+.headContainer{
+	background-color: rgba(245, 245, 245, 0.8);
+	text-align: center;
+	font-size: 4vmin;
+	width: 30vmin;
+	margin: 0.5vmin 0.5vmin;
+	display: inline-block;
+	border-radius: 0.5vmin;
+	width: 90%;
+}
+.otherShiftX{
+
+}
+.acceptShiftX{
+	width:45%;
+	float: right;
+}
+.yourShiftX{
+
+}
+.cancelShiftX{
+	width:45%;
+}
+input[type='checkbox'] {
+    width:5vw;
+    height:3vmin;
+}
+input[type="range"]{
+	width: 25vw;
+}
+input[type="text"], input[type="time"], input[type="textarea"],input[type='date'],input[type='number'], textarea{
+	font-size: 3vmin;
+}
+.submit, .cancel{
+	width:45%;
+}
+.cancel{
+	float: left;
+}
+.submit{
+	float: right;
+}

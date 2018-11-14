@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html><head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel = "stylesheet" type = "text/css" href = "main.css" />
+
+<link rel = "stylesheet" type = "text/css" href = "calendar.css" />
+
+</head>
+
+<body>
+<div class="floatdiv" title="C1" style="top: 2vmin;left: 2vmin;width: 7vmin;height: 7vmin;">
+<img src="https://i.imgur.com/2lpTR99.png" style="width: 7vmin;">
+</div>
+
+<div class="slidecover" style="display:none">
+<div class="menuitem" style="order: 1;">
+	<p>Task List</p>
+</div>
+<div class="menuitem" style="order: 2;">
+	<p>Employee List</p>
+</div>
+<div class="menuitem" style="order: 3;">
+	<p>TOR</p>
+</div>
+
+<div class="menuitem" style="order: 4;">
+	<p>Shift Exchange</p>
+</div>
+
+<div class="menuitem" style="order: 5;">
+	<p>Settings</p>
+</div>
+<div onclick="logoutFunction()" class="menuitem" style="order: 6;">
+	<p>Logout</p>
+</div>
+</div>
+
+
+<div class="centermenu" id="Tasks" style="display:none"></div>
+<div class="centermenu" id="Employees" style="display:none"></div>
+<div class="centermenu" id="TOR" style="display:none"></div>
+<div class="centermenu" id="ShiftX" style="display:none"></div>
+<div class="centermenu" id="Settings" style="display:none"></div>
+<div class="centermenu" id ="Cando" style ="display:none"></div>
+
+<form action="" method="post" class="mainform" id="taskform" style="display: none">
+			    <p>Name:
+			    <input type="text" name="Name" value=""></p>
+
+			    <p>Instructions:</p>
+			    <textarea rows="3" cols="50" name="Instructions" form="taskform"></textarea>
+
+			    <p>Number of Employees:   
+			    <input type="number" name="numEmps" min="1" value="1"></p>
+
+			    <p>Earliest Start:
+			    <input type="time" name="EarliestStart" value="07:00"></p>
+
+			    <p>Latest End:
+			    <input type="time" name="LatestEnd" value="16:00"></p>
+
+			    <table>
+			    <tr>
+				<td></td>
+				<td>Sun</td>
+			    <td>Mon</td>
+			    <td>Tues</td>
+			    <td>Wed</td>
+			    <td>Thurs</td>
+			    <td>Fri</td>
+			    <td>Sat</td>
+			    </tr>
+
+				<tr>
+			    <td>Days</td>
+			    <td><input type="checkbox" name="Sun" value=""></td>
+			    <td><input type="checkbox" name="Mon" value="" checked=checked></td>
+			    <td><input type="checkbox" name="Tues" value="" checked=checked></td>
+			    <td><input type="checkbox" name="Wed" value="" checked=checked></td>
+			    <td><input type="checkbox" name="Thurs" value="" checked=checked></td>
+			    <td><input type="checkbox" name="Fri" value="" checked=checked></td>
+			    <td><input type="checkbox" name="Sat" value=""></td>
+				</tr>
+				</table>
+
+			    <p>Duration:
+			    <input type="text" name="Duration" value="4"></p>
+
+			    <p>Repeat:
+			    <input type="range" name="Repeat" value="5" min="0" max="7"></p>
+
+			    <p>Delete After: <input type="text" name="Delete After" value="">
+			    <input type="checkbox" name="Persist" value="" checked=checked>Persistent</p>
+				<div>
+				<div class="menuitem cancel"><p>Cancel</p></div>
+
+				<div class="menuitem submit"><p>Submit</p></div>
+				</div>
+
+	</form>
+<form action="" method="post" class="mainform" id="employeeform" style="display: none">
+	<p>First Name:
+    <input type="text" name="First" value=""></p>
+
+    <p>Middle:
+    <input type="text" name="Middle" value=""></p>
+
+	<p>Last Name:
+    <input type="text" name="Last" value=""></p>
+
+	<p>Email:
+    <input type="text" name="Email" value=""></p>
+
+    <p>Phone number:
+    <input type="text" name="Pnumber" value=""></p>
+
+    <p>Permissions:</p>
+    <p><input type="checkbox" name="taskmodify" value="">Modify Tasks <input type="checkbox" name="empmodify" value="">Modify Employees</p>
+
+    <br>
+
+
+	<div>
+		<div id = 'Candobutton'>Tasks</div>
+		<div class="menuitem cancel"><p>Cancel</p></div>
+
+		<div class="menuitem submit"><p>Submit</p></div>
+	</div>
+</form>
+
+<form action="" method="post" class="mainform" id="torform" style="display: none">
+			    <p>Subject:
+			    <input type="text" name="Subject" value=""></p>
+
+			    <p>Reason:</p>
+			    <textarea rows="3" cols="50" name="Reason" form="torform"></textarea>
+
+			    <p>Start Date:
+			    <input type="date" name="StartD" value=""></p>
+
+			    <p>End Date:
+			    <input type="date" name="EndD" value=""></p>
+
+			    <p>Start Time:
+			    <input type="time" name="StartT" value=""></p>
+
+			    <p>End Time:
+			    <input type="time" name="EndT" value=""></p>
+				<div>
+				<div class="menuitem cancel"><p>Cancel</p></div>
+
+				<div class="menuitem submit"><p>Submit</p></div>
+				</div>
+
+	</form>
+	
+<div class="calendarbox">
+<button class="toggleall" onclick="showall=!showall; showcalendar();">All</button>
+<div class="dayheader" style="background-color: rgba(200, 200, 200, 0.7)"><p>Sunday</p></div>
+<div class="day" style="border-color: rgba(200, 200, 200, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(91, 155, 213, 0.7)"><p>Monday</p></div>
+<div class="day" style="border-color: rgba(91, 155, 213, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(112, 173, 71, 0.7)"><p>Tuesday</p></div>
+<div class="day" style="border-color: rgba(112, 173, 71, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(255, 153, 51, 0.7)"><p>Wednesday</p></div>
+<div class="day" style="border-color: rgba(255, 153, 51, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(153, 102, 255, 0.7)"><p>Thursday</p></div>
+<div class="day" style="border-color: rgba(153, 102, 255, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(255, 51, 204, 0.7)"><p>Friday</p></div>
+<div class="day" style="border-color: rgba(255, 51, 204, 0.7)"></div>
+<div class="dayheader" style="background-color: rgba(200, 200, 200, 0.7)"><p>Saturday</p></div>
+<div class="day" style="border-color: rgba(200, 200, 200, 0.7)"></div>
+</div>
+
+
+
+<script src = "main.js"></script>
+
+<script src = "calendar.js"></script>
+
+
+<script>
+if(document.location.href.search("email=employeeE")!=-1){
+	$("body").append("<style>body > div.slidecover > div:nth-child(1){display:none;}</style>")
+}else if(document.location.href.search("email=employeeT")!=-1){
+	$("body").append("<style>#Employees > form > div > div.menuitem.submit{display:none;}</style>")
+}else{
+	$("body").append("<style>body > div.slidecover > div:nth-child(1){display:none;}</style>")
+}
+</script>
+
+</body></html>

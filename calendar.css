@@ -1,0 +1,76 @@
+.calendarbox{
+	width: 99%;
+	min-height: 50vh;
+	
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.day{
+	width: 100%;
+	min-height: 5vh;
+	background-color: rgba(0,0,0,0.1);
+	border: 1vmin solid;
+	box-sizing: border-box;
+
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.employee{
+	width: 100%;
+	min-height: 5vh;
+	background-color: rgba(200,200,200,0.1);
+	/*border: 0.5vmin solid;*/
+	border: 0.1vmin solid rgba(0,0,0,0.1);
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+}
+
+.employeename{
+	font-size: 2vmin;
+	margin: auto;
+	text-align: center;
+	min-width: 10vw;
+	max-width: 10vw; 
+}
+
+.task{
+	margin: auto;
+	text-align: center;
+	font-size: 1.5vmin;
+	height: 6vh;
+	width: 100%;
+	background-color: rgba(0,0,0,0.3);
+	border: 0.1vmin solid rgba(0,0,0,0.1);
+	box-sizing: border-box
+}
+
+.dayheader{
+	font-size: 2.3vmin;
+	width: 100%;
+	text-align: center;
+}
+
+.toggleall{
+	width: 10vmin;
+	height: 5vmin;
+	border-radius: 20%;
+	position: fixed;
+	bottom: 2%;
+	right: 2%;
+}
+
+.assigned{
+	background-color: rgba(0, 0, 100, 0.3);
+}
