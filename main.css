@@ -1,6 +1,6 @@
 body{
 	color:rgba(0,0,0,0.7);
-	margin: 0;
+	font-family: 'Times New Roman'
 }
 .floatdiv{
 	background-color: rgba(255, 255, 255, 0.8);
@@ -168,7 +168,7 @@ input[type="range"]{
 input[type="text"], input[type="time"], input[type="textarea"],input[type='date'],input[type='number'], textarea{
 	font-size: 3vmin;
 }
-.submit, .cancel{
+.submit, .cancel, .tempsubmit{
 	width:45%;
 }
 .cancel{
@@ -176,4 +176,26 @@ input[type="text"], input[type="time"], input[type="textarea"],input[type='date'
 }
 .submit{
 	float: right;
+
 }
+
+.tempsubmit{
+	float: right;
+}
+
+input[type = button]{	
+	font-size: 5vmin;
+	border:none;
+	background-color:rgba(255,255,255,1);
+	font-family: 'Times New Roman';
+	padding:0;
+	color: rgba(0,0,0,0.7);
+	cursor: pointer;
+}
+/*input[value = 'Submit']{
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}*/

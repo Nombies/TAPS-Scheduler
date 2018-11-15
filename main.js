@@ -41,7 +41,7 @@ $(document).ready(function() {
 		$('.centermenu#Employees').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
 		if($(".centermenu#Employees").children().length==0){
-            
+           	
             jQuery.get( "http://54.183.177.213:4000/api/getAllEmployees", function( data ) {
 				
 				var maxid = -1;
@@ -155,9 +155,10 @@ $(document).ready(function() {
 		clone.attr("id","");
 		clone.show();
         //debugger;
-		$(clone).find("input[name='First']").eq(0)[0].value=data;
+		$(clone).find("input[name='first']").eq(0)[0].value=data;
         
 		$(".centermenu#Employees").append(clone)
+		
 	});
 
 	$('body').on('click', '.centermenu#Tasks > .menuitem', function(){
@@ -173,12 +174,15 @@ $(document).ready(function() {
 		$(".centermenu#Tasks").append(clone)
 	});
 
+	$('body').on('click',  '.cancel > p >.menuitem', function(){
+		$(this).closest(".centermenu").empty();
+		HideCenters();
+	});
 	$('body').on('click', '.menuitem.cancel', function(){
 		$(this).closest(".centermenu").empty();
 		HideCenters();
 	});
-
-	$('body').on('click', '.menuitem.submit', function(){
+	$('body').on('click', '.menuitem.tempsubmit', function(){
 		$(this).closest(".centermenu").empty();
 		HideCenters();
 	});
@@ -229,3 +233,36 @@ $(document).ready(function() {
 			'</div>');
 	});
 });
+
+function newEmployee(){
+ jQuery.post( "http://54.183.177.213:4000/api/signup", 
+            {
+               	"first_name":$("input[name = 'first']")[0].value,
+				"middle_name":$("input[name = 'middle']")[0].value, //pass empty string if no middle name
+				"last_name": $("input[name = 'last']")[0].value,
+				"email":$("input[name = 'email']")[0].value,
+				"phone_number":$("input[name = 'phone_number']")[0].value, // (xxx)xxx-xxxx
+				"modify_task":$("input[name = 'modify_task']")[0].checked ? "1": "0", //0 or 1
+				"modify_emp_attr":$("input[name = 'modify_emp_attr']")[0].checked ? "1": "0", //0 or 1
+				"username":"",
+				"password":$("input[name = 'password']")[0].value
+
+            },
+            function(data,status,x){
+            	console.log(data,status,x);
+               if(data.code==200){ 
+                    console.log(data.code)
+                    console.log("nice")
+                    //$("form").css("background-color","green")
+                    //document.location.href = "Mockup.html";
+                }else if(data.code==400){
+                    console.log(data.code)
+                    //$("form").css("background-color","yellow")
+                }
+            },
+            "json")
+            .fail(function(){
+                //$("form").css("background-color","red")
+            });
+
+}
