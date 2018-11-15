@@ -9,12 +9,13 @@ let db = new sqlite3.Database('../../currTAPS.db', (err)=> {
 });
 
 let sql = 'SELECT * FROM employee WHERE email = ?';
-let insertEmployee = 'INSERT INTO employee VALUES (?,?,?,?,?,?,?,?,?,?,?)'
-let nextID = 'SELECT COUNT(employeeID) as currNumber FROM employee';
+let insertEmployee = 'INSERT INTO employee VALUES (?,?,?,?,?,?,?,?,?,?,?)';
+let nextID = 'SELECT MAX(employeeID) as currNumber FROM employee';
 //TODO::SEND Valid information later
 exports.login = (req,res) =>{
   var email = req.body.email;
   var password = req.body.password;
+  console.log('email ' + email + ' password ' + password);
   db.get(sql, [email], (err, row) =>{
     if(err){
       console.log(err);
@@ -25,8 +26,16 @@ exports.login = (req,res) =>{
     }
     else{
       //compare password
+      console.log(row);
+      if(row === undefined){
+        res.send({
+          "code":400,
+          "failed":"user does not exist"
+        });
+        return;
+      }
       bcrypt.compare(password,row.password_hash, (errPassword, resPassword) =>{
-        console.log('res password' + resPassword);
+        console.log('res password ' + resPassword);
         if(resPassword === true){
           //What you send the user
           res.send({

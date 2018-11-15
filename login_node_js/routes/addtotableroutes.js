@@ -18,8 +18,9 @@ let qAddSchedule = 'INSERT INTO schedule VALUES (?,?,?,?,?,?,?,?);';
 let qAddTOR = 'INSERT INTO TOR VALUES (?,?,?,?,?,?,?,?,?,?);';
 let qAddEmployee = 'INSERT INTO employee(employeeID,first_name,last_name,email,'+
                     'phone_number,modify_task,modify_emp_attr,username,salt,'+
-                    'password_hash) VALUES (?,?,?,?,?,?,?,?,?,?)';
-let qAddShiftX = 'INSERT INTO shiftX VALUES (?,?,?,?)';
+                    'password_hash) VALUES (?,?,?,?,?,?,?,?,?,?);';
+let qAddShiftX = 'INSERT INTO shiftX VALUES (?,?,?,?);';
+let qAddWeekHr = 'INSERT INTO weekhr VALUES (?,?,?);';
 
 function addErrorCheck(error,res,name){
   if(error) {
@@ -40,7 +41,7 @@ function addErrorCheck(error,res,name){
 }
 
 exports.addTask = (req,res) =>{
-  var taskID = req.body.taskID;
+  //var taskID = req.body.taskID;
   var name = req.body.name;
   var instructions = req.body.instructions;
   var earliest_start = req.body.earliest_start;
@@ -55,8 +56,14 @@ exports.addTask = (req,res) =>{
   var friday = req.body.friday;
   var saturday = req.body.saturday;
   var employees_needed = req.body.employees_needed;
+
+  var nextID = -1;
+
+  db.all('SELECT MAX(taskID) as currNumber FROM task', [], (err,rows) =>{
+    nextID = parseInt(rows.currNumber) + 1;
+  })
   console.log(taskID + " " + name + "\n");
-  db.run(qAddTask, [taskID,name,instructions,earliest_start,latest_end,duration,reqs_in_week,
+  db.run(qAddTask, [nextID,name,instructions,earliest_start,latest_end,duration,reqs_in_week,
     sunday,monday,tuesday,wednesday,thursday,friday,saturday,employees_needed], (err) =>{
       addErrorCheck(err,res, "Task");
     });
@@ -107,7 +114,7 @@ exports.addNotAvailable = (req,res) =>{
 }
 
 exports.addSchedule = (req,res) =>{
-  var scheduleID = req.body.scheduleID;
+  //var scheduleID = req.body.scheduleID;
   var taskID = req.body.taskID;
   var start_time = req.body.start_time;
   var end_time = req.body.end_time;
@@ -115,14 +122,19 @@ exports.addSchedule = (req,res) =>{
   var task_name = req.body.task_name;
   var task_date = req.body.task_date;
   var day_of_week = req.body.day_of_week;
+  var nextID = -1;
 
-  db.run(qAddSchedule, [scheduleID,taskID,start_time,end_time,employeeID,task_name,task_date,day_of_week], (err) =>{
+  db.all('SELECT MAX(scheduleID) as currNumber FROM schedule', [], (err,rows) =>{
+    nextID = parseInt(rows.currNumber) + 1;
+  });
+
+  db.run(qAddSchedule, [nextID,taskID,start_time,end_time,employeeID,task_name,task_date,day_of_week], (err) =>{
     addErrorCheck(err,res,"Schedule");
   });
 }
 //TODO::add supervisor_comment as optional
 exports.addTOR = (req,res) =>{
-  var torID = req.body.torID;
+  //var torID = req.body.torID;
   var employeeID = req.body.employeeID;
   var subject = req.body.subject;
   var reason = req.body.reason;
@@ -132,21 +144,40 @@ exports.addTOR = (req,res) =>{
   var end_date = req.body.end_date;
   var request_status  = req.body.request_status;
   var supervisor_comment = req.body.supervisor_comment;
+  var nextID = -1;
 
-  db.run(qAddTOR,[torID,employeeID,subject,reason,start_time,end_time,start_date,end_date,request_status,supervisor_comment], (err) =>{
+  db.all('SELECT MAX(torID) as currNumber FROM TOR', [], (err,rows) =>{
+    nextID = parseInt(rows.currNumber) + 1;
+  })
+  db.run(qAddTOR,[nextID,employeeID,subject,reason,start_time,end_time,start_date,end_date,request_status,supervisor_comment], (err) =>{
     addErrorCheck(err,res,"TOR");
   });
 }
 
 exports.addShiftX = (req,res) =>{
-  var postID = req.body.postID;
+ // var postID = req.body.postID;
   var employeeID = req.body.employeeID;
   var taskID = req.body.taskID;
   var shift_date = req.body.shift_date;
+  var nextID = -1;
 
-  db.run(qAddShiftX,[postID,employeeID,taskID,shift_date], (err) =>{
+  db.all('SELECT MAX(postID) as currNumber FROM shiftX', [], (err,rows)=>{
+    nextID = parseInt(currNumber) + 1;
+  })
+  db.run(qAddShiftX,[nextID,employeeID,taskID,shift_date], (err) =>{
     addErrorCheck(err,res,"ShiftX");
   });
+}
+
+exports.addWeekHr = (req,res) =>{
+  var employeeID = req.body.employeeID;
+  var hrs = req.body.hrs;
+  var startWeek = req.body.startWeek;
+
+  db.run(qAddWeekHr,[employeeID,hrs,startWeek], (err) =>{
+    addErrorCheck(err,res,"WeekHr");
+  });
+
 }
 /*
 

@@ -15,6 +15,11 @@ let qSearchScheduleWithEmployees = 'SELECT * FROM schedule WHERE taskID = ? AND 
                                    'start_time = ? AND end_time = ? AND task_date =?;';
 let qSearchAllEmployees = 'SELECT * FROM employee;'
 
+let qSearchAllEmployeesWeekHrAllWeeks = 'SELECT * FROM weekhr';
+let qSearchOneEmployeeWeekHrAllWeeks = 'SELECT * FROM weekhr WHERE employeeID = ?;';
+let qSearchOneEmployeeWeekHrOneWeek = 'SELECT * FROM weekhr WHERE employeeID = ? AND startWeek = ?;';
+let qSearchAllEmployeesWeekHrOneWeek = 'SELECT * FROM weekhr WHERE startWeek = ?;';
+
 function searchErrorCheck(error,res,name,rows){
   if(error){
     errorMessage(error,res);
@@ -45,7 +50,7 @@ exports.getAllEmployees = (req,res) =>{
 }
 //send json of taskID and employeeID based on inputed ID
 exports.getCanDoByEmployeeID = (req,res) =>{
- console.log(req.body); 
+ console.log(req.body);
  var employeeID = req.body.employeeID;
   db.all(qSearchCanDoByEmployeeID, [employeeID], (err,rows) =>{
     searchErrorCheck(err,res,'can do',rows);
