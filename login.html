@@ -1,80 +1,100 @@
 <!DOCTYPE html>
 <html>
-  <head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
     <style>
-      body{
-        background-color: rgba(200, 200, 200, 0.9);
-      }
+        body{
+            background-color: rgba(200, 200, 200, 0.9);
+        }
 
-      input[type = text]:focus{
-        outline: none;
-        border: 1px solid #4CAF50;
-      }
-      input[type = password]:focus{
-        outline: none;
-        border: 1px solid #4CAF50;
-      }
-      input[type = submit]:focus{
-        outline: none;
-      }
-      input[type = text]{
-        width: 100%;
-        line-height: 2.2em;
-        border-radius: 5px;
-        border-width: thin;
-      }
-      input[type = password]{
-        width: 100%;
-        line-height: 2.2em;
-        border-radius: 5px;
-        border-width: thin;
-      }
-      input[type = submit]{
-        color: #FFFFFF;
-        background-color: #333333;
-        border-width: 0;
-        border-radius: 2vmin;
-        padding: 1vmin 1.5vmin 1vmin 1.5vmin;
-        background-color: #333333;
-      }
-      input[type = submit]:hover{
-        cursor:pointer;
-      }
-      .loginContainer{
-        border-radius: 1vmin;
-        position: relative;
-        left: 27%;
-        top:50%;
-        width: 40%;
-        height: 40%;
-        margin-top: 20vmin;
-        padding: 1vmin 4vmin 1vmin 4vmin;
-        overflow: auto;
-        background-color: #FFFFFF;
-        box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
-      }
-      .innerElement{
-        color: #545454;
-        padding-bottom: 1vmin;
-      }
-      .bottomSpacing{
-        padding-top: 2vmin;
-      }
-
-
-
-      p {
-        margin: 0;
-        font-size: 2vmin;
-      }
+        input[type = text]:focus{
+            outline: none;
+            border: 1px solid #4CAF50;
+        }
+        input[type = password]:focus{
+            outline: none;
+            border: 1px solid #4CAF50;
+        }
+        input[type = button]:focus{
+            outline: none;
+        }
+        input[type = text]{
+            width: 100%;
+            line-height: 2.2em;
+            border-radius: 5px;
+            border-width: thin;
+        }
+        input[type = password]{
+            width: 100%;
+            line-height: 2.2em;
+            border-radius: 5px;
+            border-width: thin;
+        }
+        input[type = button]{
+            color: #FFFFFF;
+            background-color: #333333;
+            border-width: 0;
+            border-radius: 2vmin;
+            padding: 1vmin 1.5vmin 1vmin 1.5vmin;
+            background-color: #333333;
+        }
+        input[type = button]:hover{
+            cursor:pointer;
+        }
+        .loginContainer{
+            border-radius: 1vmin;
+            position: relative;
+            left: 27%;
+            top:50%;
+            width: 40%;
+            height: 40%;
+            margin-top: 20vmin;
+            padding: 1vmin 4vmin 1vmin 4vmin;
+            overflow: auto;
+            background-color: #FFFFFF;
+            box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
+        }
+        .innerElement{
+            color: #545454;
+            padding-bottom: 1vmin;
+        }
+        .bottomSpacing{
+            padding-top: 2vmin;
+        }
+        p {
+            margin: 0;
+            font-size: 2vmin;
+        }
     </style>
 
     <script>
-
+        function clickLogin(){ 
+            jQuery.post( "http://54.183.177.213:4000/api/login", 
+            {
+                "email":$("input[name = 'email']")[0].value, 
+                "password":$("input[name = 'password']")[0].value
+            },
+            function(data,status,x){
+                //debugger;
+                console.log(data,status,x)
+                console.log(data.code)
+                if(data.code==200){ 
+                    console.log(data.code)
+                    //$("form").css("background-color","green")
+                    document.location.href = "Mockup.html";
+                }else if(data.code==400){
+                    console.log(data.code)
+                    //$("form").css("background-color","yellow")
+                }
+            },
+            "json")
+            .fail(function(){
+                //$("form").css("background-color","red")
+            });
+        }
 
     </script>
 
@@ -82,28 +102,28 @@
 
     <body>
 
-      <div class = 'loginContainer'>
-        <form action="Mockup.html" method="GET">
-          <div class = 'innerElement'>
-            <h2>TAPS Login<h2>
-          </div>
-          <div class = 'innerElement'>
-            <p><b>Email</b></p>
-          </div>
-          <div class = 'innerElement'>
-            <input type="text" name="email">
-          </div>
-          <div class = 'innerElement bottomSpacing'>
-            <p><b>Password</b></p>
-          </div>
-          <div class = 'innerElement'>
-            <input type="password" name="password">
-          </div>
-          <div class = 'innerElement bottomSpacing'>
-            <input type="submit" value="Submit">
-          </div>
-        </form>
-      </div>
+        <div class = 'loginContainer'>
+            <form action="Mockup.html" method="GET">
+                <div class = 'innerElement'>
+                    <h2>TAPS Login<h2>
+                </div>
+                <div class = 'innerElement'>
+                    <p><b>Email</b></p>
+                </div>
+                <div class = 'innerElement'>
+                    <input type="text" name="email">
+                </div>
+                <div class = 'innerElement bottomSpacing'>
+                    <p><b>Password</b></p>
+                </div>
+                <div class = 'innerElement'>
+                    <input type="password" name="password">
+                </div>
+                <div class = 'innerElement bottomSpacing'>
+                    <input type="button" onclick= "clickLogin()" value="Submit">
+                </div>
+            </form>
+        </div>
 
 
     </body>
