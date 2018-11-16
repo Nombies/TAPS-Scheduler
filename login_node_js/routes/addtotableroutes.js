@@ -11,15 +11,15 @@ let db = new sqlite3.Database('../../currTAPS.db', (err) =>{
 //              'latest_end,duration,reps_in_week,sunday,monday,tuesday,wednesday,'+
 //              'thursday,friday,saturday,employees_needed)'+
 //              'VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);';
-let qAddTask = 'INSERT INTO task VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);';
+let qAddTask = 'INSERT INTO task VALUES (SELECT MAX(taskID)+1 as currNumber FROM task,?,?,?,?,?,?,?,?,?,?,?,?,?,?);';
 let qAddCanDo = 'INSERT INTO can_do VALUES (?,?);';
 let qAddNotAvailable = 'INSERT INTO not_available VALUES (?,?,?,?,?,?);';
-let qAddSchedule = 'INSERT INTO schedule VALUES (?,?,?,?,?,?,?,?);';
-let qAddTOR = 'INSERT INTO TOR VALUES (?,?,?,?,?,?,?,?,?,?);';
+let qAddSchedule = 'INSERT INTO schedule VALUES (SELECT MAX(scheduleID)+1 as currNumber FROM schedule,?,?,?,?,?,?,?);';
+let qAddTOR = 'INSERT INTO TOR VALUES (SELECT MAX(torID)+1 as currNumber FROM TOR,?,?,?,?,?,?,?,?,?);';
 let qAddEmployee = 'INSERT INTO employee(employeeID,first_name,last_name,email,'+
                     'phone_number,modify_task,modify_emp_attr,username,salt,'+
                     'password_hash) VALUES (?,?,?,?,?,?,?,?,?,?);';
-let qAddShiftX = 'INSERT INTO shiftX VALUES (?,?,?,?);';
+let qAddShiftX = 'INSERT INTO shiftX VALUES (SELECT MAX(postID)+1 as currNumber FROM shiftX,?,?,?);';
 let qAddWeekHr = 'INSERT INTO weekhr VALUES (?,?,?);';
 
 function addErrorCheck(error,res,name){
@@ -41,7 +41,6 @@ function addErrorCheck(error,res,name){
 }
 
 exports.addTask = (req,res) =>{
-  //var taskID = req.body.taskID;
   var name = req.body.name;
   var instructions = req.body.instructions;
   var earliest_start = req.body.earliest_start;
@@ -57,37 +56,10 @@ exports.addTask = (req,res) =>{
   var saturday = req.body.saturday;
   var employees_needed = req.body.employees_needed;
 
-  var nextID = -1;
-
-  db.all('SELECT MAX(taskID) as currNumber FROM task', [], (err,rows) =>{
-    nextID = parseInt(rows.currNumber) + 1;
-  })
-  console.log(taskID + " " + name + "\n");
-  db.run(qAddTask, [nextID,name,instructions,earliest_start,latest_end,duration,reqs_in_week,
+  db.run(qAddTask, [name,instructions,earliest_start,latest_end,duration,reqs_in_week,
     sunday,monday,tuesday,wednesday,thursday,friday,saturday,employees_needed], (err) =>{
       addErrorCheck(err,res, "Task");
     });
-}
-//Works with no middlename
-//TODO::add where middlename is added
-exports.addEmployee = (req,res) =>{
-  console.log(req.body);
-  console.log('first name ' + req.body.first_name);
-  var employeeID = req.body.employeeID;
-  var first_name = req.body.first_name;
-  var last_name = req.body.last_name;
-  var email = req.body.email;
-  var phone_number = req.body.phone_number;
-  var modify_task = req.body.modify_task;
-  var modify_emp_attr = req.body.modify_emp_attr;
-  var username = req.body.username;
-  var salt = req.body.salt;
-  var password = req.body.password;
-  console.log('employeeID ' + employeeID + ' first_name '+first_name);
-  db.run(qAddEmployee, [employeeID,first_name,last_name,email,phone_number,modify_task,
-        modify_emp_attr,username,salt,password], (err)=>{
-          addErrorCheck(err,res,"Employee");
-        });
 }
 
 exports.addCanDo = (req,res) =>{
@@ -114,7 +86,6 @@ exports.addNotAvailable = (req,res) =>{
 }
 
 exports.addSchedule = (req,res) =>{
-  //var scheduleID = req.body.scheduleID;
   var taskID = req.body.taskID;
   var start_time = req.body.start_time;
   var end_time = req.body.end_time;
@@ -122,19 +93,13 @@ exports.addSchedule = (req,res) =>{
   var task_name = req.body.task_name;
   var task_date = req.body.task_date;
   var day_of_week = req.body.day_of_week;
-  var nextID = -1;
 
-  db.all('SELECT MAX(scheduleID) as currNumber FROM schedule', [], (err,rows) =>{
-    nextID = parseInt(rows.currNumber) + 1;
-  });
-
-  db.run(qAddSchedule, [nextID,taskID,start_time,end_time,employeeID,task_name,task_date,day_of_week], (err) =>{
+  db.run(qAddSchedule, [taskID,start_time,end_time,employeeID,task_name,task_date,day_of_week], (err) =>{
     addErrorCheck(err,res,"Schedule");
   });
 }
 //TODO::add supervisor_comment as optional
 exports.addTOR = (req,res) =>{
-  //var torID = req.body.torID;
   var employeeID = req.body.employeeID;
   var subject = req.body.subject;
   var reason = req.body.reason;
@@ -144,27 +109,18 @@ exports.addTOR = (req,res) =>{
   var end_date = req.body.end_date;
   var request_status  = req.body.request_status;
   var supervisor_comment = req.body.supervisor_comment;
-  var nextID = -1;
 
-  db.all('SELECT MAX(torID) as currNumber FROM TOR', [], (err,rows) =>{
-    nextID = parseInt(rows.currNumber) + 1;
-  })
-  db.run(qAddTOR,[nextID,employeeID,subject,reason,start_time,end_time,start_date,end_date,request_status,supervisor_comment], (err) =>{
+  db.run(qAddTOR,[employeeID,subject,reason,start_time,end_time,start_date,end_date,request_status,supervisor_comment], (err) =>{
     addErrorCheck(err,res,"TOR");
   });
 }
 
 exports.addShiftX = (req,res) =>{
- // var postID = req.body.postID;
   var employeeID = req.body.employeeID;
   var taskID = req.body.taskID;
   var shift_date = req.body.shift_date;
-  var nextID = -1;
 
-  db.all('SELECT MAX(postID) as currNumber FROM shiftX', [], (err,rows)=>{
-    nextID = parseInt(currNumber) + 1;
-  })
-  db.run(qAddShiftX,[nextID,employeeID,taskID,shift_date], (err) =>{
+  db.run(qAddShiftX,[employeeID,taskID,shift_date], (err) =>{
     addErrorCheck(err,res,"ShiftX");
   });
 }
@@ -179,28 +135,3 @@ exports.addWeekHr = (req,res) =>{
   });
 
 }
-/*
-
-exports.FUNCTIONNAME = function(req,res) {
-  //make variables for each attribute in table
-  var attributeOne = req.body.ATTRIBUTE_NAME_FROM_POST_REQUEST
-
-  db.run(QUERY_VARIABLE, [ARRAY OF ATTRIBUTE VARIABLES], (err) =>{
-    if(err){
-      console.log(err.message);
-      res.send({
-        "code":400,
-        "failed":"error occured"
-      });
-    }
-    //TODO::check if duplicates
-    else{
-      //Sent successfull
-      res.send({
-        "code":200,
-        "success":"added successfull"
-      });
-    }
-  });
-}
-*/
