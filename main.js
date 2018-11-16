@@ -144,23 +144,46 @@ $(document).ready(function() {
 
 
 	$('body').on('click', '.centermenu#Employees > .menuitem', function(){
-        console.log($(this)[0]);
-        console.log(jQuery.data($(this)[0],"empdata"));
-        var data = jQuery.data($(this)[0],"empdata")["first_name"];
+        //console.log($(this)[0]);
+        //console.log(jQuery.data($(this)[0],"empdata"));
+        var id = jQuery.data($(this)[0],"empdata")["employeeID"];
+        var first = jQuery.data($(this)[0],"empdata")["first_name"];
+        var middle = jQuery.data($(this)[0],"empdata")["middle_name"];
+        var last = jQuery.data($(this)[0],"empdata")["last_name"];
+        var email = jQuery.data($(this)[0],"empdata")["email"];
+        //var password = jQuery.data($(this)[0],"empdata")["password_hash"];
+        var phone = jQuery.data($(this)[0],"empdata")["phone_number"];
+        var attr = jQuery.data($(this)[0],"empdata")["modify_emp_attr"];
+        var task = jQuery.data($(this)[0],"empdata")["modify_task"];
         $(this).parent().empty();
         
         var clone = $("#employeeform").clone(true);
 		clone.attr("id","");
 		clone.show();
         //debugger;
-		$(clone).find("input[name='first']").eq(0)[0].value=data;
+        
+        
+		$(clone).find("input[name='first']").eq(0)[0].value=first;
+        $(clone).find("input[name='middle']").eq(0)[0].value=middle;
+        $(clone).find("input[name='last']").eq(0)[0].value=last;
+        $(clone).find("input[name='email']").eq(0)[0].value=email;
+        $(clone).find("input[name='phone_number']").eq(0)[0].value=phone;
+        
+        if(attr){
+           $(clone).find("input[name='modify_task']").eq(0)[0].checked="checked";
+        }
+        
+        if(task){
+            $(clone).find("input[name='modify_emp_attr']").eq(0)[0].checked="checked";
+        }
+
         
 		$(".centermenu#Employees").append(clone)
 		
 	});
 
 	$('body').on('click', '.centermenu#Tasks > .menuitem', function(){
-		debugger;
+		//debugger;
 		var data = $(this).find("p")[0].innerHTML;
 		$(this).parent().empty();
 
@@ -171,15 +194,34 @@ $(document).ready(function() {
 		$(clone).find("input[name='Name']").eq(0)[0].value=data;
 		$(".centermenu#Tasks").append(clone)
 	});
+    
 
+//	$('body').on('click', '.menuitem.cancel', function(){
+//		$(this).closest(".centermenu").empty();
+//		HideCenters();
+//	});
+//    
+//	$('body').on('click', '.menuitem.submit', function(){
+//		$(this).closest(".centermenu").empty();
+//		HideCenters();
+//	});
+    
 	$('body').on('click', '.menuitem.cancel', function(){
 		$(this).closest(".centermenu").empty();
 		HideCenters();
 	});
-	$('body').on('click', '.menuitem.submit', function(){
-		$(this).closest(".centermenu").empty();
-		HideCenters();
-	});
+    
+	$('body').on('click', '#Employees > form > div > div > div.menuitem.submit', function(){
+		debugger;
+        newEmployee(function(){
+            $(this).closest(".centermenu").empty();
+            HideCenters();
+        }, false,0);
+    });
+    
+    
+    
+    
 	$('body').on('click', '#AllCant', function(){
 		$('.centermenu#Cando > .menuitem').removeClass("Candotask");
 	});
@@ -228,35 +270,69 @@ $(document).ready(function() {
 	});
 });
 
-function newEmployee(){
- jQuery.post( "http://54.183.177.213:4000/api/signup", 
-            {
-               	"first_name":$("input[name = 'first']")[0].value,
-				"middle_name":$("input[name = 'middle']")[0].value, //pass empty string if no middle name
-				"last_name": $("input[name = 'last']")[0].value,
-				"email":$("input[name = 'email']")[0].value,
-				"phone_number":$("input[name = 'phone_number']")[0].value, // (xxx)xxx-xxxx
-				"modify_task":$("input[name = 'modify_task']")[0].checked ? "1": "0", //0 or 1
-				"modify_emp_attr":$("input[name = 'modify_emp_attr']")[0].checked ? "1": "0", //0 or 1
-				"username":"",
-				"password":$("input[name = 'password']")[0].value
+function newEmployee(f,n,id){
+    if(n){
+     jQuery.post( "http://54.183.177.213:4000/api/signup", 
+                {
+                    "first_name":$("input[name = 'first']")[0].value,
+                    "middle_name":$("input[name = 'middle']")[0].value, //pass empty string if no middle name
+                    "last_name": $("input[name = 'last']")[0].value,
+                    "email":$("input[name = 'email']")[0].value,
+                    "phone_number":$("input[name = 'phone_number']")[0].value, // (xxx)xxx-xxxx
+                    "modify_task":$("input[name = 'modify_task']")[0].checked ? "1": "0", //0 or 1
+                    "modify_emp_attr":$("input[name = 'modify_emp_attr']")[0].checked ? "1": "0", //0 or 1
+                    "username":"",
+                    "password":$("input[name = 'password']")[0].value
 
-            },
-            function(data,status,x){
-            	console.log(data,status,x);
-               if(data.code==200){ 
-                    console.log(data.code)
-                    console.log("nice")
-                    //$("form").css("background-color","green")
-                    //document.location.href = "Mockup.html";
-                }else if(data.code==400){
-                    console.log(data.code)
-                    //$("form").css("background-color","yellow")
-                }
-            },
-            "json")
-            .fail(function(){
-                //$("form").css("background-color","red")
-            });
+                },
+                function(data,status,x){
+                    console.log(data,status,x);
+                   if(data.code==200){ 
+                        console.log(data.code)
+                        console.log("nice")
+                        //$("form").css("background-color","green")
+                        //document.location.href = "Mockup.html";
+                    }else if(data.code==400){
+                        console.log(data.code)
+                        //$("form").css("background-color","yellow")
+                    }
+                    if(f)f();
+                },
+                "json")
+                .fail(function(){
+                    //$("form").css("background-color","red")
+                });
+    }else{
+             jQuery.post( "http://54.183.177.213:4000/api/updateEmployee", 
+                {
+                    "employeeID":""+id,
+                    "first_name":$("input[name = 'first']")[0].value,
+                    "middle_name":$("input[name = 'middle']")[0].value, //pass empty string if no middle name
+                    "last_name": $("input[name = 'last']")[0].value,
+                    "email":$("input[name = 'email']")[0].value,
+                    "phone_number":$("input[name = 'phone_number']")[0].value, // (xxx)xxx-xxxx
+                    "modify_task":$("input[name = 'modify_task']")[0].checked ? "1": "0", //0 or 1
+                    "modify_emp_attr":$("input[name = 'modify_emp_attr']")[0].checked ? "1": "0", //0 or 1
+                    "username":"",
+                    "password":$("input[name = 'password']")[0].value
 
+                },
+                function(data,status,x){
+                    console.log(data,status,x);
+                   if(data.code==200){ 
+                        console.log(data.code)
+                        console.log("nice")
+                        //$("form").css("background-color","green")
+                        //document.location.href = "Mockup.html";
+                    }else if(data.code==400){
+                        console.log(data.code)
+                        //$("form").css("background-color","yellow")
+                    }
+                    if(f)f();
+                },
+                "json")
+                .fail(function(){
+                    //$("form").css("background-color","red")
+                });
+    }
 }
