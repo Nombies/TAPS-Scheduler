@@ -55,7 +55,7 @@ $(document).ready(function() {
                     empitem.classList.add("menuitem");
                     empitem.classList.add("addnew");
                     empitem.innerHTML="<p>"+"+"+"</p>"
-                    jQuery.data( empitem, "empdata", {"first_name":"NEW"));
+                    jQuery.data( empitem, "empdata", {"first_name":"NEW"});
                     $(".centermenu#Employees")[0].append(empitem);
             });
 		}
