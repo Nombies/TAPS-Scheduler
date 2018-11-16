@@ -9,8 +9,7 @@ let db = new sqlite3.Database('../../currTAPS.db', (err)=> {
 });
 
 let sql = 'SELECT * FROM employee WHERE email = ?';
-let insertEmployee = 'INSERT INTO employee VALUES (?,?,?,?,?,?,?,?,?,?,?)';
-let nextID = 'SELECT MAX(employeeID) as currNumber FROM employee';
+let insertEmployee = 'INSERT INTO employee VALUES ((SELECT MAX(employeeID)+1 FROM employee),?,?,?,?,?,?,?,?,?,?)';
 //TODO::SEND Valid information later
 exports.login = (req,res) =>{
   var email = req.body.email;
@@ -67,32 +66,22 @@ exports.signup = (req,res) =>{
   var salt = bcrypt.genSaltSync(10);
   var passHash = bcrypt.hashSync(password,salt);
   var nextID = -1;
-  db.all(nextID,[], (err,rows) =>{
-    if(err){
-      res.send({
-        "code":400,
-        "failed":"Error with given information"
-      });
-    }
-    else{
-      nextID = (parseInt(rows.currNumber) + 1);
-    }
-  });
+  
+  console.log(req.body);
 
-  db.run(insertEmployee,[nextID,first_name,middle_name,last_name,email,
-  phone_number,modify_task,modify_emp_attr,username,salt,passHash], (err)=>{
-    if(err){
-      res.send({
-        "code":400,
-        "failed":"Error with given information"
-      });
-    }
-    else{
-      res.send({
-        "code":200,
-        "success":"employee added to database"
-      });
-    }
-  });
-
+    db.run(insertEmployee,[first_name,middle_name,last_name,email,
+    phone_number,modify_task,modify_emp_attr,username,salt,passHash], (err)=>{
+      if(err){
+        res.send({
+          "code":400,
+          "failed":"Error with given information"
+        });
+      }
+      else{
+        res.send({
+          "code":200,
+          "success":"employee added to database"
+        });
+      }
+    });
 }
