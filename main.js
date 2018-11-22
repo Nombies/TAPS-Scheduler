@@ -559,7 +559,7 @@ function newTask(f,n,id){
                     "name":$("input[name = 'name']")[0].value, //integer
                     "instructions":$("textarea[name = 'instructions']")[0].value, 
                     "earliest_start": $("input[name = 'earliestStart']")[0].value, //0-24 hr ex: 13:32:00 (hr,min,sec)
-                    "latest_end":$("input[name = 'lastestEnd']")[0].value, //24 hr time
+                    "latest_end":$("input[name = 'latestEnd']")[0].value, //24 hr time
                     "duration":$("input[name = 'duration']")[0].value, //iterations of 30 min ex 1 = 30 min 2 - 60 min
                     "reqs_in_week":$("input[name = 'repeat']")[0].value, //0-7 how many time within week you want this done
                     "sunday":$("input[name = 'sun']")[0].checked ? "1": "0", //0 or 1
