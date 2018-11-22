@@ -11,15 +11,15 @@ let db = new sqlite3.Database('../../currTAPS.db', (err) =>{
 //              'latest_end,duration,reps_in_week,sunday,monday,tuesday,wednesday,'+
 //              'thursday,friday,saturday,employees_needed)'+
 //              'VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);';
-let qAddTask = 'INSERT INTO task VALUES (SELECT MAX(taskID)+1 as currNumber FROM task,?,?,?,?,?,?,?,?,?,?,?,?,?,?);';
+let qAddTask = 'INSERT INTO task VALUES ((SELECT MAX(taskID)+1 as currNumber FROM task),?,?,?,?,?,?,?,?,?,?,?,?,?,?);';
 let qAddCanDo = 'INSERT INTO can_do VALUES (?,?);';
 let qAddNotAvailable = 'INSERT INTO not_available VALUES (?,?,?,?,?,?);';
-let qAddSchedule = 'INSERT INTO schedule VALUES (SELECT MAX(scheduleID)+1 as currNumber FROM schedule,?,?,?,?,?,?,?);';
-let qAddTOR = 'INSERT INTO TOR VALUES (SELECT MAX(torID)+1 as currNumber FROM TOR,?,?,?,?,?,?,?,?,?);';
+let qAddSchedule = 'INSERT INTO schedule VALUES ((SELECT MAX(scheduleID)+1 as currNumber FROM schedule),?,?,?,?,?,?,?);';
+let qAddTOR = 'INSERT INTO TOR VALUES ((SELECT MAX(torID)+1 as currNumber FROM TOR),?,?,?,?,?,?,?,?,?);';
 let qAddEmployee = 'INSERT INTO employee(employeeID,first_name,last_name,email,'+
                     'phone_number,modify_task,modify_emp_attr,username,salt,'+
                     'password_hash) VALUES (?,?,?,?,?,?,?,?,?,?);';
-let qAddShiftX = 'INSERT INTO shiftX VALUES (SELECT MAX(postID)+1 as currNumber FROM shiftX,?,?,?);';
+let qAddShiftX = 'INSERT INTO shiftX VALUES ((SELECT MAX(postID)+1 as currNumber FROM shiftX),?,?,?);';
 let qAddWeekHr = 'INSERT INTO weekhr VALUES (?,?,?);';
 
 function addErrorCheck(error,res,name){
@@ -55,7 +55,7 @@ exports.addTask = (req,res) =>{
   var friday = req.body.friday;
   var saturday = req.body.saturday;
   var employees_needed = req.body.employees_needed;
-
+  console.log(req.body);
   db.run(qAddTask, [name,instructions,earliest_start,latest_end,duration,reqs_in_week,
     sunday,monday,tuesday,wednesday,thursday,friday,saturday,employees_needed], (err) =>{
       addErrorCheck(err,res, "Task");

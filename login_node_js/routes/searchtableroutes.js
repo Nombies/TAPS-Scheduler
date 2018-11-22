@@ -13,8 +13,13 @@ let qSearchCanDoByEmployeeID = 'SELECT * FROM can_do WHERE employeeID = ?';
 let qSearchShiftXByEmployeeID = 'SELECT * FROM shiftX WHERE employeeID = ?';
 let qSearchScheduleWithEmployees = 'SELECT * FROM schedule WHERE taskID = ? AND '+
                                    'start_time = ? AND end_time = ? AND task_date =?;';
-let qSearchAllEmployees = 'SELECT * FROM employee;'
 
+let qSearchAllNotAvailable = 'SELECT * FROM not_available;';
+let qSearchAllCanDo        = 'SELECT * FROM can_do;';
+let qSearchAllWeekHr       = 'SELECT * FROM weekhr;';
+
+let qSearchAllEmployees = 'SELECT * FROM employee;'
+let qSearchAllTasks = 'SELECT * FROM task';
 let qSearchAllEmployeesWeekHrAllWeeks = 'SELECT * FROM weekhr';
 let qSearchOneEmployeeWeekHrAllWeeks = 'SELECT * FROM weekhr WHERE employeeID = ?;';
 let qSearchOneEmployeeWeekHrOneWeek = 'SELECT * FROM weekhr WHERE employeeID = ? AND startWeek = ?;';
@@ -36,6 +41,29 @@ function errorMessage(error,res){
       "code":400,
       "failed":"bad request"
     });
+}
+
+exports.getAllCanDo = (req,res) =>{
+  db.all(qSearchAllCanDo,[],(err,rows)=>{
+    searchErrorCheck(err,res,'get all Can Do',rows);
+  });
+}
+
+exports.getAllNotAvailable = (req,res) =>{
+  db.all(qSearchAllNotAvailable,[],(err,rows) =>{
+    searchErrorCheck(err,res,'get all not available',rows);
+  });
+}
+
+exports.getAllWeekHr = (req,res) =>{
+  db.all(qSearchAllWeekHr,[],(err,rows) =>{
+    searchErrorCheck(err,res,'get all weekHr',rows);
+  });
+}
+exports.getAllTasks = (req,res) => {
+  db.all(qSearchAllTasks, [], (err,rows)=>{
+    searchErrorCheck(err,res,'get all tasks', rows);
+  });
 }
 //make a json object with an array in each attribute
 exports.getAllSchedule = (req,res) =>{

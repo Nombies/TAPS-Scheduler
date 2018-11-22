@@ -1,3 +1,10 @@
+//var fs = require('fs');
+//var http = require('http');
+//var https = require('https');
+//var privateKey = fs.readFileSync('../../server.key','utf8');
+//var certificate = fs.readFileSync('../../server.cert','utf8');
+//var credentails = {key:privateKey,cert:certificate};
+
 var express = require("express");
 var login = require('./routes/loginroutes');
 var addToDB = require('./routes/addtotableroutes')
@@ -31,7 +38,6 @@ router.post('/login',login.login);
 router.post('/signup',login.signup);
 //use put when you don't want duplicates
 router.post('/addTask',addToDB.addTask);
-router.post('/addEmployee',addToDB.addEmployee);
 router.post('/addNotAvailable',addToDB.addNotAvailable);
 router.post('/addTOR',addToDB.addTOR);
 router.post('/addShiftX',addToDB.addShiftX);
@@ -40,13 +46,19 @@ router.post('/addSchedule',addToDB.addSchedule);
 
 router.post('/updateTask',updateDB.updateTask);
 router.post('/updateCanDo',updateDB.updateCanDo);
+router.post('/updateEmployee',updateDB.updateEmployee);
 router.post('/updateNotAvailable',updateDB.updateNotAvailable);
 router.post('/updateSchedule',updateDB.updateSchedule);
 router.post('/updateTOR',updateDB.updateTOR);
 router.post('/updateShiftX',updateDB.updateShiftX);
 
+router.get('/getAllTasks',searchDB.getAllTasks);
 router.get('/getAllSchedule',searchDB.getAllSchedule);
 router.get('/getAllEmployees',searchDB.getAllEmployees);
+router.get('/getAllCanDo',searchDB.getAllCanDo);
+router.get('/getAllNotAvailable',searchDB.getAllNotAvailable);
+router.get('/getAllWeekHr',searchDB.getAllWeekHr);
+
 router.post('/getCanDoByEmployeeID',searchDB.getCanDoByEmployeeID);
 router.post('/getEmployeeAttributesByEmployeeID',searchDB.getEmployeeAttributesByEmployeeID);
 router.post('/getShiftXByEmployeeID',searchDB.getShiftXByEmployeeID);
@@ -62,3 +74,9 @@ router.post('/deleteShiftX',deleteFromDB.deleteShiftX);
 
 app.use('/api', router);
 app.listen(4000, '0.0.0.0');
+
+//var httpServer = http.createServer(app);
+//var httpsServer = https.createServer(credentails,app);
+
+//httpServer.listen(5000,'0.0.0.0');
+//httpsServer.listen(4500,'0.0.0.0');

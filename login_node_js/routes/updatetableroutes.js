@@ -17,13 +17,14 @@ let qUpdateTask = 'UPDATE task SET name = ?, instructions = ? , '+
 let qUpdateCanDo = 'UPDATE can_do SET employeeID = ?, taskID = ? WHERE '+
                   'employeeID = ? AND taskID = ?;';
 
-let qUpdateEmployee = 'UPDATE employee SET first_name = ?, last_name = ?, ' +
+let qUpdateEmployee = 'UPDATE employee SET first_name = ?, middle_name = ?, last_name = ?, ' +
 		     'email = ?, phone_number = ?, modify_task = ?, ' +
-		     'modify_emp_attr = ?, username = ?, salt = ?, ' +
-		     'password = ? WHERE employeeID = ?;';
+		     'modify_emp_attr = ?, username = ? WHERE employeeID = ?;';
 
-let qUpdateNotAvailable = 'UPDATE notAvailable SET start_time=?,end_time=?,'+
-			  'day=?, start_date=?, end_date=? WHERE employeeID=?;';
+let qUpdateNotAvailable = 'UPDATE not_available SET start_time=?,end_time=?,'+
+			  'day=?, start_date=?, end_date=? WHERE employeeID=?'+
+                          'AND start_time=? AND end_time=? AND day=? AND '+
+                          'start_date=? AND end_date=?';
 
 let qUpdateSchedule = 'UPDATE schedule SET taskID=?,start_time=?,end_time=?,'+
 		      'employeeID=?,task_name=?,task_date=?,day_of_week=?'+
@@ -93,26 +94,31 @@ exports.updateCanDo = (req,res) =>{
 exports.updateEmployee = (req,res) =>{
   var employeeID = req.body.employeeID;
   var first_name = req.body.first_name;
+  var middle_name = req.body.middle_name;
   var last_name = req.body.last_name;
   var email = req.body.email;
-  var employeeID = req.body.employeeID;
   var phone_number = req.body.phone_number;
   var modify_task = req.body.modify_task;
   var modify_emp_attr = req.body.modify_emp_attr;
   var username = req.body.username;
-  var salt = req.body.salt;
-  var password = req.body.password;
+  //var salt = req.body.salt;
+  //var password = req.body.password;
+  console.log(req.body);
+  //var passHash = bcrypt.hashSync(password,salt);
 
-  var passHash = bcrypt.hashSync(password,salt);
-
-  db.run(qUpdateEmployee, [first_name,last_name,email,phone_number,modify_task,
-  modify_emp_attr,username,salt,passHash,employeeID],(err) =>{
+  db.run(qUpdateEmployee, [first_name,middle_name,last_name,email,phone_number,modify_task,
+  modify_emp_attr,username,employeeID],(err) =>{
     errorUpdateCheck(err,res,'Employee');
   });
 }
 
 exports.updateNotAvailable = (req,res) =>{
   var empID = req.body.employeeID;
+  var old_start_time = req.body.old_start_time;
+  var old_end_time = req.body.old_end_time;
+  var old_day = req.body.old_day;
+  var old_start_date = req.body.old_start_date;
+  var old_end_date = req.body.old_end_date;
   var start_time = req.body.start_time;
   var end_time = req.body.end_time;
   var day = req.body.day;
@@ -120,7 +126,8 @@ exports.updateNotAvailable = (req,res) =>{
   var end_date = req.body.end_date;
 
   db.run(qUpdateNotAvailable, [start_time,end_time,day,start_date,end_date,
-  empID], (err) =>{
+  empID,old_start_time,old_end_time,old_day,old_start_date,old_end_date],
+  (err) =>{
    errorUpdateCheck(err,res,'Not Available');
   });
 }

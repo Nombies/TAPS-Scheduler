@@ -39,7 +39,8 @@ exports.login = (req,res) =>{
           //What you send the user
           res.send({
             "code":200,
-            "success":"login successfull"
+            "success":"login successfull",
+            "employeeID":row.employeeID
           });
         }
         else{
