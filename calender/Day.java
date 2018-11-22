@@ -4,7 +4,7 @@ public class Day {
 	Task [] DayScheldule;
 	public Day()
 	{
-		DayScheldule = new Task [48];
+		DayScheldule = new Task [24];
 		
 	}
 	public void setTask( Task task , Time time)

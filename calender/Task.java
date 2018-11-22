@@ -6,21 +6,16 @@ import java.util.List;
 public class Task {
 	static List<Task> tasklist = new ArrayList<Task>();
 	int TaskID;
-	String name;
-	String instruction;
 	Time StartTime;
 	Time EndTime;
 	int duration;
 	int repeat;
-	boolean [] Days;
+	int [] Days;
 	int empNeeded;
 	int priority;
-	public Task(int TaskID, String name, String instruction, Time StartTime, Time EndTime,
-			int duration, int repeat, boolean [] Days, int empNeeded, int priority)
+	public Task(int TaskID, Time StartTime, Time EndTime,int duration, int repeat, int [] Days, int empNeeded, int priority)
 	{
 		this.TaskID = TaskID;
-		this.name = name;
-		this.instruction = instruction;
 		this.StartTime = StartTime;
 		this.EndTime = EndTime;
 		this.duration = duration;
@@ -31,13 +26,11 @@ public class Task {
 		tasklist.add(this);
 	}
 	public int getTaskID(){return TaskID;}
-	public String getName(){return name;}
-	public String getInstruction(){return instruction;}
 	public Time getStartTime() {return StartTime;}
 	public Time getEndTime() {return EndTime;}
 	public int getDuration() {return duration;}
 	public int getRepeat() {return repeat;}
-	public boolean[] getDays(){return Days;}
+	public int[] getDays(){return Days;}
 	public int getEmpNeeded() {return empNeeded;}
 	public int getPriority() {return priority;}
 	
