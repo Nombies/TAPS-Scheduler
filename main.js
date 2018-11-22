@@ -36,7 +36,7 @@ $(document).ready(function() {
 		}
 	});
 
-
+	var newID = 0;
 	$('body > div.slidecover > div:nth-child(2)').click(function(){//click employee list
 		$('.centermenu#Employees').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
@@ -47,6 +47,7 @@ $(document).ready(function() {
                 for(var i=0;i<data.length;i++){
                     var empitem = document.createElement("div");
                     empitem.classList.add("menuitem");
+                    empitem.classList.add("exists");
                     empitem.innerHTML="<p>"+data[i]["first_name"]+"</p>"
                     jQuery.data( empitem, "empdata", data[i] );
                     $(".centermenu#Employees")[0].append(empitem);
@@ -57,7 +58,9 @@ $(document).ready(function() {
                     empitem.innerHTML="<p>"+"+"+"</p>"
                     jQuery.data( empitem, "empdata", {"first_name":"NEW"});
                     $(".centermenu#Employees")[0].append(empitem);
+                    newID = data[data.length-1]["employeeID"] + 1;
             });
+           
 		}
 	});
 
@@ -142,8 +145,8 @@ $(document).ready(function() {
 		$(this).toggleClass("Candotask",200);
 	});
 
-
-	$('body').on('click', '.centermenu#Employees > .menuitem', function(){
+	var add = false;
+	$('body').on('click', '.centermenu#Employees > .exists', function(){
         //console.log($(this)[0]);
         //console.log(jQuery.data($(this)[0],"empdata"));
         var id = jQuery.data($(this)[0],"empdata")["employeeID"];
@@ -182,6 +185,23 @@ $(document).ready(function() {
 		
 	});
 
+	
+	$('body').on('click', '.centermenu#Employees > .addnew', function(){
+		add = true;
+        var first = jQuery.data($(this)[0],"empdata")["first_name"];
+        $(this).parent().empty();
+        
+        var clone = $("#employeeform").clone(true);
+		clone.attr("id","");
+		clone.show();
+        //debugger;
+        
+        
+		$(clone).find("input[name='first']").eq(0)[0].value=first;
+		$(".centermenu#Employees").append(clone)
+		
+	});
+
 	$('body').on('click', '.centermenu#Tasks > .menuitem', function(){
 		//debugger;
 		var data = $(this).find("p")[0].innerHTML;
@@ -212,11 +232,12 @@ $(document).ready(function() {
 	});
     
 	$('body').on('click', '#Employees > form > div > div > div.menuitem.submit', function(){
-		debugger;
+		//debugger;
         newEmployee(function(){
-            $(this).closest(".centermenu").empty();
+            $('.submit').closest(".centermenu").empty() //temporary
             HideCenters();
-        }, false,0);
+        }, add,newID);
+        add = false;
     });
     
     
