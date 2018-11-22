@@ -144,7 +144,7 @@ $(document).ready(function() {
 	});
 
 	var add = false;
-	var ID = 0;
+	var empID = 0;
 	$('body').on('click', '.centermenu#Employees > .exists', function(){
         //console.log($(this)[0]);
         //console.log(jQuery.data($(this)[0],"empdata"));
@@ -170,18 +170,17 @@ $(document).ready(function() {
         $(clone).find("input[name='last']").eq(0)[0].value=last;
         $(clone).find("input[name='email']").eq(0)[0].value=email;
         $(clone).find("input[name='phone_number']").eq(0)[0].value=phone;
-        
-        if(attr){
+        if(task){
            $(clone).find("input[name='modify_task']").eq(0)[0].checked="checked";
         }
         
-        if(task){
+        if(attr){
             $(clone).find("input[name='modify_emp_attr']").eq(0)[0].checked="checked";
         }
 
         
 		$(".centermenu#Employees").append(clone)
-		ID = id;
+		empID = id;
 	});
 
 	
@@ -235,7 +234,7 @@ $(document).ready(function() {
         newEmployee(function(){
             $('.submit').closest(".centermenu").empty() //temporary
             HideCenters();
-        }, add,ID);
+        }, add,empID);
         add = false;
     });
     
