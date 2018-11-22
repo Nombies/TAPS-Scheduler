@@ -46,19 +46,19 @@
 
 <form action="" method="post" class="mainform" id="taskform" style="display: none">
 			    <p>Name:
-			    <input type="text" name="Name" value=""></p>
+			    <input type="text" name="name" value=""></p>
 
 			    <p>Instructions:</p>
-			    <textarea rows="3" cols="50" name="Instructions" form="taskform"></textarea>
+			    <textarea rows="3" cols="50" name="instructions" form="taskform"></textarea>
 
 			    <p>Number of Employees:   
 			    <input type="number" name="numEmps" min="1" value="1"></p>
 
 			    <p>Earliest Start:
-			    <input type="time" name="EarliestStart" value="07:00"></p>
+			    <input type="time" name="earliestStart" value="07:00"></p>
 
 			    <p>Latest End:
-			    <input type="time" name="LatestEnd" value="16:00"></p>
+			    <input type="time" name="latestEnd" value="16:00"></p>
 
 			    <table>
 			    <tr>
@@ -74,24 +74,24 @@
 
 				<tr>
 			    <td>Days</td>
-			    <td><input type="checkbox" name="Sun" value=""></td>
-			    <td><input type="checkbox" name="Mon" value="" checked=checked></td>
-			    <td><input type="checkbox" name="Tues" value="" checked=checked></td>
-			    <td><input type="checkbox" name="Wed" value="" checked=checked></td>
-			    <td><input type="checkbox" name="Thurs" value="" checked=checked></td>
-			    <td><input type="checkbox" name="Fri" value="" checked=checked></td>
-			    <td><input type="checkbox" name="Sat" value=""></td>
+			    <td><input type="checkbox" name="sun" value=""></td>
+			    <td><input type="checkbox" name="mon" value="" checked=checked></td>
+			    <td><input type="checkbox" name="tues" value="" checked=checked></td>
+			    <td><input type="checkbox" name="wed" value="" checked=checked></td>
+			    <td><input type="checkbox" name="thurs" value="" checked=checked></td>
+			    <td><input type="checkbox" name="fri" value="" checked=checked></td>
+			    <td><input type="checkbox" name="sat" value=""></td>
 				</tr>
 				</table>
 
 			    <p>Duration:
-			    <input type="text" name="Duration" value="4"></p>
+			    <input type="text" name="duration" value="4"></p>
 
 			    <p>Repeat:
-			    <input type="range" name="Repeat" value="5" min="0" max="7"></p>
+			    <input type="range" name="repeat" value="5" min="0" max="7"></p>
 
-			    <p>Delete After: <input type="text" name="Delete After" value="">
-			    <input type="checkbox" name="Persist" value="" checked=checked>Persistent</p>
+			    <p>Delete After: <input type="text" name="deleteAfter" value="">
+			    <input type="checkbox" name="persist" value="" checked=checked>Persistent</p>
 				<div>
 				<div class="menuitem cancel"><p>Cancel</p></div>
 
@@ -159,9 +159,7 @@
 				<div>
 					<div class="menuitem cancel"><p>Cancel</p></div>
 
-					<div class="menuitem submit">
-						<input type="button" onclick= "" value="Submit">
-					</div>
+					<div class="menuitem submit"><p>Submit</p></div>
 				</div>
 
 	</form>

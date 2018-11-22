@@ -36,7 +36,6 @@ $(document).ready(function() {
 		}
 	});
 
-	var newID = 0;
 	$('body > div.slidecover > div:nth-child(2)').click(function(){//click employee list
 		$('.centermenu#Employees').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
@@ -58,7 +57,6 @@ $(document).ready(function() {
                     empitem.innerHTML="<p>"+"+"+"</p>"
                     jQuery.data( empitem, "empdata", {"first_name":"NEW"});
                     $(".centermenu#Employees")[0].append(empitem);
-                    newID = data[data.length-1]["employeeID"] + 1;
             });
            
 		}
@@ -146,6 +144,7 @@ $(document).ready(function() {
 	});
 
 	var add = false;
+	var ID = 0;
 	$('body').on('click', '.centermenu#Employees > .exists', function(){
         //console.log($(this)[0]);
         //console.log(jQuery.data($(this)[0],"empdata"));
@@ -182,7 +181,7 @@ $(document).ready(function() {
 
         
 		$(".centermenu#Employees").append(clone)
-		
+		ID = id;
 	});
 
 	
@@ -236,7 +235,7 @@ $(document).ready(function() {
         newEmployee(function(){
             $('.submit').closest(".centermenu").empty() //temporary
             HideCenters();
-        }, add,newID);
+        }, add,ID);
         add = false;
     });
     
@@ -336,6 +335,49 @@ function newEmployee(f,n,id){
                     "modify_emp_attr":$("input[name = 'modify_emp_attr']")[0].checked ? "1": "0", //0 or 1
                     "username":"",
                     "password":$("input[name = 'password']")[0].value
+
+                },
+                function(data,status,x){
+                    console.log(data,status,x);
+                   if(data.code==200){ 
+                        console.log(data.code)
+                        console.log("nice")
+                        //$("form").css("background-color","green")
+                        //document.location.href = "Mockup.html";
+                    }else if(data.code==400){
+                        console.log(data.code)
+                        //$("form").css("background-color","yellow")
+                    }
+                    if(f)f();
+                },
+                "json")
+                .fail(function(){
+                    //$("form").css("background-color","red")
+                });
+    }
+}
+
+function newTask(f,n,id){
+    if(n){
+
+    }else{
+             jQuery.post( "http://54.183.177.213:4000/api/addTask", 
+                {
+                    "taskID":""+id,
+                    "name":$("input[name = 'name']")[0].value, //integer
+                    "instructions":$("input[name = 'instructions']")[0].value, 
+                    "earliest_start": $("input[name = 'earliestStart']")[0].value, //0-24 hr ex: 13:32:00 (hr,min,sec)
+                    "latest_end":$("input[name = 'lastestEnd']")[0].value, //24 hr time
+                    "duration":$("input[name = 'duration']")[0].value, //iterations of 30 min ex 1 = 30 min 2 - 60 min
+                    "reqs_in_week":$("input[name = 'repeat']")[0].value, //0-7 how many time within week you want this done
+                    "sunday":$("input[name = 'sun']")[0].checked ? "1": "0", //0 or 1
+                    "monday":$("input[name = 'mon']")[0].checked ? "1": "0", //0 or 1
+                    "tuesday":$("input[name = 'tues']")[0].checked ? "1": "0", //0 or 1
+                    "wednesday":$("input[name = 'wed']")[0].checked ? "1": "0", //0 or 1
+                    "thursday":$("input[name = 'thurs']")[0].checked ? "1": "0", //0 or 1
+                    "friday":$("input[name = 'fri']")[0].checked ? "1": "0", //0 or 1
+                    "saturday":$("input[name = 'sat']")[0].checked ? "1": "0", //0 or 1
+                    "employees_needed":$("input[name = 'numEmps']")[0].value //integer
 
                 },
                 function(data,status,x){
