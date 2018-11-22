@@ -13,11 +13,25 @@ function HideCenters(){
 	$('.centermenu#Settings').hide('fade', {direction: 'right'}, 100);
 	$('.centermenu#Cando').hide('fade', {direction: 'right'}, 100);
 }
+
+
 $(document).ready(function() {
-	var edit = true;
-	if(!edit) $("body > div.slidecover > div:nth-child(1)").hide('fade', {direction: 'right'}, 1);
+	var userEmp = 0;
+	var userTask = 0;
+	jQuery.post( "http://54.183.177.213:4000/api/getEmployeeAttributesByEmployeeID", 
+		{
+			"employeeID":""+localStorage.getItem("userID")
+        },
+        function( data ) {
+			userTask= data[0]["modify_task"];
+			userEmp = data[0]["modify_emp_attr"];
+			if(userTask==0){
+				$("body").append("<style>body > div.slidecover > div:nth-child(1){display:none;}</style>");
+			}
+    });
 
 	$('.floatdiv').click(function(){
+
 		$('.slidecover').toggle('slide', {direction: 'left'}, 400);
 		HideCenters();
 	});
@@ -27,12 +41,29 @@ $(document).ready(function() {
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
 
 		if($(".centermenu#Tasks").children().length==0){
-			for(var i=0;i<20;i++){
-				var taskitem = document.createElement("div");
-				taskitem.classList.add("menuitem");
-				taskitem.innerHTML="<p>Task "+i+"</p>"
-				$(".centermenu#Tasks")[0].append(taskitem);
-			}
+			// for(var i=0;i<20;i++){
+			// 	var taskitem = document.createElement("div");
+			// 	taskitem.classList.add("menuitem");
+			// 	taskitem.innerHTML="<p>Task "+i+"</p>"
+			// 	$(".centermenu#Tasks")[0].append(taskitem);
+			// }
+			jQuery.get( "http://54.183.177.213:4000/api/getAllTasks", function( data ) {
+								
+                for(var i=0;i<data.length;i++){
+                    var taskitem = document.createElement("div");
+                    taskitem.classList.add("menuitem");
+                    taskitem.classList.add("exists");
+                    taskitem.innerHTML="<p>"+data[i]["name"]+"</p>"
+                    jQuery.data( taskitem, "taskdata", data[i] );
+                    $(".centermenu#Tasks")[0].append(taskitem);
+                }
+				    var taskitem = document.createElement("div");
+                    taskitem.classList.add("menuitem");
+                    taskitem.classList.add("addnew");
+                    taskitem.innerHTML="<p>"+"+"+"</p>"
+                    jQuery.data( taskitem, "taskdata", {"name":"NEW"});
+                    $(".centermenu#Tasks")[0].append(taskitem);
+            });
 		}
 	});
 
@@ -166,8 +197,86 @@ $(document).ready(function() {
 	$('body').on('click', '.centermenu#Cando > .menuitem', function(){
 		$(this).toggleClass("Candotask",200);
 	});
+	var taskAdd = false;
+	var taskID = 0;
 
-	var add = false;
+	$('body').on('click', '.centermenu#Tasks > .exists', function(){
+        //console.log($(this)[0]);
+        //console.log(jQuery.data($(this)[0],"empdata"));
+        var id = jQuery.data($(this)[0],"taskdata")["taskID"];
+        var name = jQuery.data($(this)[0],"taskdata")["name"];
+        var inst = jQuery.data($(this)[0],"taskdata")["instructions"];
+        var earlS = jQuery.data($(this)[0],"taskdata")["earliest_start"];
+        var lateE = jQuery.data($(this)[0],"taskdata")["latest_end"];
+        var dur = jQuery.data($(this)[0],"taskdata")["duration"];
+        var reps = jQuery.data($(this)[0],"taskdata")["reqs_in_week"];
+        var sun = jQuery.data($(this)[0],"taskdata")["sunday"];
+        var mon = jQuery.data($(this)[0],"taskdata")["monday"];
+        var tues = jQuery.data($(this)[0],"taskdata")["tuesday"];
+        var wed = jQuery.data($(this)[0],"taskdata")["wednesday"];
+        var thurs = jQuery.data($(this)[0],"taskdata")["thursday"];
+        var fri = jQuery.data($(this)[0],"taskdata")["friday"];
+        var sat = jQuery.data($(this)[0],"taskdata")["saturday"];
+        var empN =  jQuery.data($(this)[0],"taskdata")["employees_needed"];
+
+        $(this).parent().empty();
+        
+        var clone = $("#taskform").clone(true);
+		clone.attr("id","");
+		clone.show();
+        //debugger;
+        
+        
+		$(clone).find("input[name ='name']").eq(0)[0].value=name;
+        $(clone).find("textarea[name ='instructions']").eq(0)[0].value=inst;
+        $(clone).find("input[name ='earliestStart']").eq(0)[0].value=earlS;
+        $(clone).find("input[name ='latestEnd']").eq(0)[0].value=lateE;
+        $(clone).find("input[name ='duration']").eq(0)[0].value=dur;
+        $(clone).find("input[name ='repeat']").eq(0)[0].value=reps;
+        $(clone).find("input[name ='numEmps']").eq(0)[0].value=empN;
+        if(sun){
+           $(clone).find("input[name ='sun']").eq(0)[0].checked="checked";
+        }
+        if(mon){
+           $(clone).find("input[name ='mon']").eq(0)[0].checked="checked";
+        }
+        if(tues){
+           $(clone).find("input[name ='tues']").eq(0)[0].checked="checked";
+        }
+        if(wed){
+           $(clone).find("input[name ='wed']").eq(0)[0].checked="checked";
+        }
+        if(thurs){
+           $(clone).find("input[name ='thurs']").eq(0)[0].checked="checked";
+        }        
+        if(fri){
+           $(clone).find("input[name ='fri']").eq(0)[0].checked="checked";
+        }
+        if(sat){
+           $(clone).find("input[name ='sat']").eq(0)[0].checked="checked";
+        }
+        
+		$(".centermenu#Tasks").append(clone)
+		taskID = id;
+	});
+
+	$('body').on('click', '.centermenu#Tasks > .addnew', function(){
+		taskAdd = true;
+        var name = jQuery.data($(this)[0],"taskdata")["name"];
+        $(this).parent().empty();
+        
+        var clone = $("#taskform").clone(true);
+		clone.attr("id","");
+		clone.show();
+        //debugger;
+        
+        
+		$(clone).find("input[name='name']").eq(0)[0].value=name;
+		$(".centermenu#Tasks").append(clone)
+		
+	});
+
+	var empAdd = false;
 	var empID = 0;
 	$('body').on('click', '.centermenu#Employees > .exists', function(){
         //console.log($(this)[0]);
@@ -209,7 +318,7 @@ $(document).ready(function() {
 
 	
 	$('body').on('click', '.centermenu#Employees > .addnew', function(){
-		add = true;
+		empAdd = true;
         var first = jQuery.data($(this)[0],"empdata")["first_name"];
         $(this).parent().empty();
         
@@ -224,18 +333,18 @@ $(document).ready(function() {
 		
 	});
 
-	$('body').on('click', '.centermenu#Tasks > .menuitem', function(){
-		//debugger;
-		var data = $(this).find("p")[0].innerHTML;
-		$(this).parent().empty();
+	// $('body').on('click', '.centermenu#Tasks > .exists', function(){
+	// 	//debugger;
+	// 	var data = $(this).find("p")[0].innerHTML;
+	// 	$(this).parent().empty();
 
-		var clone = $("#taskform").clone();
-		clone.attr("id","");
-		clone.show();
+	// 	var clone = $("#taskform").clone();
+	// 	clone.attr("id","");
+	// 	clone.show();
 		
-		$(clone).find("input[name='Name']").eq(0)[0].value=data;
-		$(".centermenu#Tasks").append(clone)
-	});
+	// 	$(clone).find("input[name='name']").eq(0)[0].value=data;
+	// 	$(".centermenu#Tasks").append(clone)
+	// });
     
 
 //	$('body').on('click', '.menuitem.cancel', function(){
@@ -253,13 +362,25 @@ $(document).ready(function() {
 		HideCenters();
 	});
     
+
+    $('body').on('click', '#Tasks > form > div > div.menuitem.submit', function(){
+		//debugger;
+        newTask(function(){
+            $('.submit').closest(".centermenu").empty() //temporary
+            HideCenters();
+        }, taskAdd,taskID);
+        taskAdd = false;
+    });
+
+
+
 	$('body').on('click', '#Employees > form > div > div > div.menuitem.submit', function(){
 		//debugger;
         newEmployee(function(){
             $('.submit').closest(".centermenu").empty() //temporary
             HideCenters();
-        }, add,empID);
-        add = false;
+        }, empAdd,empID);
+        empAdd = false;
     });
     
 	$('body').on('click', '#Cando > div > div.menuitem.submit', function(){
@@ -396,13 +517,47 @@ function newEmployee(f,n,id){
 
 function newTask(f,n,id){
     if(n){
+		jQuery.post( "http://54.183.177.213:4000/api/addTask", 
+		                {
+		                    "name":$("input[name = 'name']")[0].value, //integer
+		                    "instructions":$("textarea[name = 'instructions']")[0].value, 
+		                    "earliest_start": $("input[name = 'earliestStart']")[0].value, //0-24 hr ex: 13:32:00 (hr,min,sec)
+		                    "latest_end": $("input[name = 'latestEnd']")[0].value, //24 hr time
+		                    "duration":$("input[name = 'duration']")[0].value, //iterations of 30 min ex 1 = 30 min 2 - 60 min
+		                    "reqs_in_week":$("input[name = 'repeat']")[0].value, //0-7 how many time within week you want this done
+		                    "sunday":$("input[name = 'sun']")[0].checked ? "1": "0", //0 or 1
+		                    "monday":$("input[name = 'mon']")[0].checked ? "1": "0", //0 or 1
+		                    "tuesday":$("input[name = 'tues']")[0].checked ? "1": "0", //0 or 1
+		                    "wednesday":$("input[name = 'wed']")[0].checked ? "1": "0", //0 or 1
+		                    "thursday":$("input[name = 'thurs']")[0].checked ? "1": "0", //0 or 1
+		                    "friday":$("input[name = 'fri']")[0].checked ? "1": "0", //0 or 1
+		                    "saturday":$("input[name = 'sat']")[0].checked ? "1": "0", //0 or 1
+		                    "employees_needed":$("input[name = 'numEmps']")[0].value //integer
 
+		                },
+		                function(data,status,x){
+		                    console.log(data,status,x);
+		                   if(data.code==200){ 
+		                        console.log(data.code)
+		                        console.log("nice")
+		                        //$("form").css("background-color","green")
+		                        //document.location.href = "Mockup.html";
+		                    }else if(data.code==400){
+		                        console.log(data.code)
+		                        //$("form").css("background-color","yellow")
+		                    }
+		                    if(f)f();
+		                },
+		                "json")
+		                .fail(function(){
+		                    //$("form").css("background-color","red")
+		                });
     }else{
-             jQuery.post( "http://54.183.177.213:4000/api/addTask", 
+             jQuery.post( "http://54.183.177.213:4000/api/updateTask", 
                 {
                     "taskID":""+id,
                     "name":$("input[name = 'name']")[0].value, //integer
-                    "instructions":$("input[name = 'instructions']")[0].value, 
+                    "instructions":$("textarea[name = 'instructions']")[0].value, 
                     "earliest_start": $("input[name = 'earliestStart']")[0].value, //0-24 hr ex: 13:32:00 (hr,min,sec)
                     "latest_end":$("input[name = 'lastestEnd']")[0].value, //24 hr time
                     "duration":$("input[name = 'duration']")[0].value, //iterations of 30 min ex 1 = 30 min 2 - 60 min

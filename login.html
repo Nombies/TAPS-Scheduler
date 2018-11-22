@@ -3,6 +3,7 @@
 <head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src = "main.js"></script>
 
 
     <style>
@@ -83,8 +84,10 @@
                 console.log(data.code)
                 if(data.code==200){ 
                     console.log(data.code)
+                    localStorage.setItem("userID",data.employeeID);
                     //$("form").css("background-color","green")
                     document.location.href = "Mockup.html";
+
                 }else if(data.code==400){
                     console.log(data.code)
                     //$("form").css("background-color","yellow")
