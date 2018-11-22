@@ -112,19 +112,28 @@ $(document).ready(function() {
 		$('.centermenu#Employees').hide('fade', {direction: 'right'}, 100);
 		$('.centermenu#Cando').show('fade', {direction: 'right'}, 400);
 		if($(".centermenu#Cando").children().length==0){
-			$(".centermenu#Cando").eq(0).append(
+					
+			//getAllTasks
+			
+			jQuery.get( "http://54.183.177.213:4000/api/getAllTasks", function( data ) {
+				
+				$(".centermenu#Cando").eq(0).append(
 				"<div class ='headContainer'>This employee will be assigned green tasks, click 'All' to select all tasks, click 'None' to deselect all tasks.</div>" +				
 					"<div>" +
 						"<div class ='Legend' id ='AllCan'>All</div><div class ='Legend' id ='AllCant'>None</div>" +
 					"</div>");
-			for(var i=0;i<20;i++){
-				var canitem = document.createElement("div");
-				canitem.classList.add("Cantdotask");
-				canitem.classList.add("menuitem");
-				canitem.innerHTML="<p>Task "+i+"</p>"
-				$(".centermenu#Cando")[0].append(canitem);
-			}
-			$(".centermenu#Cando").eq(0).append(
+				
+                for(var i=0;i<data.length;i++){
+					var canitem = document.createElement("div");
+					canitem.classList.add("Cantdotask");
+					canitem.classList.add("menuitem");
+					canitem.innerHTML="<p>"+data[i]["name"]+"</p>"
+					jQuery.data( canitem, "taskdata", data[i] );
+					$(".centermenu#Cando")[0].append(canitem);
+					//debugger;
+                }
+				
+				$(".centermenu#Cando").eq(0).append(
 				'<div style= "margin:0 5%">' +
 					'<div class="menuitem cancel">' +
 						'<p>Cancel</p>' +
@@ -133,6 +142,21 @@ $(document).ready(function() {
 						'<p>Submit</p>' +
 					'</div>' +
 				'</div>'); 
+				
+				jQuery.post( "http://54.183.177.213:4000/api/getCanDoByEmployeeID",{"employeeID":""+empID} , function( data ) {		
+					var tasks = $(".menuitem.Cantdotask")
+					
+					for(var i=0;i<tasks.length;i++){
+						var dat = jQuery.data( tasks[i], "taskdata");
+						for(var j=0;j<data.length;j++){
+							//debugger;
+							if(data[j]["taskID"]==dat["taskID"]){
+								tasks[i].classList.add("Candotask");
+							}
+						}
+					}		
+				});
+            });
 		}
 	});
 
@@ -238,6 +262,20 @@ $(document).ready(function() {
         add = false;
     });
     
+	$('body').on('click', '#Cando > div > div.menuitem.submit', function(){
+		//debugger;
+		var tasks = $(".menuitem.Cantdotask");
+		//debugger;
+		for(var i=0;i<tasks.length;i++){
+			if(tasks[i].classList.contains("Candotask")){
+				jQuery.post( "http://54.183.177.213:4000/api/addCanDo",{"employeeID":""+empID+"","taskID":$.data(tasks[i],"taskdata")["taskID"]+""} , function( data ) {});
+			}else{
+				jQuery.post( "http://54.183.177.213:4000/api/deleteCanDo",{"employeeID":""+empID+"","taskID":$.data(tasks[i],"taskdata")["taskID"]+""} , function( data ) {});
+			}
+		}
+		$(this).closest(".centermenu").empty();
+		HideCenters();
+    });
     
     
     
