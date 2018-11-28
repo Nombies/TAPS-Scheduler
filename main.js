@@ -28,6 +28,10 @@ $(document).ready(function() {
 			if(userTask==0){
 				$("body").append("<style>body > div.slidecover > div:nth-child(1){display:none;}</style>");
 			}
+			if(userEmp == 0){
+				$("body").append("<style>#Employees > div.addnew{display:none;}</style>");
+				$("body").append("<style>#Employees > form > div > div > div.menuitem.submit{display:none;}</style>");
+			}
     });
 
 	$('.floatdiv').click(function(){
@@ -41,12 +45,6 @@ $(document).ready(function() {
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
 
 		if($(".centermenu#Tasks").children().length==0){
-			// for(var i=0;i<20;i++){
-			// 	var taskitem = document.createElement("div");
-			// 	taskitem.classList.add("menuitem");
-			// 	taskitem.innerHTML="<p>Task "+i+"</p>"
-			// 	$(".centermenu#Tasks")[0].append(taskitem);
-			// }
 			jQuery.get( "http://54.183.177.213:4000/api/getAllTasks", function( data ) {
 								
                 for(var i=0;i<data.length;i++){
@@ -97,10 +95,58 @@ $(document).ready(function() {
 		$('.centermenu#TOR').empty();
 		$('.centermenu#TOR').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
-		var clone = $("#torform").clone(true);
-		clone.attr("id","");
-		clone.show();
-		$(".centermenu#TOR").append(clone)
+		var toritem = document.createElement("div");
+        toritem.classList.add("menuitem");
+        toritem.classList.add("addnew");
+        toritem.innerHTML="<p>"+"Request NEW"+"</p>"
+        $(".centermenu#TOR")[0].append(toritem);
+
+            jQuery.post( "http://54.183.177.213:4000/api/getTORByID",
+            {
+			"employeeID":""+localStorage.getItem("userID")
+        	},
+        	 function( data , status, x ) {
+        	 	console.log(data,status,x);
+        	 	console.log(localStorage.getItem("userID"))
+        	 	$(".centermenu#TOR").eq(0).append("<div class ='headContainer'>Pending Requests</div>");				
+                for(var i=0;i<data.length;i++){
+                    var toritem = document.createElement("div");
+                	if(data[i]["request_status"] == "i"){
+	                    toritem.classList.add("menuitem");
+	                    toritem.classList.add("exists");
+	                    toritem.innerHTML="<p>"+data[i]["subject"]+"</p>"
+	                    jQuery.data( toritem, "tordata", data[i] );
+	                    $(".centermenu#TOR")[0].append(toritem);
+	                }
+                }
+                $(".centermenu#TOR").eq(0).append("<div class ='headContainer'>Accepted Requests</div>");
+                for(var i=0;i<data.length;i++){
+                    var toritem = document.createElement("div");
+                	if(data[i]["request_status"] == "a"){
+	                    toritem.classList.add("menuitem");
+	                    toritem.classList.add("exists");
+	                    toritem.innerHTML="<p>"+data[i]["subject"]+"</p>"
+	                    jQuery.data( toritem, "tordata", data[i] );
+	                    $(".centermenu#TOR")[0].append(toritem);
+	                }
+                }
+				$(".centermenu#TOR").eq(0).append("<div class ='headContainer'>Rejected Requests</div>");
+				for(var i=0;i<data.length;i++){
+                    var toritem = document.createElement("div");
+                	if(data[i]["request_status"] == "r"){
+	                    toritem.classList.add("menuitem");
+	                    toritem.classList.add("exists");
+	                    toritem.innerHTML="<p>"+data[i]["subject"]+"</p>"
+	                    jQuery.data( toritem, "tordata", data[i] );
+	                    $(".centermenu#TOR")[0].append(toritem);
+	                }
+                }
+            });
+
+		// var clone = $("#torform").clone(true);
+		// clone.attr("id","");
+		// clone.show();
+		// $(".centermenu#TOR").append(clone)
 
 	});
 	$('body > div.slidecover > div:nth-child(4)').click(function(){//click shift exchange
@@ -332,6 +378,51 @@ $(document).ready(function() {
 		$(".centermenu#Employees").append(clone)
 		
 	});
+	var torAdd = false;
+	var torID = 0;
+	$('body').on('click', '.centermenu#Employees > .exists', function(){
+        //console.log($(this)[0]);
+        //console.log(jQuery.data($(this)[0],"empdata"));
+        var id = jQuery.data($(this)[0],"tor")["employeeID"];
+        var subject = jQuery.data($(this)[0],"tordata")["subject"];
+        var reason = jQuery.data($(this)[0],"tordata")["reason"];
+        var startT = jQuery.data($(this)[0],"tordata")["start_time"];
+        var endT = jQuery.data($(this)[0],"tordata")["end_time"];
+        //var password = jQuery.data($(this)[0],"empdata")["password_hash"];
+        var startD = jQuery.data($(this)[0],"tordata")["start_date"];
+        var endD = jQuery.data($(this)[0],"tordata")["end_date"];
+        var status = jQuery.data($(this)[0],"tordata")["request_status"];
+        var comment = jQuery.data($(this)[0],"tordata")["supervisor_comment"];
+        $(this).parent().empty();
+        
+        var clone = $("#torform").clone(true);
+		clone.attr("id","");
+		clone.show();
+        //debugger;
+        
+        
+		$(clone).find("input[name='Subject']").eq(0)[0].value=subject;
+        $(clone).find("input[name='Reason']").eq(0)[0].value=reason;
+        $(clone).find("input[name='StartT']").eq(0)[0].value=startT;
+        $(clone).find("input[name='EndT']").eq(0)[0].value=endT;
+        $(clone).find("input[name='StartD']").eq(0)[0].value=StartD;
+        $(clone).find("input[name='EndD']").eq(0)[0].value=endD;
+
+        
+		$(".centermenu#TOR").append(clone)
+		torID = id;
+	});
+
+	$('body').on('click', '.centermenu#TOR > .addnew', function(){
+		torAdd = true;
+        $(this).parent().empty();
+        
+        var clone = $("#torform").clone(true);
+		clone.attr("id","");
+		clone.show();
+		$(".centermenu#TOR").append(clone)
+		
+	});
 
 	// $('body').on('click', '.centermenu#Tasks > .exists', function(){
 	// 	//debugger;
@@ -446,7 +537,17 @@ $(document).ready(function() {
 				'</div>' +
 			'</div>');
 	});
+	$('body').on('click', '#TOR > form > div > div.menuitem.submit', function(){
+		//debugger;
+        newTOR(function(){
+            $('.submit').closest(".centermenu").empty() //temporary
+            HideCenters();
+        }, torAdd,torID);
+        torAdd = false;
+    });
 });
+
+
 
 function newEmployee(f,n,id){
     if(n){
@@ -590,4 +691,69 @@ function newTask(f,n,id){
                     //$("form").css("background-color","red")
                 });
     }
+}
+
+function newTOR(f,n,id){
+	 if(n){
+		jQuery.post( "http://54.183.177.213:4000/api/addTOR", 
+		                {
+		                    "employeeID":""+localStorage.getItem("userID"), //integer
+		                    "subject":$("input[name = 'Subject']")[0].value, 
+		                    "reason": $("textarea[name = 'Reason']")[0].value, 
+		                    "start_time": $("input[name = 'StartT']")[0].value, 
+		                    "end_time":$("input[name = 'EndT']")[0].value, 
+		                    "start_date": $("input[name = 'StartD']")[0].value, //24 hr time
+		                    "end_date":$("input[name = 'EndD']")[0].value, 
+		                    "request_status":"i",
+		                    "supervisor_comment":"",
+		                },
+		                function(data,status,x){
+		                    console.log(data,status,x);
+		                   if(data.code==200){ 
+		                        console.log(data.code)
+		                        console.log("nice")
+		                        //$("form").css("background-color","green")
+		                        //document.location.href = "Mockup.html";
+		                    }else if(data.code==400){
+		                        console.log(data.code)
+		                        //$("form").css("background-color","yellow")
+		                    }
+		                    if(f)f();
+		                },
+		                "json")
+		                .fail(function(){
+		                    //$("form").css("background-color","red")
+		                });
+	}else{
+             jQuery.post( "http://54.183.177.213:4000/api/updateTask", 
+                {
+                    "employeeID":""+localStorage.getItem("userID"), //integer
+                    "subject":$("input[name = 'Subject']")[0].value, 
+                    "reason": $("textarea[name = 'Reason']")[0].value, 
+                    "start_time": $("input[name = 'StartT']")[0].value, 
+                    "end_time":$("input[name = 'EndT']")[0].value, 
+                    "start_date": $("input[name = 'StartD']")[0].value, //24 hr time
+                    "end_date":$("input[name = 'EndD']")[0].value, 
+                    "request_status":"i",
+                    "supervisor_comment":"",
+                },
+                function(data,status,x){
+                    console.log(data,status,x);
+                   if(data.code==200){ 
+                        console.log(data.code)
+                        console.log("nice")
+                        //$("form").css("background-color","green")
+                        //document.location.href = "Mockup.html";
+                    }else if(data.code==400){
+                        console.log(data.code)
+                        //$("form").css("background-color","yellow")
+                    }
+                    if(f)f();
+                },
+                "json")
+                .fail(function(){
+                    //$("form").css("background-color","red")
+                });
+    }
+
 }
