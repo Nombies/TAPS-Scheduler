@@ -12,7 +12,7 @@ function HideCenters(){
 	$('.centermenu#ShiftX').hide('fade', {direction: 'right'}, 100);
 	$('.centermenu#Settings').hide('fade', {direction: 'right'}, 100);
 	$('.centermenu#Cando').hide('fade', {direction: 'right'}, 100);
-	$('.centermenu#Notavil').hide('fade', {direction: 'right'},100);
+	$('.centermenu#NA').hide('fade', {direction: 'right'},100);
 }
 
 var globalIP = "54.153.86.169";
@@ -47,7 +47,7 @@ $(document).ready(function() {
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
 
 		if($(".centermenu#Tasks").children().length==0){
-			jQuery.get( `http:${globalIP}/api/getAllTasks`, function( data ) {
+			jQuery.get( `http:${globalIP}:4000/api/getAllTasks`, function( data ) {
 								
                 for(var i=0;i<data.length;i++){
                     var taskitem = document.createElement("div");
@@ -250,15 +250,15 @@ $(document).ready(function() {
 	var fri = 5;
 	var sat = 6;
 	$('#Availability').click(function(){
-		$('centermenu#Employees').hide('fade',{direction:'right'},100);
-		$('centermenu#NA').show('fade',{direction:'right'},400);
+		$('.centermenu#Employees').hide('fade',{direction:'right'},100);
+		$('.centermenu#NA').show('fade',{direction:'right'},400);
 		if($(".centermenu#NA").children().length==0){
 			jQuery.post(`http://${globalIP}:4000/api/getNotAvailableByEmployeeID`,
 			{
 				"employeeID":""+localStorage.getItem("userID")
 			},
 			function(data,status,x){
-				console.log(data.code);
+				console.log(data,status,x);
 			    var naitem = document.createElement("div");
             	naitem.classList.add("menuitem");
             	naitem.classList.add("addnew");
@@ -531,7 +531,7 @@ $(document).ready(function() {
 	var naID = 0;
 	$('body').on('click','.centermenu#NA > .addnew', function(){
 		naAdd = true;
-		$(this.parent().empty());
+		$(this).parent().empty();
 
 		var clone = $("#naform").clone(true);
 		clone.attr("id","");
@@ -889,8 +889,7 @@ function newNA(f,n,id){
 		                    "end_time":$("input[name = 'EndT']")[0].value, 
 		                    "start_date": $("input[name = 'StartD']")[0].value, //24 hr time
 		                    "end_date":$("input[name = 'EndD']")[0].value, 
-		                    "day":"i",
-		                    "supervisor_comment":"",
+		                    "day":"1"
 		                },
 		                function(data,status,x){
 		                    console.log(data,status,x);
