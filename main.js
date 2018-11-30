@@ -12,6 +12,7 @@ function HideCenters(){
 	$('.centermenu#ShiftX').hide('fade', {direction: 'right'}, 100);
 	$('.centermenu#Settings').hide('fade', {direction: 'right'}, 100);
 	$('.centermenu#Cando').hide('fade', {direction: 'right'}, 100);
+	$('.centermenu#Notavil').hide('fade', {direction: 'right'},100);
 }
 
 
@@ -106,8 +107,8 @@ $(document).ready(function() {
 			"employeeID":""+localStorage.getItem("userID")
         	},
         	 function( data , status, x ) {
-        	 	console.log(data,status,x);
-        	 	console.log(localStorage.getItem("userID"))
+        	 	//console.log(data,status,x);
+        	 	//console.log(localStorage.getItem("userID"))
         	 	$(".centermenu#TOR").eq(0).append("<div class ='headContainer'>Pending Requests</div>");				
                 for(var i=0;i<data.length;i++){
                     var toritem = document.createElement("div");
@@ -237,12 +238,112 @@ $(document).ready(function() {
 		}
 	});
 
-
-
-
 	$('body').on('click', '.centermenu#Cando > .menuitem', function(){
 		$(this).toggleClass("Candotask",200);
 	});
+	var sun = 0;
+	var mon = 1;
+	var tue = 2;
+	var wed = 3;
+	var thu = 4;
+	var fri = 5;
+	var sat = 6;
+	$('#Availability').click(function(){
+		$('centermenu#Employees').hide('fade',{direction:'right'},100);
+		$('centermenu#NA').show('fade',{direction:'right'},400);
+		if($(".centermenu#NA").children().length==0){
+			jQuery.post("link",
+			{
+				"employeeID":""+localStorage.get("userID")
+			},
+			function(data){
+			    var naitem = document.createElement("div");
+            	naitem.classList.add("menuitem");
+            	naritem.classList.add("addnew");
+            	naritem.innerHTML="<p>New time</p>";
+            	jQuery.data( naitem, "nadata", data[i] );
+            	$(".centermenu#NA")[0].append(naitem);
+				$(".centermenu#NA").eq(0).append("<div class ='headContainer'>Sunday</div>");
+				for(var i=0;i<data.length;i++){
+                	var naitem = document.createElement("div");
+            		if(data[i]["day"] == sun){
+                    	naitem.classList.add("menuitem");
+                    	naritem.classList.add("exists");
+                    	naritem.innerHTML="<p>"+data[i]["start_time"]+"-"+data[i]["end_time"]+"</p>";
+                    	jQuery.data( naitem, "nadata", data[i] );
+                    	$(".centermenu#NA")[0].append(naitem);
+                	}
+            	}
+				$(".centermenu#NA").eq(0).append("<div class ='headContainer'>Monday</div>");
+				for(var i=0;i<data.length;i++){
+                	var naitem = document.createElement("div");
+            		if(data[i]["day"] == mon){
+                    	naitem.classList.add("menuitem");
+                    	naritem.classList.add("exists");
+                    	naritem.innerHTML="<p>"+data[i]["start_time"]+"-"+data[i]["end_time"]+"</p>";
+                    	jQuery.data( naitem, "nadata", data[i] );
+                    	$(".centermenu#NA")[0].append(naitem);
+                	}
+            	}
+            	$(".centermenu#NA").eq(0).append("<div class ='headContainer'>Tuesday</div>");
+				for(var i=0;i<data.length;i++){
+                	var naitem = document.createElement("div");
+            		if(data[i]["day"] == tue){
+                    	naitem.classList.add("menuitem");
+                    	naritem.classList.add("exists");
+                    	naritem.innerHTML="<p>"+data[i]["start_time"]+"-"+data[i]["end_time"]+"</p>";
+                    	jQuery.data( naitem, "nadata", data[i] );
+                    	$(".centermenu#NA")[0].append(naitem);
+                	}
+            	}
+            	$(".centermenu#NA").eq(0).append("<div class ='headContainer'>Wednesday</div>");
+				for(var i=0;i<data.length;i++){
+                	var naitem = document.createElement("div");
+            		if(data[i]["day"] == wed){
+                    	naitem.classList.add("menuitem");
+                    	naritem.classList.add("exists");
+                    	naritem.innerHTML="<p>"+data[i]["start_time"]+"-"+data[i]["end_time"]+"</p>";
+                    	jQuery.data( naitem, "nadata", data[i] );
+                    	$(".centermenu#NA")[0].append(naitem);
+                	}
+            	}
+            	$(".centermenu#NA").eq(0).append("<div class ='headContainer'>Thursday</div>");
+				for(var i=0;i<data.length;i++){
+                	var naitem = document.createElement("div");
+            		if(data[i]["day"] == thu){
+                    	naitem.classList.add("menuitem");
+                    	naritem.classList.add("exists");
+                    	naritem.innerHTML="<p>"+data[i]["start_time"]+"-"+data[i]["end_time"]+"</p>";
+                    	jQuery.data( naitem, "nadata", data[i] );
+                    	$(".centermenu#NA")[0].append(naitem);
+                	}
+            	}
+            	$(".centermenu#NA").eq(0).append("<div class ='headContainer'>Friday</div>");
+				for(var i=0;i<data.length;i++){
+                	var naitem = document.createElement("div");
+            		if(data[i]["day"] == fri){
+                    	naitem.classList.add("menuitem");
+                    	naritem.classList.add("exists");
+                    	naritem.innerHTML="<p>"+data[i]["start_time"]+"-"+data[i]["end_time"]+"</p>";
+                    	jQuery.data( naitem, "nadata", data[i] );
+                    	$(".centermenu#NA")[0].append(naitem);
+                	}
+            	}
+            	$(".centermenu#NA").eq(0).append("<div class ='headContainer'>Saturday</div>");
+				for(var i=0;i<data.length;i++){
+                	var naitem = document.createElement("div");
+            		if(data[i]["day"] == sat){
+                    	naitem.classList.add("menuitem");
+                    	naritem.classList.add("exists");
+                    	naritem.innerHTML="<p>"+data[i]["start_time"]+"-"+data[i]["end_time"]+"</p>";
+                    	jQuery.data( naitem, "nadata", data[i] );
+                    	$(".centermenu#NA")[0].append(naitem);
+                	}
+            	}
+			});
+		}
+	});
+
 	var taskAdd = false;
 	var taskID = 0;
 
@@ -424,6 +525,19 @@ $(document).ready(function() {
 		
 	});
 
+	var naAdd = false;
+	var naID = 0;
+	$('body').on('click','.centermenu#NA > .addnew', function(){
+		naAdd = true;
+		$(this.parent().empty());
+
+		var clone = $("#naform").clone(true);
+		clone.attr("id","");
+		clone.show();
+		$(".centermenu#NA").append(clone);
+		
+	});
+
 	// $('body').on('click', '.centermenu#Tasks > .exists', function(){
 	// 	//debugger;
 	// 	var data = $(this).find("p")[0].innerHTML;
@@ -544,6 +658,14 @@ $(document).ready(function() {
             HideCenters();
         }, torAdd,torID);
         torAdd = false;
+    });
+    $('body').on('click', '#NA > form > div > div.menuitem.submit', function(){
+		//debugger;
+        newNA(function(){
+            $('.submit').closest(".centermenu").empty() //temporary
+            HideCenters();
+        }, naAdd,naID);
+        naAdd = false;
     });
 });
 
@@ -755,5 +877,64 @@ function newTOR(f,n,id){
                     //$("form").css("background-color","red")
                 });
     }
-
+function newNA(f,n,id){
+	 if(n){
+		jQuery.post( "http://54.183.177.213:4000/api/addNotAvailable", 
+		                {
+		                    "employeeID":""+localStorage.getItem("userID"), //integer
+		                    "start_time": $("input[name = 'StartT']")[0].value, 
+		                    "end_time":$("input[name = 'EndT']")[0].value, 
+		                    "start_date": $("input[name = 'StartD']")[0].value, //24 hr time
+		                    "end_date":$("input[name = 'EndD']")[0].value, 
+		                    "day":"i",
+		                    "supervisor_comment":"",
+		                },
+		                function(data,status,x){
+		                    console.log(data,status,x);
+		                   if(data.code==200){ 
+		                        console.log(data.code)
+		                        console.log("nice")
+		                        //$("form").css("background-color","green")
+		                        //document.location.href = "Mockup.html";
+		                    }else if(data.code==400){
+		                        console.log(data.code)
+		                        //$("form").css("background-color","yellow")
+		                    }
+		                    if(f)f();
+		                },
+		                "json")
+		                .fail(function(){
+		                    //$("form").css("background-color","red")
+		                });
+	}else{
+             jQuery.post( "http://54.183.177.213:4000/api/updateTask", 
+                {
+                    "employeeID":""+localStorage.getItem("userID"), //integer
+                    "subject":$("input[name = 'Subject']")[0].value, 
+                    "reason": $("textarea[name = 'Reason']")[0].value, 
+                    "start_time": $("input[name = 'StartT']")[0].value, 
+                    "end_time":$("input[name = 'EndT']")[0].value, 
+                    "start_date": $("input[name = 'StartD']")[0].value, //24 hr time
+                    "end_date":$("input[name = 'EndD']")[0].value, 
+                    "request_status":"i",
+                    "supervisor_comment":"",
+                },
+                function(data,status,x){
+                    console.log(data,status,x);
+                   if(data.code==200){ 
+                        console.log(data.code)
+                        console.log("nice")
+                        //$("form").css("background-color","green")
+                        //document.location.href = "Mockup.html";
+                    }else if(data.code==400){
+                        console.log(data.code)
+                        //$("form").css("background-color","yellow")
+                    }
+                    if(f)f();
+                },
+                "json")
+                .fail(function(){
+                    //$("form").css("background-color","red")
+                });
+    }
 }

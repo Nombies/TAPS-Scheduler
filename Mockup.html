@@ -43,6 +43,7 @@
 <div class="centermenu" id="ShiftX" style="display:none"></div>
 <div class="centermenu" id="Settings" style="display:none"></div>
 <div class="centermenu" id ="Cando" style ="display:none"></div>
+<div class="centermenu" id ="NA" style ="display:none"></div>
 
 <form action="" method="post" class="mainform" id="taskform" style="display: none">
 			    <p>Name:
@@ -119,6 +120,9 @@
 			    <p>Phone number:
 			    <input type="text" name="phone_number" value=""></p>
 
+			    <p>Preferred Hours:
+			    <input type="text" name="pref" value=""></p>
+
 			    <p>Permissions:</p>
 			    <p>
 			    	<input type="checkbox" name="modify_task" value="">Modify Tasks 
@@ -129,7 +133,8 @@
 
 
 				<div>
-					<div id = 'Candobutton'>Tasks</div>
+					<div id = 'Candobutton' class = 'longButton'>Tasks</div>
+					<div id = 'Availability' class = 'longButton'>Availability</div>
 					<div>
 						<div class="menuitem cancel"><p>Cancel</p></div>
 
@@ -162,7 +167,36 @@
 					<div class="menuitem submit"><p>Submit</p></div>
 				</div>
 
-	</form>
+</form>
+<form action="" method="post" class="mainform" id="naform" style="display: none">
+			    <select>
+				  <option value="Sunday">Volvo</option>
+				  <option value="Monday">Saab</option>
+				  <option value="Tuesday">Opel</option>
+				  <option value="Wednesday">Audi</option>
+				  <option value="Thursday">Saab</option>
+				  <option value="Friday">Opel</option>
+				  <option value="Saturday">Audi</option>
+				</select>
+
+			    <p>Start Date:
+			    <input type="date" name="StartD" value=""></p>
+
+			    <p>End Date:
+			    <input type="date" name="EndD" value=""></p>
+
+			    <p>Start Time:
+			    <input type="time" name="StartT" value=""></p>
+
+			    <p>End Time:
+			    <input type="time" name="EndT" value=""></p>
+				<div>
+					<div class="menuitem cancel"><p>Cancel</p></div>
+
+					<div class="menuitem submit"><p>Submit</p></div>
+				</div>
+
+</form>
 <div class="calendarbox">
 <button class="toggleall" onclick="showall=!showall; showcalendar();">All</button>
 <div class="dayheader blueheader"><p>Sunday</p></div>

@@ -73,7 +73,7 @@ body{
 	text-align: center;
 	font-size: 4vmin;
 }
-#Candobutton{
+.longButton{
 	background-color: rgba(255, 255, 255, 0.8);
 	border: 1px solid rgba(200, 200, 200, 0.8);
 	box-shadow: rgba(0, 0, 0, 0.8) 0px 0.5vmin 2vmin;
@@ -85,6 +85,12 @@ body{
 	border-radius: 0.5vmin;
 	width: 100%;
 	cursor: pointer;
+}
+#Candobutton{
+
+}
+#Availability{
+
 }
 .Cantdotask{
 	background-color: rgba(200, 0, 0, 0.2);
