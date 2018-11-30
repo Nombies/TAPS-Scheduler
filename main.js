@@ -18,7 +18,7 @@ function HideCenters(){
 $(document).ready(function() {
 	var userEmp = 0;
 	var userTask = 0;
-	jQuery.post( "http://13.52.97.57:4000/api/getEmployeeAttributesByEmployeeID", 
+	jQuery.post( "http://54.153.86.169:4000/api/getEmployeeAttributesByEmployeeID", 
 		{
 			"employeeID":""+localStorage.getItem("userID")
         },
@@ -45,7 +45,7 @@ $(document).ready(function() {
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
 
 		if($(".centermenu#Tasks").children().length==0){
-			jQuery.get( "http://13.52.97.57:4000/api/getAllTasks", function( data ) {
+			jQuery.get( "http://54.153.86.169:4000/api/getAllTasks", function( data ) {
 								
                 for(var i=0;i<data.length;i++){
                     var taskitem = document.createElement("div");
@@ -70,7 +70,7 @@ $(document).ready(function() {
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
 		if($(".centermenu#Employees").children().length==0){
            	
-            jQuery.get( "http://13.52.97.57:4000/api/getAllEmployees", function( data ) {
+            jQuery.get( "http://54.153.86.169:4000/api/getAllEmployees", function( data ) {
 								
                 for(var i=0;i<data.length;i++){
                     var empitem = document.createElement("div");
@@ -101,7 +101,7 @@ $(document).ready(function() {
         toritem.innerHTML="<p>"+"Request NEW"+"</p>"
         $(".centermenu#TOR")[0].append(toritem);
 
-            jQuery.post( "http://13.52.97.57:4000/api/getTORByID",
+            jQuery.post( "http://54.153.86.169:4000/api/getTORByID",
             {
 			"employeeID":""+localStorage.getItem("userID")
         	},
@@ -192,7 +192,7 @@ $(document).ready(function() {
 					
 			//getAllTasks
 			
-			jQuery.get( "http://13.52.97.57:4000/api/getAllTasks", function( data ) {
+			jQuery.get( "http://54.153.86.169:4000/api/getAllTasks", function( data ) {
 				
 				$(".centermenu#Cando").eq(0).append(
 				"<div class ='headContainer'>This employee will be assigned green tasks, click 'All' to select all tasks, click 'None' to deselect all tasks.</div>" +				
@@ -220,7 +220,7 @@ $(document).ready(function() {
 					'</div>' +
 				'</div>'); 
 				
-				jQuery.post( "http://13.52.97.57:4000/api/getCanDoByEmployeeID",{"employeeID":""+empID} , function( data ) {		
+				jQuery.post( "http://54.153.86.169:4000/api/getCanDoByEmployeeID",{"employeeID":""+empID} , function( data ) {		
 					var tasks = $(".menuitem.Cantdotask")
 					
 					for(var i=0;i<tasks.length;i++){
@@ -480,9 +480,9 @@ $(document).ready(function() {
 		//debugger;
 		for(var i=0;i<tasks.length;i++){
 			if(tasks[i].classList.contains("Candotask")){
-				jQuery.post( "http://13.52.97.57:4000/api/addCanDo",{"employeeID":""+empID+"","taskID":$.data(tasks[i],"taskdata")["taskID"]+""} , function( data ) {});
+				jQuery.post( "http://54.153.86.169:4000/api/addCanDo",{"employeeID":""+empID+"","taskID":$.data(tasks[i],"taskdata")["taskID"]+""} , function( data ) {});
 			}else{
-				jQuery.post( "http://13.52.97.57:4000/api/deleteCanDo",{"employeeID":""+empID+"","taskID":$.data(tasks[i],"taskdata")["taskID"]+""} , function( data ) {});
+				jQuery.post( "http://54.153.86.169:4000/api/deleteCanDo",{"employeeID":""+empID+"","taskID":$.data(tasks[i],"taskdata")["taskID"]+""} , function( data ) {});
 			}
 		}
 		$(this).closest(".centermenu").empty();
@@ -551,7 +551,7 @@ $(document).ready(function() {
 
 function newEmployee(f,n,id){
     if(n){
-     jQuery.post( "http://13.52.97.57:4000/api/signup", 
+     jQuery.post( "http://54.153.86.169:4000/api/signup", 
                 {
                     "first_name":$("input[name = 'first']")[0].value,
                     "middle_name":$("input[name = 'middle']")[0].value, //pass empty string if no middle name
@@ -582,7 +582,7 @@ function newEmployee(f,n,id){
                     //$("form").css("background-color","red")
                 });
     }else{
-             jQuery.post( "http://13.52.97.57:4000/api/updateEmployee", 
+             jQuery.post( "http://54.153.86.169:4000/api/updateEmployee", 
                 {
                     "employeeID":""+id,
                     "first_name":$("input[name = 'first']")[0].value,
@@ -618,7 +618,7 @@ function newEmployee(f,n,id){
 
 function newTask(f,n,id){
     if(n){
-		jQuery.post( "http://13.52.97.57:4000/api/addTask", 
+		jQuery.post( "http://54.153.86.169:4000/api/addTask", 
 		                {
 		                    "name":$("input[name = 'name']")[0].value, //integer
 		                    "instructions":$("textarea[name = 'instructions']")[0].value, 
@@ -654,7 +654,7 @@ function newTask(f,n,id){
 		                    //$("form").css("background-color","red")
 		                });
     }else{
-             jQuery.post( "http://13.52.97.57:4000/api/updateTask", 
+             jQuery.post( "http://54.153.86.169:4000/api/updateTask", 
                 {
                     "taskID":""+id,
                     "name":$("input[name = 'name']")[0].value, //integer
@@ -695,7 +695,7 @@ function newTask(f,n,id){
 
 function newTOR(f,n,id){
 	 if(n){
-		jQuery.post( "http://13.52.97.57:4000/api/addTOR", 
+		jQuery.post( "http://54.153.86.169:4000/api/addTOR", 
 		                {
 		                    "employeeID":""+localStorage.getItem("userID"), //integer
 		                    "subject":$("input[name = 'Subject']")[0].value, 
@@ -725,7 +725,7 @@ function newTOR(f,n,id){
 		                    //$("form").css("background-color","red")
 		                });
 	}else{
-             jQuery.post( "http://13.52.97.57:4000/api/updateTask", 
+             jQuery.post( "http://54.153.86.169:4000/api/updateTask", 
                 {
                     "employeeID":""+localStorage.getItem("userID"), //integer
                     "subject":$("input[name = 'Subject']")[0].value, 
