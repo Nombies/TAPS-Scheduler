@@ -222,7 +222,7 @@ $(document).ready(function() {
 					'</div>' +
 				'</div>'); 
 				
-				jQuery.post( `http://${globalIP}/api/getCanDoByEmployeeID`,{"employeeID":""+empID} , function( data ) {		
+				jQuery.post( `http://${globalIP}:4000/api/getCanDoByEmployeeID`,{"employeeID":""+empID} , function( data ) {		
 					var tasks = $(".menuitem.Cantdotask")
 					
 					for(var i=0;i<tasks.length;i++){
@@ -253,9 +253,10 @@ $(document).ready(function() {
 		$('.centermenu#Employees').hide('fade',{direction:'right'},100);
 		$('.centermenu#NA').show('fade',{direction:'right'},400);
 		if($(".centermenu#NA").children().length==0){
+			console.log(empID);
 			jQuery.post(`http://${globalIP}:4000/api/getNotAvailableByEmployeeID`,
 			{
-				"employeeID":""+localStorage.getItem("userID")
+				"employeeID":""+empID
 			},
 			function(data,status,x){
 				console.log(data,status,x);
@@ -428,6 +429,7 @@ $(document).ready(function() {
 	var empAdd = false;
 	var empID = 0;
 	$('body').on('click', '.centermenu#Employees > .exists', function(){
+
         //console.log($(this)[0]);
         //console.log(jQuery.data($(this)[0],"empdata"));
         var id = jQuery.data($(this)[0],"empdata")["employeeID"];
@@ -463,6 +465,7 @@ $(document).ready(function() {
         
 		$(".centermenu#Employees").append(clone)
 		empID = id;
+		console.log(empID);
 	});
 
 	
@@ -528,7 +531,7 @@ $(document).ready(function() {
 	});
 
 	var naAdd = false;
-	var naID = 0;
+	
 	$('body').on('click','.centermenu#NA > .addnew', function(){
 		naAdd = true;
 		$(this).parent().empty();
@@ -666,7 +669,7 @@ $(document).ready(function() {
         newNA(function(){
             $('.submit').closest(".centermenu").empty() //temporary
             HideCenters();
-        }, naAdd,naID);
+        }, naAdd,empID);
         naAdd = false;
     });
 });
@@ -819,7 +822,7 @@ function newTask(f,n,id){
 
 function newTOR(f,n,id){
 	 if(n){
-		jQuery.post( "http://54.153.86.169:4000/api/addTOR", 
+		jQuery.post( `http://${globalIP}:4000/api/addTOR`, 
 		                {
 		                    "employeeID":""+localStorage.getItem("userID"), //integer
 		                    "subject":$("input[name = 'Subject']")[0].value, 
@@ -849,7 +852,7 @@ function newTOR(f,n,id){
 		                    //$("form").css("background-color","red")
 		                });
 	}else{
-             jQuery.post( "http://54.153.86.169:4000/api/updateTask", 
+             jQuery.post( `http://${globalIP}:4000/api/updateTOR`, 
                 {
                     "employeeID":""+localStorage.getItem("userID"), //integer
                     "subject":$("input[name = 'Subject']")[0].value, 
@@ -882,14 +885,14 @@ function newTOR(f,n,id){
 }
 function newNA(f,n,id){
 	 if(n){
-		jQuery.post( "http://54.183.177.213:4000/api/addNotAvailable", 
+		jQuery.post( `http://${globalIP}:4000/api/addNotAvailable`, 
 		                {
-		                    "employeeID":""+localStorage.getItem("userID"), //integer
+		                    "employeeID":""+id, //integer
 		                    "start_time": $("input[name = 'StartT']")[0].value, 
 		                    "end_time":$("input[name = 'EndT']")[0].value, 
 		                    "start_date": $("input[name = 'StartD']")[0].value, //24 hr time
 		                    "end_date":$("input[name = 'EndD']")[0].value, 
-		                    "day":"1"
+		                    "day":$("select[name = 'day']")[0].value
 		                },
 		                function(data,status,x){
 		                    console.log(data,status,x);
@@ -909,34 +912,34 @@ function newNA(f,n,id){
 		                    //$("form").css("background-color","red")
 		                });
 	}else{
-             jQuery.post( "http://54.183.177.213:4000/api/updateTask", 
-                {
-                    "employeeID":""+localStorage.getItem("userID"), //integer
-                    "subject":$("input[name = 'Subject']")[0].value, 
-                    "reason": $("textarea[name = 'Reason']")[0].value, 
-                    "start_time": $("input[name = 'StartT']")[0].value, 
-                    "end_time":$("input[name = 'EndT']")[0].value, 
-                    "start_date": $("input[name = 'StartD']")[0].value, //24 hr time
-                    "end_date":$("input[name = 'EndD']")[0].value, 
-                    "request_status":"i",
-                    "supervisor_comment":"",
-                },
-                function(data,status,x){
-                    console.log(data,status,x);
-                   if(data.code==200){ 
-                        console.log(data.code)
-                        console.log("nice")
-                        //$("form").css("background-color","green")
-                        //document.location.href = "Mockup.html";
-                    }else if(data.code==400){
-                        console.log(data.code)
-                        //$("form").css("background-color","yellow")
-                    }
-                    if(f)f();
-                },
-                "json")
-                .fail(function(){
-                    //$("form").css("background-color","red")
-                });
+             // jQuery.post( `http://${globalIP}:4000/api/updateTask`, 
+             //    {
+             //        "employeeID":""+localStorage.getItem("userID"), //integer
+             //        "subject":$("input[name = 'Subject']")[0].value, 
+             //        "reason": $("textarea[name = 'Reason']")[0].value, 
+             //        "start_time": $("input[name = 'StartT']")[0].value, 
+             //        "end_time":$("input[name = 'EndT']")[0].value, 
+             //        "start_date": $("input[name = 'StartD']")[0].value, //24 hr time
+             //        "end_date":$("input[name = 'EndD']")[0].value, 
+             //        "request_status":"i",
+             //        "supervisor_comment":"",
+             //    },
+             //    function(data,status,x){
+             //        console.log(data,status,x);
+             //       if(data.code==200){ 
+             //            console.log(data.code)
+             //            console.log("nice")
+             //            //$("form").css("background-color","green")
+             //            //document.location.href = "Mockup.html";
+             //        }else if(data.code==400){
+             //            console.log(data.code)
+             //            //$("form").css("background-color","yellow")
+             //        }
+             //        if(f)f();
+             //    },
+             //    "json")
+             //    .fail(function(){
+             //        //$("form").css("background-color","red")
+             //    });
     }
 }
