@@ -58,11 +58,14 @@ router.get('/getAllEmployees',searchDB.getAllEmployees);
 router.get('/getAllCanDo',searchDB.getAllCanDo);
 router.get('/getAllNotAvailable',searchDB.getAllNotAvailable);
 router.get('/getAllWeekHr',searchDB.getAllWeekHr);
+router.get('/getTOR',searchDB.getTOR);
 
 router.post('/getCanDoByEmployeeID',searchDB.getCanDoByEmployeeID);
 router.post('/getEmployeeAttributesByEmployeeID',searchDB.getEmployeeAttributesByEmployeeID);
 router.post('/getShiftXByEmployeeID',searchDB.getShiftXByEmployeeID);
 router.post('/getScheduleWithEmployees',searchDB.getScheduleWithEmployees);
+router.post('/getTORByID',searchDB.getTORByID);
+router.post('/getNotAvailableByEmployeeID',searchDB.getNotAvailableByEmployeeID);
 
 router.post('/deleteTask',deleteFromDB.deleteTask);
 router.post('/deleteEmployee',deleteFromDB.deleteEmployee);

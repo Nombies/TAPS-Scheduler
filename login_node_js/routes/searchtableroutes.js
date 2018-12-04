@@ -13,7 +13,7 @@ let qSearchCanDoByEmployeeID = 'SELECT * FROM can_do WHERE employeeID = ?';
 let qSearchShiftXByEmployeeID = 'SELECT * FROM shiftX WHERE employeeID = ?';
 let qSearchScheduleWithEmployees = 'SELECT * FROM schedule WHERE taskID = ? AND '+
                                    'start_time = ? AND end_time = ? AND task_date =?;';
-
+let qSearchNotAvailableByEmployeeID = 'SELECT * FROM not_available WHERE employeeID = ?';
 let qSearchAllNotAvailable = 'SELECT * FROM not_available;';
 let qSearchAllCanDo        = 'SELECT * FROM can_do;';
 let qSearchAllWeekHr       = 'SELECT * FROM weekhr;';
@@ -24,6 +24,9 @@ let qSearchAllEmployeesWeekHrAllWeeks = 'SELECT * FROM weekhr';
 let qSearchOneEmployeeWeekHrAllWeeks = 'SELECT * FROM weekhr WHERE employeeID = ?;';
 let qSearchOneEmployeeWeekHrOneWeek = 'SELECT * FROM weekhr WHERE employeeID = ? AND startWeek = ?;';
 let qSearchAllEmployeesWeekHrOneWeek = 'SELECT * FROM weekhr WHERE startWeek = ?;';
+
+let qSearchTORByID = 'SELECT * FROM TOR WHERE employeeID = ?;';
+let qSearchTOR = 'SELECT * FROM TOR;';
 
 function searchErrorCheck(error,res,name,rows){
   if(error){
@@ -43,6 +46,25 @@ function errorMessage(error,res){
     });
 }
 
+exports.getNotAvailableByEmployeeID = (req,res) =>{
+  var employeeID = req.body.employeeID;
+  db.all(qSearchNotAvailableByEmployeeID, [employeeID], (err,rows) =>{
+    searchErrorCheck(err,res,'get not available by employeeID',rows);
+  });
+}
+exports.getTORByID = (req,res) =>{
+  var employeeID = req.body.employeeID;
+  db.all(qSearchTORByID, [employeeID], (err,rows)=>{
+    searchErrorCheck(err,res,'get TOR by employeeID',rows);
+  });
+}
+
+exports.getTOR = (req,res) =>{
+  var employeeID = req.body.employeeID;
+  db.all(qSearchTOR, [], (err,rows) => {
+    searchErrorCheck(err,res,'get TOR', rows);
+  });
+}
 exports.getAllCanDo = (req,res) =>{
   db.all(qSearchAllCanDo,[],(err,rows)=>{
     searchErrorCheck(err,res,'get all Can Do',rows);
