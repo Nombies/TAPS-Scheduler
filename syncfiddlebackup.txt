@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SyncFiddle</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  <a href="google.com">google</a>
+  <script>
+
+
+    function generator(maxhrs){
+      var C = []; 	//cando loaded from db
+      var E = [];		//employees loaded from db
+      var S = [];		//schedule to be built
+      var T = [];		//tasks loaded from db
+      var N = [];		//notAvailable from db
+      
+   		for(var i = 0; i < E.length;i++){
+        E[i]["taskNum"] = 0;
+        for(var j = 0; j < T.length;j++){
+          if(checkCando(T[j]["taskID"],E[i]["employeeID"],C)){
+          	E[i]["taskNum"]++;
+          }
+        }
+      }
+      
+      for(var i = 0; i < T.length;i++){
+        T[i]["taskNum"] = 0;
+        for(var j = 0; j < E.length;j++){
+          if(checkCando(T[i]["taskID"],E[j]["employeeID"],C)){
+          	T[i]["taskNum"]++;
+          }
+        }
+      }
+      
+   		for(var i = 0; i < T.length;i++){	//for all tasks in T
+        for(var j = 0; j < E.length;j++){	//for all employees in E
+          
+          if(checkCando(T[i]["taskID"],E[j]["employeeID"],C)){
+          	
+          }
+          
+        }
+      }
+      
+      function checkCando(taskID,employeeID,C){
+    		for(var i = 0;i < C.length;i++){
+        	if(C[i]["taskID"] == taskID && C[i]["employeeID"] == employeeID){
+            	return true;
+          }
+        }
+        return false;
+      }
+		      
+      
+     function compareTask(a,b)
+    	{
+        //priority asc
+	 			if(b["priority"] - a["priority"] != 0)
+      	{
+        	return b["priority"] - a["priority"];
+      	}
+      	else
+      	{
+          //compare #ofcandos
+      		if(b["taskNum"]-a["taskNum"]!=0)
+          {
+            return b["taskNum"]-a["taskNum"];
+          }
+          else
+          {
+            //emp needed desc
+            return a["employees_needed"] - b["employees_needed"];
+          }
+                 
+      	}
+      }
+      function compareEmployees(a,b)
+      {
+        //compare n# of eligible tasks
+      	if(b["taskNum"]-a["taskNum"]!=0)
+        {
+          return b["taskNum"]-a["taskNum"];
+        }
+        else
+        {
+          //weekhr asc
+        	if(a["weekhr"] - b["weekhr"] != 0)
+          {
+            return a["weekhr"] - b["weekhr"];
+          }
+          else
+          {
+           	return Math.random()-0.5; 
+          }
+          
+        }
+        
+      }
+      
+      
+    }
+    
+    
+  </script>
+</body>
+</html>
