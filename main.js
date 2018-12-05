@@ -15,7 +15,7 @@ function HideCenters(){
 	$('.centermenu#NA').hide('fade', {direction: 'right'},100);
 }
 
-var globalIP = "54.153.86.169";
+var globalIP = "13.57.29.25";
 
 $(document).ready(function() {
 	var userEmp = 0;
@@ -37,15 +37,10 @@ $(document).ready(function() {
     });
 
 	$('.floatdiv').click(function(){
-
 		$('.slidecover').toggle('slide', {direction: 'left'}, 400);
 		HideCenters();
 	});
-
-	$('body > div.slidecover > div:nth-child(1)').click(function(){	//click task list
-		$('.centermenu#Tasks').show('fade', {direction: 'right'}, 400);
-		$('.slidecover').hide('slide', {direction: 'left'}, 100);
-
+	function fillTask(){
 		if($(".centermenu#Tasks").children().length==0){
 			jQuery.get( `http:${globalIP}:4000/api/getAllTasks`, function( data ) {
 								
@@ -64,12 +59,14 @@ $(document).ready(function() {
                     jQuery.data( taskitem, "taskdata", {"name":"NEW"});
                     $(".centermenu#Tasks")[0].append(taskitem);
             });
-		}
-	});
-
-	$('body > div.slidecover > div:nth-child(2)').click(function(){//click employee list
-		$('.centermenu#Employees').show('fade', {direction: 'right'}, 400);
+		}		
+	}
+	$('body > div.slidecover > div:nth-child(1)').click(function(){	//click task list
+		$('.centermenu#Tasks').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
+		fillTask();
+	});
+	function fillEmp(){
 		if($(".centermenu#Employees").children().length==0){
            	
             jQuery.get( `http://${globalIP}:4000/api/getAllEmployees`, function( data ) {
@@ -91,64 +88,75 @@ $(document).ready(function() {
             });
            
 		}
+	}
+	$('body > div.slidecover > div:nth-child(2)').click(function(){//click employee list
+		$('.centermenu#Employees').show('fade', {direction: 'right'}, 400);
+		$('.slidecover').hide('slide', {direction: 'left'}, 100);
+		fillEmp();
 	});
+	function fillTOR(){
+		if($(".centermenu#TOR").children().length==0){
+			var toritem = document.createElement("div");
+	        toritem.classList.add("menuitem");
+	        toritem.classList.add("addnew");
+	        toritem.classList.add("new");
+	        toritem.classList.add("small");
+	        toritem.innerHTML="<p>"+"New"+"</p>"
+	        $(".centermenu#TOR")[0].append(toritem);
 
+	            jQuery.post( `http://${globalIP}:4000/api/getTORByID`,
+	            {
+				"employeeID":""+localStorage.getItem("userID")
+	        	},
+	        	 function( data , status, x ) {
+	        	 	//console.log(data,status,x);
+	        	 	//console.log(localStorage.getItem("userID"))
+	        	 	$(".centermenu#TOR").eq(0).append("<div class ='headContainer'>Pending Requests</div>");				
+	                for(var i=0;i<data.length;i++){
+	                    var toritem = document.createElement("div");
+	                	if(data[i]["request_status"] == "i"){
+		                    toritem.classList.add("menuitem");
+		                    toritem.classList.add("exists");
+		                    toritem.innerHTML="<p>"+data[i]["subject"]+"</p>"
+		                    jQuery.data( toritem, "tordata", data[i] );
+		                    $(".centermenu#TOR")[0].append(toritem);
+		                }
+	                }
+	                $(".centermenu#TOR").eq(0).append("<div class ='headContainer'>Accepted Requests</div>");
+	                for(var i=0;i<data.length;i++){
+	                    var toritem = document.createElement("div");
+	                	if(data[i]["request_status"] == "a"){
+		                    toritem.classList.add("menuitem");
+		                    toritem.classList.add("exists");
+		                    toritem.innerHTML="<p>"+data[i]["subject"]+"</p>"
+		                    jQuery.data( toritem, "tordata", data[i] );
+		                    $(".centermenu#TOR")[0].append(toritem);
+		                }
+	                }
+					$(".centermenu#TOR").eq(0).append("<div class ='headContainer'>Rejected Requests</div>");
+					for(var i=0;i<data.length;i++){
+	                    var toritem = document.createElement("div");
+	                	if(data[i]["request_status"] == "r"){
+		                    toritem.classList.add("menuitem");
+		                    toritem.classList.add("exists");
+		                    toritem.innerHTML="<p>"+data[i]["subject"]+"</p>"
+		                    jQuery.data( toritem, "tordata", data[i] );
+		                    $(".centermenu#TOR")[0].append(toritem);
+		                }
+	                }
+	            });
+
+			// var clone = $("#torform").clone(true);
+			// clone.attr("id","");
+			// clone.show();
+			// $(".centermenu#TOR").append(clone)
+		}
+	}
 	$('body > div.slidecover > div:nth-child(3)').click(function(){//click TOR
 		$('.centermenu#TOR').empty();
 		$('.centermenu#TOR').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
-		var toritem = document.createElement("div");
-        toritem.classList.add("menuitem");
-        toritem.classList.add("addnew");
-        toritem.innerHTML="<p>"+"Request NEW"+"</p>"
-        $(".centermenu#TOR")[0].append(toritem);
-
-            jQuery.post( `http://${globalIP}:4000/api/getTORByID`,
-            {
-			"employeeID":""+localStorage.getItem("userID")
-        	},
-        	 function( data , status, x ) {
-        	 	//console.log(data,status,x);
-        	 	//console.log(localStorage.getItem("userID"))
-        	 	$(".centermenu#TOR").eq(0).append("<div class ='headContainer'>Pending Requests</div>");				
-                for(var i=0;i<data.length;i++){
-                    var toritem = document.createElement("div");
-                	if(data[i]["request_status"] == "i"){
-	                    toritem.classList.add("menuitem");
-	                    toritem.classList.add("exists");
-	                    toritem.innerHTML="<p>"+data[i]["subject"]+"</p>"
-	                    jQuery.data( toritem, "tordata", data[i] );
-	                    $(".centermenu#TOR")[0].append(toritem);
-	                }
-                }
-                $(".centermenu#TOR").eq(0).append("<div class ='headContainer'>Accepted Requests</div>");
-                for(var i=0;i<data.length;i++){
-                    var toritem = document.createElement("div");
-                	if(data[i]["request_status"] == "a"){
-	                    toritem.classList.add("menuitem");
-	                    toritem.classList.add("exists");
-	                    toritem.innerHTML="<p>"+data[i]["subject"]+"</p>"
-	                    jQuery.data( toritem, "tordata", data[i] );
-	                    $(".centermenu#TOR")[0].append(toritem);
-	                }
-                }
-				$(".centermenu#TOR").eq(0).append("<div class ='headContainer'>Rejected Requests</div>");
-				for(var i=0;i<data.length;i++){
-                    var toritem = document.createElement("div");
-                	if(data[i]["request_status"] == "r"){
-	                    toritem.classList.add("menuitem");
-	                    toritem.classList.add("exists");
-	                    toritem.innerHTML="<p>"+data[i]["subject"]+"</p>"
-	                    jQuery.data( toritem, "tordata", data[i] );
-	                    $(".centermenu#TOR")[0].append(toritem);
-	                }
-                }
-            });
-
-		// var clone = $("#torform").clone(true);
-		// clone.attr("id","");
-		// clone.show();
-		// $(".centermenu#TOR").append(clone)
+		fillTOR();
 
 	});
 	$('body > div.slidecover > div:nth-child(4)').click(function(){//click shift exchange
@@ -242,16 +250,15 @@ $(document).ready(function() {
 	$('body').on('click', '.centermenu#Cando > .menuitem', function(){
 		$(this).toggleClass("Candotask",200);
 	});
-	var sun = 0;
-	var mon = 1;
-	var tue = 2;
-	var wed = 3;
-	var thu = 4;
-	var fri = 5;
-	var sat = 6;
-	$('#Availability').click(function(){
-		$('.centermenu#Employees').hide('fade',{direction:'right'},100);
-		$('.centermenu#NA').show('fade',{direction:'right'},400);
+
+	function fillNA(){
+		var sun = 0;
+		var mon = 1;
+		var tue = 2;
+		var wed = 3;
+		var thu = 4;
+		var fri = 5;
+		var sat = 6;
 		if($(".centermenu#NA").children().length==0){
 			console.log(empID);
 			jQuery.post(`http://${globalIP}:4000/api/getNotAvailableByEmployeeID`,
@@ -261,11 +268,15 @@ $(document).ready(function() {
 			function(data,status,x){
 				console.log(data,status,x);
 			    var naitem = document.createElement("div");
-            	naitem.classList.add("menuitem");
-            	naitem.classList.add("addnew");
-            	naitem.innerHTML="<p>New time</p>";
-            	jQuery.data( naitem, "nadata", data[i] );
-            	$(".centermenu#NA")[0].append(naitem);
+			    var back = document.createElement("div");
+
+            	back.classList.add("menuitem");
+            	back.classList.add("back");
+            	back.classList.add("small");
+            	back.innerHTML="<p>Back</p>"
+        		$(".centermenu#NA")[0].append(back);
+
+            	
 				$(".centermenu#NA").eq(0).append("<div class ='headContainer'>Sunday</div>");
 				for(var i=0;i<data.length;i++){
                 	var naitem = document.createElement("div");
@@ -343,8 +354,19 @@ $(document).ready(function() {
                     	$(".centermenu#NA")[0].append(naitem);
                 	}
             	}
+            	naitem.classList.add("menuitem");
+            	naitem.classList.add("addnew");
+            	naitem.classList.add("new");
+            	naitem.classList.add("small");
+            	naitem.innerHTML="<p>New time</p>";    
+            	$(".centermenu#NA")[0].append(naitem);            	        	
 			});
-		}
+		}		
+	}
+	$('#Availability').click(function(){
+		$('.centermenu#Employees').hide('fade',{direction:'right'},100);
+		$('.centermenu#NA').show('fade',{direction:'right'},400);
+		fillNA();
 	});
 
 	var taskAdd = false;
@@ -487,14 +509,11 @@ $(document).ready(function() {
 	var torAdd = false;
 	var torID = 0;
 	$('body').on('click', '.centermenu#TOR > .exists', function(){
-        //console.log($(this)[0]);
-        //console.log(jQuery.data($(this)[0],"empdata"));
-        var id = jQuery.data($(this)[0],"tor")["employeeID"];
+        var id = jQuery.data($(this)[0],"tordata")["employeeID"];
         var subject = jQuery.data($(this)[0],"tordata")["subject"];
         var reason = jQuery.data($(this)[0],"tordata")["reason"];
         var startT = jQuery.data($(this)[0],"tordata")["start_time"];
         var endT = jQuery.data($(this)[0],"tordata")["end_time"];
-        //var password = jQuery.data($(this)[0],"empdata")["password_hash"];
         var startD = jQuery.data($(this)[0],"tordata")["start_date"];
         var endD = jQuery.data($(this)[0],"tordata")["end_date"];
         var status = jQuery.data($(this)[0],"tordata")["request_status"];
@@ -508,10 +527,10 @@ $(document).ready(function() {
         
         
 		$(clone).find("input[name='Subject']").eq(0)[0].value=subject;
-        $(clone).find("input[name='Reason']").eq(0)[0].value=reason;
+        $(clone).find("textarea[name='Reason']").eq(0)[0].value=reason;
         $(clone).find("input[name='StartT']").eq(0)[0].value=startT;
         $(clone).find("input[name='EndT']").eq(0)[0].value=endT;
-        $(clone).find("input[name='StartD']").eq(0)[0].value=StartD;
+        $(clone).find("input[name='StartD']").eq(0)[0].value=startD;
         $(clone).find("input[name='EndD']").eq(0)[0].value=endD;
 
         
@@ -531,7 +550,39 @@ $(document).ready(function() {
 	});
 
 	var naAdd = false;
-	
+	var oed;
+	var ost;
+	var osd;
+	var oet;
+	$('body').on('click', '.centermenu#NA > .exists', function(){
+
+        var id = jQuery.data($(this)[0],"nadata")["employeeID"];
+        var startT = jQuery.data($(this)[0],"nadata")["start_time"];
+        var endT = jQuery.data($(this)[0],"nadata")["end_time"];
+        var startD = jQuery.data($(this)[0],"nadata")["start_date"];
+        var endD = jQuery.data($(this)[0],"nadata")["end_date"];
+        var day = jQuery.data($(this)[0],"nadata")["day"];
+
+        $(this).parent().empty();
+        
+        var clone = $("#naform").clone(true);
+		clone.attr("id","");
+		clone.show();
+        //debugger;
+        $(clone).find("select[name = 'day']").eq(0)[0].value=day;
+        $(clone).find("input[name='StartT']").eq(0)[0].value=startT;
+        $(clone).find("input[name='EndT']").eq(0)[0].value=endT;
+        $(clone).find("input[name='StartD']").eq(0)[0].value=startD;
+        $(clone).find("input[name='EndD']").eq(0)[0].value=endD;
+
+        
+		$(".centermenu#NA").append(clone)
+		empID = id;
+		oed = endD;
+		ost = startT;
+		osd = startD;
+		oet = endT;
+	});	
 	$('body').on('click','.centermenu#NA > .addnew', function(){
 		naAdd = true;
 		$(this).parent().empty();
@@ -567,10 +618,7 @@ $(document).ready(function() {
 //		HideCenters();
 //	});
     
-	$('body').on('click', '.menuitem.cancel', function(){
-		$(this).closest(".centermenu").empty();
-		HideCenters();
-	});
+
     
 
     $('body').on('click', '#Tasks > form > div > div.menuitem.submit', function(){
@@ -669,11 +717,47 @@ $(document).ready(function() {
         newNA(function(){
             $('.submit').closest(".centermenu").empty() //temporary
             HideCenters();
-        }, naAdd,empID);
+        }, naAdd,empID,ost,oet,osd,oed);
         naAdd = false;
     });
-});
+	$('body').on('click', '#Employees > form > div > div >div.menuitem.cancel', function(){
+		$(this).closest(".centermenu").empty();
+		fillEmp();
+		$('.centermenu#Employees').show('fade', {direction: 'right'}, 400);
 
+	});
+	$('body').on('click', '#Tasks > form > div >div.menuitem.cancel', function(){
+		$(this).closest(".centermenu").empty();
+		HideCenters();
+		fillTask();
+		$('.centermenu#Tasks').show('fade', {direction: 'right'}, 400);
+	});
+	$('body').on('click', '#Cando > div >div.menuitem.cancel', function(){
+		$(this).closest(".centermenu").empty();
+		HideCenters();
+		$('.centermenu#Employees').show('fade', {direction: 'right'}, 400);
+	});		
+    $('body').on('click', '#NA > .back',function(){
+    	$('.back').closest(".centermenu").empty()
+    	HideCenters();
+   		$('.centermenu#Employees').show('fade', {direction: 'right'}, 400);
+		$('.slidecover').hide('slide', {direction: 'left'}, 100);
+    });
+    $('body').on('click', '#NA > form > div > div.menuitem.cancel',function(){
+    	$(this).closest(".centermenu").empty()
+    	fillNA();
+   		$('.centermenu#NA').show('fade', {direction: 'right'}, 400);
+		$('.slidecover').hide('slide', {direction: 'left'}, 100);
+
+    });    
+    $('body').on('click', '#TOR > form > div > div.menuitem.cancel',function(){
+    	$(this).closest(".centermenu").empty()
+    	fillTOR();
+   		$('.centermenu#TOR').show('fade', {direction: 'right'}, 400);
+		$('.slidecover').hide('slide', {direction: 'left'}, 100);
+
+    }); 
+});
 
 
 function newEmployee(f,n,id){
@@ -883,7 +967,7 @@ function newTOR(f,n,id){
                 });
     }
 }
-function newNA(f,n,id){
+function newNA(f,n,id,ost,oet,osd,oed){
 	 if(n){
 		jQuery.post( `http://${globalIP}:4000/api/addNotAvailable`, 
 		                {
@@ -912,34 +996,35 @@ function newNA(f,n,id){
 		                    //$("form").css("background-color","red")
 		                });
 	}else{
-             // jQuery.post( `http://${globalIP}:4000/api/updateTask`, 
-             //    {
-             //        "employeeID":""+localStorage.getItem("userID"), //integer
-             //        "subject":$("input[name = 'Subject']")[0].value, 
-             //        "reason": $("textarea[name = 'Reason']")[0].value, 
-             //        "start_time": $("input[name = 'StartT']")[0].value, 
-             //        "end_time":$("input[name = 'EndT']")[0].value, 
-             //        "start_date": $("input[name = 'StartD']")[0].value, //24 hr time
-             //        "end_date":$("input[name = 'EndD']")[0].value, 
-             //        "request_status":"i",
-             //        "supervisor_comment":"",
-             //    },
-             //    function(data,status,x){
-             //        console.log(data,status,x);
-             //       if(data.code==200){ 
-             //            console.log(data.code)
-             //            console.log("nice")
-             //            //$("form").css("background-color","green")
-             //            //document.location.href = "Mockup.html";
-             //        }else if(data.code==400){
-             //            console.log(data.code)
-             //            //$("form").css("background-color","yellow")
-             //        }
-             //        if(f)f();
-             //    },
-             //    "json")
-             //    .fail(function(){
-             //        //$("form").css("background-color","red")
-             //    });
+ 		jQuery.post( `http://${globalIP}:4000/api/updateNotAvailable`, 
+		                {
+		                    "employeeID":""+id, //integer
+		                    "old_start_time":""+ost, 
+		                    "old_end_time":""+oet, 
+		                    "old_start_date":""+osd, //24 hr time
+		                    "old_end_date":""+oed, 		                    
+		                    "start_time": $("input[name = 'StartT']")[0].value, 
+		                    "end_time":$("input[name = 'EndT']")[0].value, 
+		                    "start_date": $("input[name = 'StartD']")[0].value, //24 hr time
+		                    "end_date":$("input[name = 'EndD']")[0].value, 
+		                    "day":$("select[name = 'day']")[0].value
+		                },
+		                function(data,status,x){
+		                    console.log(data,status,x);
+		                   if(data.code==200){ 
+		                        console.log(data.code)
+		                        console.log("nice")
+		                        //$("form").css("background-color","green")
+		                        //document.location.href = "Mockup.html";
+		                    }else if(data.code==400){
+		                        console.log(data.code)
+		                        //$("form").css("background-color","yellow")
+		                    }
+		                    if(f)f();
+		                },
+		                "json")
+		                .fail(function(){
+		                    //$("form").css("background-color","red")
+		                });
     }
 }

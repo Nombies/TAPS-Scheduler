@@ -61,6 +61,9 @@ body{
 .menuitem > p{
     font-size: 5vmin;
     margin: 3vh 0;
+    text-overflow: ellipsis;
+    white-space: pre;
+    overflow:hidden;
 }
 .mainform{
 	text-align: left;
@@ -198,6 +201,25 @@ input[type = button]{
 	padding:0;
 	color: rgba(0,0,0,0.7);
 	cursor: pointer;
+}
+
+.back{
+	float: left;
+	margin-left:5vmin;
+}
+.small{
+	height:5vmin;
+}
+.small > p{
+	margin:0;
+}
+
+
+.new{
+	float:right;
+	position: fixed;
+	bottom: 5%;
+	right: 15%;
 }
 /*input[value = 'Submit']{
     display: block;
