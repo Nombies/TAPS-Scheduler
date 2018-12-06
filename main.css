@@ -178,6 +178,9 @@ input[type="range"]{
 input[type="text"], input[type="time"], input[type="textarea"],input[type='date'],input[type='number'], textarea{
 	font-size: 3vmin;
 }
+select{
+	font-size: 3vmin;	
+}
 .submit, .cancel, .tempsubmit{
 	width:45%;
 }

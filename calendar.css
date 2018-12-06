@@ -51,16 +51,25 @@
 	text-align: center;
 	font-size: 1.5vmin;
 	height: 6vh;
-	width: 4%;
+	min-width: 4.167%;
+	max-width: 4.167%;
 	background-color: rgba(0,0,0,0.3);
 	border: 0.1vmin solid rgba(0,0,0,0.1);
-	/*box-sizing: border-box;*/
+	box-sizing: border-box;
     word-wrap: break-word;
 }
 .task > p{
+	margin-top:2.2vh;
+	margin-left: 0;
+	margin-right: 0;
+	margin-bottom: auto;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+.employeePressed{
+	min-width: 3.737%;
+	max-width: 3.737%;	
 }
 .dayheader{
 	color: rgba(0, 0, 0, 0.7);

@@ -92,7 +92,16 @@ Exchange</p>
 
 			    <p>Repeat:
 			    <input type="range" name="repeat" value="5" min="0" max="7"></p>
-
+				
+				<p>Priority:
+			   		<select name = "priority">
+					  <option value="1">1</option>
+					  <option value="2">2</option>
+					  <option value="3">3</option>
+					  <option value="4">4</option>
+					  <option value="5">5</option>				  				  
+					</select></p>
+			    
 			    <p>Delete After: <input type="text" name="deleteAfter" value="">
 			    <input type="checkbox" name="persist" value="" checked=checked>Persistent</p>
 				<div>
@@ -123,7 +132,26 @@ Exchange</p>
 			    <input type="text" name="phone_number" value=""></p>
 
 			    <p>Preferred Hours:
-			    <input type="text" name="pref" value=""></p>
+			    <select name = "hours">
+				  <option value="1">1</option>
+				  <option value="2">2</option>
+				  <option value="3">3</option>
+				  <option value="4">4</option>
+				  <option value="5">5</option>
+				  <option value="6">6</option>
+				  <option value="7">7</option>
+				  <option value="8">8</option>
+				  <option value="9">9</option>
+				  <option value="10">10</option>
+				  <option value="11">11</option>
+				  <option value="12">12</option>
+				  <option value="13">13</option>
+				  <option value="14">14</option>
+				  <option value="15">15</option>
+				  <option value="16">16</option>
+				  <option value="17">17</option>
+				  <option value="18">18</option>				  				  
+				</select></p>
 
 			    <p>Permissions:</p>
 			    <p>
@@ -171,6 +199,7 @@ Exchange</p>
 
 </form>
 <form action="" method="post" class="mainform" id="naform" style="display: none">
+			    <p>Day: 
 			    <select name = "day">
 				  <option value="0">Sunday</option>
 				  <option value="1">Monday</option>
@@ -179,7 +208,7 @@ Exchange</p>
 				  <option value="4">Thursday</option>
 				  <option value="5">Friday</option>
 				  <option value="6">Saturday</option>
-				</select>
+				</select></p>
 
 			    <p>Start Date:
 			    <input type="date" name="StartD" value=""></p>
@@ -200,7 +229,7 @@ Exchange</p>
 
 </form>
 <div class="calendarbox">
-<button class="toggleall" onclick="showall=!showall; showcalendar();">All</button>
+<button class="toggleall" onclick="showall=!showall; showcalendar(); togglePress();">All</button>
 <div class="dayheader blueheader"><p>Sunday</p></div>
 <div class="day blueday"></div>
 <div class="dayheader grayheader" ><p>Monday</p></div>

@@ -12,7 +12,15 @@ function showcalendar(){
 	$(".employeename").toggle();
 	$(".employee#employee"+currentuser).show();
 }
-
+function togglePress(){
+	$(".task").each(function(){
+		if($(this).hasClass('employeePressed')){
+			$(this).removeClass('employeePressed');
+		}else{
+			$(this).addClass('employeePressed');
+		}
+	});	
+}
 function gencalendar(all){
 	$(".day").empty();
 		for(var j=0;j<2;j++){

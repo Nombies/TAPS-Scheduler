@@ -145,11 +145,6 @@ $(document).ready(function() {
 		                }
 	                }
 	            });
-
-			// var clone = $("#torform").clone(true);
-			// clone.attr("id","");
-			// clone.show();
-			// $(".centermenu#TOR").append(clone)
 		}
 	}
 	$('body > div.slidecover > div:nth-child(3)').click(function(){//click TOR
@@ -159,9 +154,7 @@ $(document).ready(function() {
 		fillTOR();
 
 	});
-	$('body > div.slidecover > div:nth-child(4)').click(function(){//click shift exchange
-		$('.centermenu#ShiftX').show('fade', {direction: 'right'}, 400);
-		$('.slidecover').hide('slide', {direction: 'left'}, 100);
+	function fillShiftX(){
 		if($(".centermenu#ShiftX").children().length==0){
 			$(".centermenu#ShiftX").eq(0).append("<div class ='headContainer'>Posted By Others</div>");
 			for(var i=2;i<5;i++){
@@ -179,17 +172,23 @@ $(document).ready(function() {
 				shifts.innerHTML="<p>Shift "+i+"</p>"
 				$(".centermenu#ShiftX")[0].append(shifts);
 			}
-			$(".centermenu#ShiftX").eq(0).append(
-				'<p></p>' +
-				'<div style= "margin:0 5%">' +
-					'<div class="menuitem cancel">' +
-						'<p>Cancel</p>' +
-					'</div>' +
-					'<div class="menuitem submit">'+
-						'<p>Submit</p>'+
-					'</div>'+
-				'</div>');
+			// $(".centermenu#ShiftX").eq(0).append(
+			// 	'<p></p>' +
+			// 	'<div style= "margin:0 5%">' +
+			// 		'<div class="menuitem cancel">' +
+			// 			'<p>Cancel</p>' +
+			// 		'</div>' +
+			// 		'<div class="menuitem submit">'+
+			// 			'<p>Submit</p>'+
+			// 		'</div>'+
+			// 	'</div>');
 		}
+
+	}
+	$('body > div.slidecover > div:nth-child(4)').click(function(){//click shift exchange
+		$('.centermenu#ShiftX').show('fade', {direction: 'right'}, 400);
+		$('.slidecover').hide('slide', {direction: 'left'}, 100);
+		fillShiftX();
 	});
 
 	$('body > div.slidecover > div:nth-child(5)').click(function(){//click settings
@@ -373,8 +372,6 @@ $(document).ready(function() {
 	var taskID = 0;
 
 	$('body').on('click', '.centermenu#Tasks > .exists', function(){
-        //console.log($(this)[0]);
-        //console.log(jQuery.data($(this)[0],"empdata"));
         var id = jQuery.data($(this)[0],"taskdata")["taskID"];
         var name = jQuery.data($(this)[0],"taskdata")["name"];
         var inst = jQuery.data($(this)[0],"taskdata")["instructions"];
@@ -608,15 +605,15 @@ $(document).ready(function() {
 	// });
     
 
-//	$('body').on('click', '.menuitem.cancel', function(){
-//		$(this).closest(".centermenu").empty();
-//		HideCenters();
-//	});
-//    
-//	$('body').on('click', '.menuitem.submit', function(){
-//		$(this).closest(".centermenu").empty();
-//		HideCenters();
-//	});
+	//	$('body').on('click', '.menuitem.cancel', function(){
+	//		$(this).closest(".centermenu").empty();
+	//		HideCenters();
+	//	});
+	//    
+	//	$('body').on('click', '.menuitem.submit', function(){
+	//		$(this).closest(".centermenu").empty();
+	//		HideCenters();
+	//	});
     
 
     
@@ -728,7 +725,6 @@ $(document).ready(function() {
 	});
 	$('body').on('click', '#Tasks > form > div >div.menuitem.cancel', function(){
 		$(this).closest(".centermenu").empty();
-		HideCenters();
 		fillTask();
 		$('.centermenu#Tasks').show('fade', {direction: 'right'}, 400);
 	});
@@ -756,7 +752,15 @@ $(document).ready(function() {
    		$('.centermenu#TOR').show('fade', {direction: 'right'}, 400);
 		$('.slidecover').hide('slide', {direction: 'left'}, 100);
 
-    }); 
+    });
+    $('body').on('click', '#ShiftX > div > div > div.menuitem.cancel',function(){
+    	$(this).closest(".centermenu").empty()
+    	fillShiftX();
+   		$('.centermenu#Shiftx').show('fade', {direction: 'right'}, 400);
+		$('.slidecover').hide('slide', {direction: 'left'}, 100);
+
+    });      
+
 });
 
 
@@ -780,17 +784,14 @@ function newEmployee(f,n,id){
                    if(data.code==200){ 
                         console.log(data.code)
                         console.log("nice")
-                        //$("form").css("background-color","green")
-                        //document.location.href = "Mockup.html";
                     }else if(data.code==400){
                         console.log(data.code)
-                        //$("form").css("background-color","yellow")
                     }
                     if(f)f();
                 },
                 "json")
                 .fail(function(){
-                    //$("form").css("background-color","red")
+
                 });
     }else{
              jQuery.post( `http://${globalIP}:4000/api/updateEmployee`, 
@@ -812,17 +813,14 @@ function newEmployee(f,n,id){
                    if(data.code==200){ 
                         console.log(data.code)
                         console.log("nice")
-                        //$("form").css("background-color","green")
-                        //document.location.href = "Mockup.html";
                     }else if(data.code==400){
                         console.log(data.code)
-                        //$("form").css("background-color","yellow")
                     }
                     if(f)f();
                 },
                 "json")
                 .fail(function(){
-                    //$("form").css("background-color","red")
+
                 });
     }
 }
@@ -852,11 +850,8 @@ function newTask(f,n,id){
 		                   if(data.code==200){ 
 		                        console.log(data.code)
 		                        console.log("nice")
-		                        //$("form").css("background-color","green")
-		                        //document.location.href = "Mockup.html";
 		                    }else if(data.code==400){
 		                        console.log(data.code)
-		                        //$("form").css("background-color","yellow")
 		                    }
 		                    if(f)f();
 		                },
@@ -889,23 +884,20 @@ function newTask(f,n,id){
                    if(data.code==200){ 
                         console.log(data.code)
                         console.log("nice")
-                        //$("form").css("background-color","green")
-                        //document.location.href = "Mockup.html";
                     }else if(data.code==400){
                         console.log(data.code)
-                        //$("form").css("background-color","yellow")
                     }
                     if(f)f();
                 },
                 "json")
                 .fail(function(){
-                    //$("form").css("background-color","red")
+
                 });
     }
 }
 
 function newTOR(f,n,id){
-	 if(n){
+	if(n){
 		jQuery.post( `http://${globalIP}:4000/api/addTOR`, 
 		                {
 		                    "employeeID":""+localStorage.getItem("userID"), //integer
@@ -923,17 +915,14 @@ function newTOR(f,n,id){
 		                   if(data.code==200){ 
 		                        console.log(data.code)
 		                        console.log("nice")
-		                        //$("form").css("background-color","green")
-		                        //document.location.href = "Mockup.html";
 		                    }else if(data.code==400){
 		                        console.log(data.code)
-		                        //$("form").css("background-color","yellow")
 		                    }
 		                    if(f)f();
 		                },
 		                "json")
 		                .fail(function(){
-		                    //$("form").css("background-color","red")
+
 		                });
 	}else{
              jQuery.post( `http://${globalIP}:4000/api/updateTOR`, 
@@ -953,22 +942,18 @@ function newTOR(f,n,id){
                    if(data.code==200){ 
                         console.log(data.code)
                         console.log("nice")
-                        //$("form").css("background-color","green")
-                        //document.location.href = "Mockup.html";
                     }else if(data.code==400){
                         console.log(data.code)
-                        //$("form").css("background-color","yellow")
                     }
                     if(f)f();
                 },
                 "json")
                 .fail(function(){
-                    //$("form").css("background-color","red")
                 });
     }
 }
 function newNA(f,n,id,ost,oet,osd,oed){
-	 if(n){
+	if(n){
 		jQuery.post( `http://${globalIP}:4000/api/addNotAvailable`, 
 		                {
 		                    "employeeID":""+id, //integer
@@ -983,17 +968,13 @@ function newNA(f,n,id,ost,oet,osd,oed){
 		                   if(data.code==200){ 
 		                        console.log(data.code)
 		                        console.log("nice")
-		                        //$("form").css("background-color","green")
-		                        //document.location.href = "Mockup.html";
 		                    }else if(data.code==400){
 		                        console.log(data.code)
-		                        //$("form").css("background-color","yellow")
 		                    }
 		                    if(f)f();
 		                },
 		                "json")
 		                .fail(function(){
-		                    //$("form").css("background-color","red")
 		                });
 	}else{
  		jQuery.post( `http://${globalIP}:4000/api/updateNotAvailable`, 
@@ -1014,17 +995,13 @@ function newNA(f,n,id,ost,oet,osd,oed){
 		                   if(data.code==200){ 
 		                        console.log(data.code)
 		                        console.log("nice")
-		                        //$("form").css("background-color","green")
-		                        //document.location.href = "Mockup.html";
 		                    }else if(data.code==400){
 		                        console.log(data.code)
-		                        //$("form").css("background-color","yellow")
 		                    }
 		                    if(f)f();
 		                },
 		                "json")
 		                .fail(function(){
-		                    //$("form").css("background-color","red")
 		                });
     }
 }
