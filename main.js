@@ -387,7 +387,8 @@ $(document).ready(function() {
         var fri = jQuery.data($(this)[0],"taskdata")["friday"];
         var sat = jQuery.data($(this)[0],"taskdata")["saturday"];
         var empN =  jQuery.data($(this)[0],"taskdata")["employees_needed"];
-
+        var del = jQuery.data($(this)[0],"taskdata")["delete_after"];
+        var pri = jQuery.data($(this)[0],"taskdata")["priority"];
         $(this).parent().empty();
         
         var clone = $("#taskform").clone(true);
@@ -403,6 +404,8 @@ $(document).ready(function() {
         $(clone).find("input[name ='duration']").eq(0)[0].value=dur;
         $(clone).find("input[name ='repeat']").eq(0)[0].value=reps;
         $(clone).find("input[name ='numEmps']").eq(0)[0].value=empN;
+        $(clone).find("input[name ='deleteAfter']").eq(0)[0].value = del;
+        $(clone).find("select[name ='priority']").eq(0)[0].value = pri;
         if(sun){
            $(clone).find("input[name ='sun']").eq(0)[0].checked="checked";
         }
@@ -427,6 +430,7 @@ $(document).ready(function() {
         
 		$(".centermenu#Tasks").append(clone)
 		taskID = id;
+		console.log('taskid is ' + id);
 	});
 
 	$('body').on('click', '.centermenu#Tasks > .addnew', function(){
@@ -460,6 +464,7 @@ $(document).ready(function() {
         var phone = jQuery.data($(this)[0],"empdata")["phone_number"];
         var attr = jQuery.data($(this)[0],"empdata")["modify_emp_attr"];
         var task = jQuery.data($(this)[0],"empdata")["modify_task"];
+        var pref = jQuery.data($(this)[0],"empdata")["preffered_hours"];
         $(this).parent().empty();
         
         var clone = $("#employeeform").clone(true);
@@ -473,6 +478,7 @@ $(document).ready(function() {
         $(clone).find("input[name='last']").eq(0)[0].value=last;
         $(clone).find("input[name='email']").eq(0)[0].value=email;
         $(clone).find("input[name='phone_number']").eq(0)[0].value=phone;
+        $(clone).find("select[name='hours']").eq(0)[0].value = pref;
         if(task){
            $(clone).find("input[name='modify_task']").eq(0)[0].checked="checked";
         }
@@ -761,6 +767,15 @@ $(document).ready(function() {
 
     });      
 
+    $('body').on('change','input[name ="persist"]',function(){
+    	//debugger;
+    	if(!$("input[name ='deleteAfter']").prop('disabled')){
+    		$("input[name ='deleteAfter']").prop('disabled',true);
+    	}else{
+    		$("input[name ='deleteAfter']").prop('disabled',false);
+    	}
+    });
+
 });
 
 
@@ -776,7 +791,8 @@ function newEmployee(f,n,id){
                     "modify_task":$("input[name = 'modify_task']")[0].checked ? "1": "0", //0 or 1
                     "modify_emp_attr":$("input[name = 'modify_emp_attr']")[0].checked ? "1": "0", //0 or 1
                     "username":"",
-                    "password":$("input[name = 'password']")[0].value
+                    "password":$("input[name = 'password']")[0].value,
+                    "preffered_hours":$("select[name = 'hours']")[0].value
 
                 },
                 function(data,status,x){
@@ -805,7 +821,8 @@ function newEmployee(f,n,id){
                     "modify_task":$("input[name = 'modify_task']")[0].checked ? "1": "0", //0 or 1
                     "modify_emp_attr":$("input[name = 'modify_emp_attr']")[0].checked ? "1": "0", //0 or 1
                     "username":"",
-                    "password":$("input[name = 'password']")[0].value
+                    "password":$("input[name = 'password']")[0].value,
+                    "preffered_hours":$("select[name = 'hours']")[0].value
 
                 },
                 function(data,status,x){
@@ -842,7 +859,9 @@ function newTask(f,n,id){
 		                    "thursday":$("input[name = 'thurs']")[0].checked ? "1": "0", //0 or 1
 		                    "friday":$("input[name = 'fri']")[0].checked ? "1": "0", //0 or 1
 		                    "saturday":$("input[name = 'sat']")[0].checked ? "1": "0", //0 or 1
-		                    "employees_needed":$("input[name = 'numEmps']")[0].value //integer
+		                    "employees_needed":$("input[name = 'numEmps']")[0].value, //integer
+		                    "delete_after":$("input[name = 'persist']")[0].checked ? null: $("input[name = 'deleteAfter']")[0].value,
+		                    "priority":$("select[name = 'priority']")[0].value
 
 		                },
 		                function(data,status,x){
@@ -876,7 +895,9 @@ function newTask(f,n,id){
                     "thursday":$("input[name = 'thurs']")[0].checked ? "1": "0", //0 or 1
                     "friday":$("input[name = 'fri']")[0].checked ? "1": "0", //0 or 1
                     "saturday":$("input[name = 'sat']")[0].checked ? "1": "0", //0 or 1
-                    "employees_needed":$("input[name = 'numEmps']")[0].value //integer
+                    "employees_needed":$("input[name = 'numEmps']")[0].value, //integer
+                    "delete_after":$("input[name = 'persist']")[0].checked ? null: $("input[name = 'deleteAfter']")[0].value,
+                    "priority":$("select[name = 'priority']")[0].value
 
                 },
                 function(data,status,x){
