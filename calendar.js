@@ -7,27 +7,18 @@ var task_days = [];
 var start_time = [];
 var end_time = [];
 var tempID = []
-jQuery.get(`http://${globalIP}:4000/api/getAllSchedule`,function(data){
-	/*for(var i =0;i<data.length;i++){
-		task_names[i] = data[i]['task_name'];
-		task_days[i] = data[i]['task_days'];
-		start_time[i] = data[i]['start_time'];
-		end_timep[i] = data[i]['end_time'];
-		tempID[i] = data[i]['employeeID'];
-	}*/
-});
+
 var emp_id = [];
 var emp_n = [];
 var numemps;
-jQuery.get( `http://${globalIP}:4000/api/getAllEmployees?token=${localStorage.getItem("token")}`, function( data ) {
-	//numemps = 
-	for(var i = 0; i< data.length;i++){
-		emp_id[i] = data[i]["employeeID"];
-		emp_n[i] = data[i]["first_name"] +" "+data[i]["last_name"]; 
-	}
+
+var schedules = [];
+var employees = [];
+
+$( document ).ready(function() {
+    gencalendar(false);
+	showcalendar();
 });
-gencalendar(false);
-showcalendar();
 
 function showcalendar(){
 	$(".employee").toggle();
@@ -45,14 +36,50 @@ function togglePress(){
 }
 function gencalendar(all){
 	$(".day").empty();
-		for(var j=0;j<numemps;j++){
-			var emp = "<div class='employee' id='employee"+j+"'><div class='employeename'>Employee"+j+"</div>";
-			for(var i=0;i<24;i++){
-				emp+="<div class='task' '${i}'></div>";
-			}
-			emp+="</div>";
-			$(".day").append(emp);
+	
+	jQuery.get( `http://${globalIP}:4000/api/getAllEmployees?token=${localStorage.getItem("token")}`, function( data ) {
+		numemps = data.length;
+		for(var i = 0; i< data.length;i++){
+			emp_n[i] = data[i]["first_name"] +" "+data[i]["last_name"]; 
 		}
+		
+		employees=data;
+		
+	jQuery.get(`http://${globalIP}:4000/api/getAllSchedule`,function(sch){
+		
+		schedules = sch;
+		
+		for(var j=0;j<numemps;j++){
+			var emp = "<div class='employee' id='employee"+j+"'><div class='employeename'>"+emp_n[j]+"</div>";
+			for(var i=0+12;i<24+12;i++){
+				var ass = false;
+				var assn = "";
+				for(var k=0;k<schedules.length;k++){
+					//console.log(schedules[k]["employeeID"],employees[j]["employeeID"]);
+					if(schedules[k]["employeeID"]==employees[j]["employeeID"]){
+						//console.log(	(Math.floor(i/2))+":"+(i%2*30)<schedules[k]["start_time"]	);
+						if((Math.floor(i/2))+":"+(i%2*30)<schedules[k]["end_time"]){
+							if((Math.floor(i/2))+":"+(i%2*30)>schedules[k]["start_time"]){
+								console.log((Math.floor(i/2))+":"+(i%2*30)==schedules[k]["start_time"]);
+								ass=true;
+								assn=schedules[k]["task_name"];
+							}
+						}
+					}
+				}
+				//console.log(ass)
+				if(ass){
+					emp+="<div class='task assigned'>"+assn+"</div>";
+				}else{
+					emp+="<div class='task'></div>";
+				}
+				
+			}
+		emp+="</div>";
+		$(".day").append(emp);
+	}
+		
+	});
 		
     $(".task").each(function(){
   //       if(Math.random()<0.2){
@@ -61,7 +88,8 @@ function gencalendar(all){
 		// }
 			
     });
-		
+	
+	});
 }
 
 
