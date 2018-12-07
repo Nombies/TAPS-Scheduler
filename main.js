@@ -372,6 +372,7 @@ $(document).ready(function() {
 	var taskID = 0;
 
 	$('body').on('click', '.centermenu#Tasks > .exists', function(){
+		taskAdd = false;
         var id = jQuery.data($(this)[0],"taskdata")["taskID"];
         var name = jQuery.data($(this)[0],"taskdata")["name"];
         var inst = jQuery.data($(this)[0],"taskdata")["instructions"];
@@ -452,7 +453,7 @@ $(document).ready(function() {
 	var empAdd = false;
 	var empID = 0;
 	$('body').on('click', '.centermenu#Employees > .exists', function(){
-
+		empAdd = false;
         //console.log($(this)[0]);
         //console.log(jQuery.data($(this)[0],"empdata"));
         var id = jQuery.data($(this)[0],"empdata")["employeeID"];
@@ -512,6 +513,7 @@ $(document).ready(function() {
 	var torAdd = false;
 	var torID = 0;
 	$('body').on('click', '.centermenu#TOR > .exists', function(){
+		torAdd = false;
         var id = jQuery.data($(this)[0],"tordata")["employeeID"];
         var subject = jQuery.data($(this)[0],"tordata")["subject"];
         var reason = jQuery.data($(this)[0],"tordata")["reason"];
@@ -558,7 +560,7 @@ $(document).ready(function() {
 	var osd;
 	var oet;
 	$('body').on('click', '.centermenu#NA > .exists', function(){
-
+		naAdd = false;
         var id = jQuery.data($(this)[0],"nadata")["employeeID"];
         var startT = jQuery.data($(this)[0],"nadata")["start_time"];
         var endT = jQuery.data($(this)[0],"nadata")["end_time"];
