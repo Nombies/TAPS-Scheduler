@@ -1,5 +1,7 @@
 function logoutFunction(){
 	window.location.href = "login.html";
+	localStorage.removeItem('token');
+	localStorage.removeItem('userID');
 }
 function focuscalendar(){
 	$('.slidecover').hide('slide', {direction: 'left'}, 1);
@@ -16,15 +18,12 @@ function HideCenters(){
 }
 
 var globalIP = "13.57.29.25";
-
+localStorage.setItem('IP',globalIP); 
 $(document).ready(function() {
 	console.log(localStorage.getItem("token"));
 	var userEmp = 0;
 	var userTask = 0;
-	jQuery.post( `http://${globalIP}:4000/api/getEmployeeAttributesByEmployeeID`, 
-		{
-			"employeeID":""+localStorage.getItem("userID")
-        },
+	jQuery.get( `http://${globalIP}:4000/api/getEmployeeAttributesByEmployeeID?employeeID=${localStorage.getItem('userID')}&token=${localStorage.getItem('token')}`, 
         function( data ) {
 			userTask= data[0]["modify_task"];
 			userEmp = data[0]["modify_emp_attr"];
@@ -70,7 +69,7 @@ $(document).ready(function() {
 	function fillEmp(){
 		if($(".centermenu#Employees").children().length==0){
            	
-            jQuery.get( `http://${globalIP}:4000/api/getAllEmployees`, function( data ) {
+            jQuery.get( `http://${globalIP}:4000/api/getAllEmployees?token=${localStorage.getItem("token")}`, function( data ) {
 								
                 for(var i=0;i<data.length;i++){
                     var empitem = document.createElement("div");
@@ -872,7 +871,7 @@ function newTask(f,n,id){
 		                    "saturday":$("input[name = 'sat']")[0].checked ? "1": "0", //0 or 1
 		                    "employees_needed":$("input[name = 'numEmps']")[0].value, //integer
 		                    "delete_after":null,
-		                    "priority":$("select[name = 'priority']")[0].value
+		                    "priority":$("select[name = 'priority']")[0].value,
 
 		                },
 		                function(data,status,x){
@@ -926,6 +925,7 @@ function newTask(f,n,id){
 		                });				
 		}
     }else{
+    	if($("input[name = 'persist']")[0].checked == 1){
              jQuery.post( `http://${globalIP}:4000/api/updateTask`, 
                 {
                     "taskID":""+id,
@@ -943,8 +943,10 @@ function newTask(f,n,id){
                     "friday":$("input[name = 'fri']")[0].checked ? "1": "0", //0 or 1
                     "saturday":$("input[name = 'sat']")[0].checked ? "1": "0", //0 or 1
                     "employees_needed":$("input[name = 'numEmps']")[0].value, //integer
-                    "delete_after":$("input[name = 'persist']")[0].checked ? null: $("input[name = 'deleteAfter']")[0].value,
-                    "priority":$("select[name = 'priority']")[0].value
+                    "delete_after":null,
+                    "priority":$("select[name = 'priority']")[0].value,
+                    "token":""+localStorage.getItem("token")
+
 
                 },
                 function(data,status,x){
@@ -961,6 +963,45 @@ function newTask(f,n,id){
                 .fail(function(){
 
                 });
+        }else{
+            jQuery.post( `http://${globalIP}:4000/api/updateTask`, 
+                {
+                    "taskID":""+id,
+                    "name":$("input[name = 'name']")[0].value, //integer
+                    "instructions":$("textarea[name = 'instructions']")[0].value, 
+                    "earliest_start": $("input[name = 'earliestStart']")[0].value, //0-24 hr ex: 13:32:00 (hr,min,sec)
+                    "latest_end":$("input[name = 'latestEnd']")[0].value, //24 hr time
+                    "duration":$("input[name = 'duration']")[0].value, //iterations of 30 min ex 1 = 30 min 2 - 60 min
+                    "reqs_in_week":$("input[name = 'repeat']")[0].value, //0-7 how many time within week you want this done
+                    "sunday":$("input[name = 'sun']")[0].checked ? "1": "0", //0 or 1
+                    "monday":$("input[name = 'mon']")[0].checked ? "1": "0", //0 or 1
+                    "tuesday":$("input[name = 'tues']")[0].checked ? "1": "0", //0 or 1
+                    "wednesday":$("input[name = 'wed']")[0].checked ? "1": "0", //0 or 1
+                    "thursday":$("input[name = 'thurs']")[0].checked ? "1": "0", //0 or 1
+                    "friday":$("input[name = 'fri']")[0].checked ? "1": "0", //0 or 1
+                    "saturday":$("input[name = 'sat']")[0].checked ? "1": "0", //0 or 1
+                    "employees_needed":$("input[name = 'numEmps']")[0].value, //integer
+                    "delete_after":$("input[name = 'deleteAfter']")[0].value,
+                    "priority":$("select[name = 'priority']")[0].value,
+                    "token":""+localStorage.getItem("token")
+
+
+                },
+                function(data,status,x){
+                    console.log(data,status,x);
+                   if(data.code==200){ 
+                        console.log(data.code)
+                        console.log("nice")
+                    }else if(data.code==400){
+                        console.log(data.code)
+                    }
+                    if(f)f();
+                },
+                "json")
+                .fail(function(){
+
+                });
+            }
     }
 }
 
