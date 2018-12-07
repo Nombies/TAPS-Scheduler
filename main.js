@@ -461,8 +461,9 @@ $(document).ready(function() {
 	var empID = 0;
 	$('body').on('click', '.centermenu#Employees > .exists', function(){
 		empAdd = false;
+
         //console.log($(this)[0]);
-        //console.log(jQuery.data($(this)[0],"empdata"));
+        console.log(jQuery.data($(this)[0],"empdata"));
         var id = jQuery.data($(this)[0],"empdata")["employeeID"];
         var first = jQuery.data($(this)[0],"empdata")["first_name"];
         var middle = jQuery.data($(this)[0],"empdata")["middle_name"];
