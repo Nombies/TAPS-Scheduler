@@ -822,6 +822,7 @@ function newEmployee(f,n,id){
     }else{
              jQuery.post( `http://${globalIP}:4000/api/updateEmployee`, 
                 {
+					"token":""+localStorage.getItem("token"),
                     "employeeID":""+id,
                     "first_name":$("input[name = 'first']")[0].value,
                     "middle_name":$("input[name = 'middle']")[0].value, //pass empty string if no middle name
