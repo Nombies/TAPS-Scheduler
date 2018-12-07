@@ -86,6 +86,7 @@
                 if(data.code==200){ 
                     console.log(data.code)
                     localStorage.setItem("userID",data.employeeID);
+                    localStorage.setItem("token",data.token);
                     //$("form").css("background-color","green")
                     document.location.href = "Mockup.html";
 

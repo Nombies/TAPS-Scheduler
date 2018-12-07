@@ -18,6 +18,7 @@ function HideCenters(){
 var globalIP = "13.57.29.25";
 
 $(document).ready(function() {
+	console.log(localStorage.getItem("token"));
 	var userEmp = 0;
 	var userTask = 0;
 	jQuery.post( `http://${globalIP}:4000/api/getEmployeeAttributesByEmployeeID`, 
@@ -389,6 +390,13 @@ $(document).ready(function() {
         var sat = jQuery.data($(this)[0],"taskdata")["saturday"];
         var empN =  jQuery.data($(this)[0],"taskdata")["employees_needed"];
         var del = jQuery.data($(this)[0],"taskdata")["delete_after"];
+        if(del){
+        	$("input[name ='persist']")[0].checked = "";
+        	$("input[name ='deleteAfter']").prop("disabled",false);
+        }else{
+        	$("input[name ='persist']")[0].checked = "checked";
+        	$("input[name ='deleteAfter']").prop("disabled",true);
+        }
         var pri = jQuery.data($(this)[0],"taskdata")["priority"];
         $(this).parent().empty();
         
@@ -846,7 +854,8 @@ function newEmployee(f,n,id){
 
 function newTask(f,n,id){
     if(n){
-		jQuery.post( `http://${globalIP}:4000/api/addTask`, 
+    	if($("input[name = 'persist']")[0].checked == 1){
+			jQuery.post( `http://${globalIP}:4000/api/addTask`, 
 		                {
 		                    "name":$("input[name = 'name']")[0].value, //integer
 		                    "instructions":$("textarea[name = 'instructions']")[0].value, 
@@ -862,7 +871,7 @@ function newTask(f,n,id){
 		                    "friday":$("input[name = 'fri']")[0].checked ? "1": "0", //0 or 1
 		                    "saturday":$("input[name = 'sat']")[0].checked ? "1": "0", //0 or 1
 		                    "employees_needed":$("input[name = 'numEmps']")[0].value, //integer
-		                    "delete_after":$("input[name = 'persist']")[0].checked ? null: $("input[name = 'deleteAfter']")[0].value,
+		                    "delete_after":null,
 		                    "priority":$("select[name = 'priority']")[0].value
 
 		                },
@@ -880,6 +889,42 @@ function newTask(f,n,id){
 		                .fail(function(){
 		                    //$("form").css("background-color","red")
 		                });
+		}else{
+				jQuery.post( `http://${globalIP}:4000/api/addTask`, 
+		                {
+		                    "name":$("input[name = 'name']")[0].value, //integer
+		                    "instructions":$("textarea[name = 'instructions']")[0].value, 
+		                    "earliest_start": $("input[name = 'earliestStart']")[0].value, //0-24 hr ex: 13:32:00 (hr,min,sec)
+		                    "latest_end": $("input[name = 'latestEnd']")[0].value, //24 hr time
+		                    "duration":$("input[name = 'duration']")[0].value, //iterations of 30 min ex 1 = 30 min 2 - 60 min
+		                    "reqs_in_week":$("input[name = 'repeat']")[0].value, //0-7 how many time within week you want this done
+		                    "sunday":$("input[name = 'sun']")[0].checked ? "1": "0", //0 or 1
+		                    "monday":$("input[name = 'mon']")[0].checked ? "1": "0", //0 or 1
+		                    "tuesday":$("input[name = 'tues']")[0].checked ? "1": "0", //0 or 1
+		                    "wednesday":$("input[name = 'wed']")[0].checked ? "1": "0", //0 or 1
+		                    "thursday":$("input[name = 'thurs']")[0].checked ? "1": "0", //0 or 1
+		                    "friday":$("input[name = 'fri']")[0].checked ? "1": "0", //0 or 1
+		                    "saturday":$("input[name = 'sat']")[0].checked ? "1": "0", //0 or 1
+		                    "employees_needed":$("input[name = 'numEmps']")[0].value, //integer
+		                    "delete_after":$("input[name = 'deleteAfter']")[0].value,
+		                    "priority":$("select[name = 'priority']")[0].value
+
+		                },
+		                function(data,status,x){
+		                    console.log(data,status,x);
+		                   if(data.code==200){ 
+		                        console.log(data.code)
+		                        console.log("nice")
+		                    }else if(data.code==400){
+		                        console.log(data.code)
+		                    }
+		                    if(f)f();
+		                },
+		                "json")
+		                .fail(function(){
+		                    //$("form").css("background-color","red")
+		                });				
+		}
     }else{
              jQuery.post( `http://${globalIP}:4000/api/updateTask`, 
                 {
