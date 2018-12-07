@@ -1,3 +1,4 @@
+
 const sqlite3 = require('sqlite3').verbose();
 var bcrypt = require('bcrypt');
 
@@ -13,13 +14,13 @@ let qUpdateTask = 'UPDATE task SET name = ?, instructions = ? , '+
                   'earliest_start = ?, latest_end = ?, duration = ?,' +
                   'reps_in_week = ?, sunday = ?, monday = ?, tuesday = ?,'+
                   'wednesday = ?, thursday = ?, friday = ?, saturday = ?,'+
-                  'employees_needed = ? WHERE taskID = ?;';
+                  'employees_needed = ?, priority = ?, delete_after = ? WHERE taskID = ?;';
 let qUpdateCanDo = 'UPDATE can_do SET employeeID = ?, taskID = ? WHERE '+
                   'employeeID = ? AND taskID = ?;';
 
 let qUpdateEmployee = 'UPDATE employee SET first_name = ?, middle_name = ?, last_name = ?, ' +
 		     'email = ?, phone_number = ?, modify_task = ?, ' +
-		     'modify_emp_attr = ?, username = ? WHERE employeeID = ?;';
+		     'modify_emp_attr = ?, username = ?, preffered_hours = ? WHERE employeeID = ?;';
 
 let qUpdateNotAvailable = 'UPDATE not_available SET start_time=?,end_time=?,'+
 			  'day=?, start_date=?, end_date=? WHERE employeeID=?'+
@@ -71,13 +72,35 @@ exports.updateTask = (req, res) =>{
   var friday = req.body.friday;
   var saturday = req.body.saturday;
   var employees_needed = req.body.employees_needed;
-  console.log("name: " + name + " instructions: " + instructions + "\n" );
-  db.run(qUpdateTask, [name,instructions,earliest_start,latest_end,duration,
-  reqs_in_week,sunday,monday,tuesday,wednesday,thursday,friday,saturday,
-  employees_needed,taskID], (err) =>{
-    //If error occurs with json post request
-    errorUpdateCheck(err,res,"Task");
-  });
+  var priority = req.body.priority;
+  var delete_after = req.body.delete_after;
+  var token = req.body.token;
+
+  db.serialize(()=>{
+                db.get('SELECT * FROM employee ' +
+                        'WHERE token = ?', [token], (err,row)=>{
+                        console.log('value of row ' + JSON.stringify(row))
+                        if(typeof row === 'undefined' || row.modify_task == 0){
+                                console.log('is row null')
+                                res.send({
+                                "code":403,
+                                "failed":"User does not have valid session"
+                                });
+                                console.log('message sent');
+                                valid = 0;
+                        }
+			else{
+				db.run(qUpdateTask, [name,instructions,earliest_start,latest_end,duration,
+ 					 reqs_in_week,sunday,monday,tuesday,wednesday,thursday,friday,saturday,
+  					 employees_needed,priority,delete_after,taskID], (err) =>{
+    					 //If error occurs with json post request
+   						 errorUpdateCheck(err,res,"Task");
+  				});
+
+			}
+
+                })
+   })
 }
 
 exports.updateCanDo = (req,res) =>{
@@ -85,10 +108,40 @@ exports.updateCanDo = (req,res) =>{
   var prevTaskID = req.body.prevTaskID;
   var nEmpID = req.body.newEmployeeID;
   var nTaskID = req.body.newTaskID;
+  var token = req.body.token;
+  db.serialize(()=>{
+                db.get('SELECT * FROM employee ' +
+                        'WHERE token = ?', [token], (err,row)=>{
+                        console.log('value of row ' + JSON.stringify(row))
+                        if(typeof row === 'undefined'){
+                                console.log('is row null')
+                                res.send({
+                                "code":403,
+                                "failed":"User does not have valid session"
+                                });
+                                console.log('message sent');
+                                valid = 0;
+                        }
+                        else{
+				db.run(qUpdateCanDo,[nEmpID,nTaskID,prevEmployeeID,prevTaskID], (err) =>{
+    					errorUpdateCheck(err,res,'Can Do');
+  				});
+                                /*db.run(qUpdateCanDo, [name,instructions,earliest_start,latest_end,duration,
+                                         reqs_in_week,sunday,monday,tuesday,wednesday,thursday,friday,saturday,
+                                         employees_needed,priority,delete_after,taskID], (err) =>{
+                                         //If error occurs with json post request
+                                                 errorUpdateCheck(err,res,"Task");
+                                });*/
 
+                        }
+
+                })
+   })
+/*
   db.run(qUpdateCanDo,[nEmpID,nTaskID,prevEmployeeID,prevTaskID], (err) =>{
     errorUpdateCheck(err,res,'Can Do');
   });
+*/
 }
 
 exports.updateEmployee = (req,res) =>{
@@ -101,15 +154,42 @@ exports.updateEmployee = (req,res) =>{
   var modify_task = req.body.modify_task;
   var modify_emp_attr = req.body.modify_emp_attr;
   var username = req.body.username;
+  var preffered_hours = req.body.preffered_hours;
   //var salt = req.body.salt;
   //var password = req.body.password;
   console.log(req.body);
   //var passHash = bcrypt.hashSync(password,salt);
 
+  var token = req.body.token;
+
+  db.serialize(()=>{
+                db.get('SELECT * FROM employee ' +
+                        'WHERE token = ?', [token], (err,row)=>{
+                        console.log('value of row ' + JSON.stringify(row))
+                        if(typeof row === 'undefined' || row.modify_emp_attr == 0){
+                                console.log('is row null')
+                                res.send({
+                                "code":403,
+                                "failed":"User does not have valid session"
+                                });
+                                console.log('message sent');
+                                valid = 0;
+                        }
+                        else{
+                             db.run(qUpdateEmployee, [first_name,middle_name,last_name,email,phone_number,modify_task,
+  				modify_emp_attr,username,preffered_hours,employeeID],(err) =>{
+    				errorUpdateCheck(err,res,'Employee');
+  			     });
+
+                        }
+
+                })
+   })
+/*
   db.run(qUpdateEmployee, [first_name,middle_name,last_name,email,phone_number,modify_task,
-  modify_emp_attr,username,employeeID],(err) =>{
+  modify_emp_attr,username,preffered_hours,employeeID],(err) =>{
     errorUpdateCheck(err,res,'Employee');
-  });
+  });*/
 }
 
 exports.updateNotAvailable = (req,res) =>{

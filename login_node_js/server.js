@@ -61,7 +61,7 @@ router.get('/getAllWeekHr',searchDB.getAllWeekHr);
 router.get('/getTOR',searchDB.getTOR);
 
 router.post('/getCanDoByEmployeeID',searchDB.getCanDoByEmployeeID);
-router.post('/getEmployeeAttributesByEmployeeID',searchDB.getEmployeeAttributesByEmployeeID);
+router.get('/getEmployeeAttributesByEmployeeID',searchDB.getEmployeeAttributesByEmployeeID);
 router.post('/getShiftXByEmployeeID',searchDB.getShiftXByEmployeeID);
 router.post('/getScheduleWithEmployees',searchDB.getScheduleWithEmployees);
 router.post('/getTORByID',searchDB.getTORByID);

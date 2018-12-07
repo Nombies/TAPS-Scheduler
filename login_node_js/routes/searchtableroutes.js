@@ -94,9 +94,31 @@ exports.getAllSchedule = (req,res) =>{
   });
 }
 exports.getAllEmployees = (req,res) =>{
-	db.all(qSearchAllEmployees, [], (err,rows) =>{
-		searchErrorCheck(err,res,'all employees',rows);
-	});
+	var token = req.query.token || req.body.token;
+	var valid = 1;
+	console.log('token ' + token)
+	db.serialize(()=>{
+		db.get('SELECT * FROM employee ' +
+                        'WHERE token = ?', [token], (err,row)=>{
+                	console.log('value of row ' + JSON.stringify(row))
+        		if(typeof row === 'undefined'){
+           			console.log('is row null')
+           			res.send({
+             			"code":403,
+             			"failed":"User does not have valid session"
+           			});
+           			console.log('message sent');
+          	 		valid = 0;
+         		}
+
+                })
+		db.all(qSearchAllEmployees, [], (err,rows) =>{
+			console.log('is this running?')
+			if(valid == 1){
+				searchErrorCheck(err,res,'all employees',rows)
+			}
+		})
+	})
 }
 //send json of taskID and employeeID based on inputed ID
 exports.getCanDoByEmployeeID = (req,res) =>{
@@ -108,10 +130,36 @@ exports.getCanDoByEmployeeID = (req,res) =>{
 }
 //send all employee information based off their ID
 exports.getEmployeeAttributesByEmployeeID = (req,res) =>{
-  var employeeID = req.body.employeeID;
-  db.all(qSearchEmployeeByID, [employeeID], (err,rows) =>{
-    searchErrorCheck(err,res,'employee',rows);
-  });
+  var employeeID = req.query.employeeID || req.body.employeeID;
+  var token = req.query.token || req.body.token;
+  var valid = 1;
+
+  db.serialize(()=>{
+                db.get('SELECT * FROM employee ' +
+                        'WHERE token = ?', [token], (err,row)=>{
+                        console.log('value of row ' + JSON.stringify(row))
+                        if(typeof row === 'undefined'){
+                                console.log('is row null')
+                                res.send({
+                                "code":403,
+                                "failed":"User does not have valid session"
+                                });
+                                console.log('message sent');
+                                valid = 0;
+                        }
+
+                })
+                db.all(qSearchEmployeeByID , [employeeID], (err,rows) =>{
+                        console.log('is this running?')
+                        if(valid == 1){
+                                searchErrorCheck(err,res,'employee',rows)
+                        }
+                })
+   })
+
+ // db.all(qSearchEmployeeByID, [employeeID], (err,rows) =>{
+ //   searchErrorCheck(err,res,'employee',rows);
+ // });
 }
 //get all then requested shift exchanges based on an employee ID
 exports.getShiftXByEmployeeID = (req,res) =>{

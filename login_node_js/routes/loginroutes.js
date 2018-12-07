@@ -9,7 +9,7 @@ let db = new sqlite3.Database('../../currTAPS.db', (err)=> {
 });
 
 let sql = 'SELECT * FROM employee WHERE email = ?';
-let insertEmployee = 'INSERT INTO employee VALUES ((SELECT MAX(employeeID)+1 FROM employee),?,?,?,?,?,?,?,?,?,?)';
+let insertEmployee = 'INSERT INTO employee VALUES ((SELECT MAX(employeeID)+1 FROM employee),?,?,?,?,?,?,?,?,?,?,?,?)';
 //TODO::SEND Valid information later
 exports.login = (req,res) =>{
   var email = req.body.email;
@@ -37,10 +37,21 @@ exports.login = (req,res) =>{
         console.log('res password ' + resPassword);
         if(resPassword === true){
           //What you send the user
+	  var token = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+	  db.run('UPDATE employee SET token = ? WHERE email = ?',[token,email], (err) =>{
+           if(err){
+             res.send({
+               "code":400,
+               "failed":"error making a token"
+             });
+           return;
+           }
+          });
           res.send({
             "code":200,
             "success":"login successfull",
-            "employeeID":row.employeeID
+            "employeeID":row.employeeID,
+            "token":token
           });
         }
         else{
@@ -66,12 +77,13 @@ exports.signup = (req,res) =>{
 
   var salt = bcrypt.genSaltSync(10);
   var passHash = bcrypt.hashSync(password,salt);
+  var preffered_hours = req.body.preffered_hours;
   var nextID = -1;
-  
+  var token = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
   console.log(req.body);
 
     db.run(insertEmployee,[first_name,middle_name,last_name,email,
-    phone_number,modify_task,modify_emp_attr,username,salt,passHash], (err)=>{
+    phone_number,modify_task,modify_emp_attr,username,salt,passHash,preffered_hours,token], (err)=>{
       if(err){
         res.send({
           "code":400,
