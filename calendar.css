@@ -103,3 +103,21 @@
 .blueheader{
 	background-color: rgba(120,160,204,0.9);
 }
+
+
+/* Style the navbar */
+#timebar {
+display: flex;
+  background-color: #333;
+}
+
+#addempname{
+	display:flex;
+}
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}

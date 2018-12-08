@@ -1,4 +1,4 @@
-var showall=false;
+var showall=true;
 var currentuser=localStorage.getItem("UserID");
 
 //var tasks = ["Sweeping", "CPU", "Sign Cleaning", "Office", "Citations", "Reserved", "Sign Check", "Campus Check"];
@@ -21,9 +21,12 @@ $( document ).ready(function() {
 });
 
 function showcalendar(){
-	$(".employee").toggle();
-	$(".employeename").toggle();
-	$(".employee#employee"+currentuser).show();
+		//var h = document.getElementById('addempname');
+		//$('#addempname')removeAttr('id').addClass('employeename') 
+		$(".employee").toggle();
+		$(".employeename").toggle();
+		$(".employee#employee"+currentuser).show();
+
 }
 function togglePress(){
 	$(".task").each(function(){
@@ -69,14 +72,23 @@ function gencalendar(all){
 				}
 				//console.log(ass)
 				if(ass){
-					emp+="<div class='task assigned'>"+assn+"</div>";
+					var classes ="task assigned";
+					if(showall){
+						classes+=" employeePressed";
+					}
+					emp+="<div class='"+classes+"'>"+assn+"</div>";
 				}else{
-					emp+="<div class='task'></div>";
+					var classes ="task";
+					if(showall){
+						classes+=" employeePressed";
+					}
+					emp+="<div class='"+classes+"'>"+assn+"</div>";
 				}
 				
 			}
 		emp+="</div>";
 		$(".day").append(emp);
+
 	}
 		
 	});
@@ -98,3 +110,22 @@ function gencalendar(all){
 		$(this).show();
 		$(this).next(".day").show();
 	});
+
+	// When the user scrolls the page, execute myFunction 
+window.onscroll = function() {myFunction()};
+
+// Get the navbar
+var timebar = document.getElementById('timebar');
+
+// Get the offset position of the navbar
+var sticky = timebar.offsetTop;
+
+// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    timebar.classList.add("sticky")
+  } else {
+    timebar.classList.remove("sticky");
+  }
+}
+

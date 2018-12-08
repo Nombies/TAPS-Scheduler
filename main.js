@@ -192,7 +192,7 @@ $(document).ready(function() {
 	});
 
 	$('body > div.slidecover > div:nth-child(5)').click(function(){//click settings
-
+		
 	});
 	$('#Candobutton').click(function(){
 		$('.centermenu#Employees').hide('fade', {direction: 'right'}, 100);

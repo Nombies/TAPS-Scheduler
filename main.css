@@ -216,7 +216,9 @@ input[type = button]{
 .small > p{
 	margin:0;
 }
-
+body > div.slidecover > div:nth-child(5){
+	display: none;
+}
 
 .new{
 	float:right;
