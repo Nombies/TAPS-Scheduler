@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>SyncFiddle</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  <a href="google.com">google</a>
+  <script>
+    
+/*         "employeeID"
+          "start_time" 
+            "end_time" 
+              "start_date" //24 hr time
+                "end_date"
+                  "day" */
+/*email: "token"
+employeeID: 1
+first_name: "token"
+last_name: "token"
+middle_name: "token"
+modify_emp_attr: 1
+modify_task: 1
+password_hash: "$2b$10$chfkFopvCdEg4q5g8WlH2.DUoX/xC9k6J/rgRFWEZx7kcjREXttrO"
+phone_number: "token"
+preffered_hours: 11
+salt: "$2b$10$chfkFopvCdEg4q5g8WlH2."
+token: 3329324491531499
+username: ""*/
+    //schedule
+    function generator(maxhrs){
+      //week_hrs preffered_hours
+      
+      var C = []; 	//cando loaded from db
+      var E = [];		//employees loaded from db
+      var S = [];		//schedule to be built
+      var T = [];		//tasks loaded from db
+      var N = [];		//notAvailable from db
+      C[0] = {"employeeID":1, "taskID":1};
+      C[1] = {"employeeID":1, "taskID":2};
+      E[0] = {"employeeID": 1,"week_hrs":0 , "preffered_hours" : 10};
+      T[0] = {"taskID":1,"earliest_start": "08:30", "latest_end":"10:00", "duration":3, "employees_needed":1 };
+      T[1] = {"taskID":2,"earliest_start": "10:30", "latest_end":"15:00", "duration":3, "employees_needed":4 };
+      N[0] = {"employeeID":1,"start_time": "06:30", "end_time": "6:31"};
+      for(var i = 0; i < E.length; i++)
+      {
+        E[i].Schedule = [];
+      	for(var j = 0; j < N.length; j++)
+        {
+        	if(E[i].employeeID == N[i].employeeID)
+          {
+            var begin = getTimeIndex(N[i].start_time);
+            var end = getTimeIndex(N[i].end_time);
+           	for(var k = begin; k< end+1; k ++ ) 
+            {
+             	E[i].Schedule[k] = 'N/A';
+              
+            }
+          }
+        }
+      }
+
+      //15:57 = 1:57pm
+			//d = new Date('1970-01-01T' + "15:57" + ':00Z');
+   		for(var i = 0; i < E.length;i++){
+        E[i].taskNum = 0;
+        for(var j = 0; j < T.length;j++){
+          if(checkCando(T[j].taskID,E[i].employeeID,C)){
+          	E[i].taskNum++;
+          }
+        }
+      }
+      
+      for(var i = 0; i < T.length;i++){
+        T[i].taskNum = 0;
+        for(var j = 0; j < E.length;j++){
+          if(checkCando(T[i].taskID,E[j].employeeID,C)){
+          	T[i].taskNum++;
+          }
+        }
+      }
+      
+   		for(var i = 0; i < T.length;i++){	//for all tasks in T
+        for(var j = 0; j < E.length;j++){	//for all employees in E
+          
+          if(checkCando(T[i].taskID,E[j].employeeID,C)){
+          	
+          }
+          
+        }
+      }
+      function getTimeIndex(time)
+      {
+        var hr;
+        var min;
+				hr = parseInt(time.substring(0,2));
+        min = parseInt(time.substring(3,5));
+        if(min <= 30 && min != 0) min = 1;
+				else if( min != 0)
+        {
+         min = 0;
+         hr++;
+        }
+        var index;
+        
+				hr = (hr - 6) * 2;
+        index = hr + min;
+        return index;
+      }
+      
+      function checkCando(taskID,employeeID){
+    		for(var i = 0;i < C.length;i++){
+          
+        	if((C[i].employeeID) == employeeID && C[i].employeeID == employeeID){
+            	return true;
+          }
+        }
+        return false;
+      }
+      
+      
+		  function IndexToTime(index)
+      {
+        var time;
+        if(index % 2 == 0)
+        {
+        		index = (index / 2) + 6;
+          	if(index>9) return  index.toString() + ":00"; 
+          	else return "0" + index.toString() + ":00"; 
+          
+        }
+        else
+        {
+         index = index -1;
+         index = (index/2) + 6;
+         if(index>9) return  index.toString() + ":30"; 
+         else return "0" +index.toString() + ":30"; 
+        }
+      }
+      
+     function compareTask(a,b)
+    	{
+        //priority asc
+	 			if(b.priority - a.priority != 0)
+      	{
+        	return b.priority - a.priority;
+      	}
+      	else
+      	{
+          //compare #ofcandos
+      		if(b.taskNum-a.taskNum!=0)
+          {
+            return b.taskNum-a.taskNum;
+          }
+          else
+          {
+            //emp needed desc
+            return a.employees_needed - b.employees_needed;
+          }
+                 
+      	}
+      }
+      function compareEmployees(a,b)
+      {
+        //compare n# of eligible tasks
+      	if(b.taskNum-a.taskNum!=0)
+        {
+          return b.taskNum-a.taskNum;
+        }
+        else
+        {
+          //weekhr asc
+        	if(a.weekhr - b.weekhr != 0)
+          {
+            return a.weekhr - b.weekhr;
+          }
+          else
+          {
+           	return Math.random()-0.5; 
+          }
+          
+        }
+        
+      }
+
+        
+      function isAvailable(myTask,myEmp)
+      {
+        var EarliestTime = myTask["earliest_start"];
+        var LastestTime = myTask["latest_end"];
+        var duration = myTask["duration"];
+        var Available = false;
+        //1 entry in array is 30min 24 entries == 12 hrs
+        for(var i = 0; i< 24 - duration; i++)
+        {
+          //returns the index of the first available spot -1 if none avaliable
+          if(myEmp.Schedule[i] == undefined)
+          {
+            Available = true;
+            for(var j = 0; j < duration; j++)
+            {
+              if( myEmp.Schedule[i+j] != undefined)
+              {
+                Available = false;
+                break;
+              } 
+            }
+            if(Available) return i;
+          } 
+        }
+        if(!Available) return -1;
+        
+      }
+      checkCando(T[0].taskID,E[0].employeeID);
+      //console.log(isAvailable(E[0],T[0]));
+      
+      //testing purposes only
+      
+      
+ /*     function assignUntil(function cond1(emp)){
+      	for(var i = 0; i < T.length;i++){
+        	for(var j = 0; j < E.length;j++ ){
+            
+            if(checkCando(T[i]["taskID"],E[j]["employeeID"],C)){
+          		
+          	}	
+            
+            
+          	S.push({"taskID":T[i]["taskID"],
+										"start_time":"somestarttime",
+										"end_time":"startTime+taskLength",
+										"EmployeeID":T[j]["employeeID",
+                    "task_name":T[i]["name"],
+                   	"task_date":"emptyfornow",
+                   	"day_of_week":"whateverDay"});	//assign  employee
+            
+          }
+        }
+      });
+      
+     */
+      
+      function LoopCondition(a,j,k)
+      {
+        //j == task k == employee
+        var canDo = checkCando(T[j].taskID,E[k].employeeID);
+        var Ava = isAvailable(T[j],E[k]);
+        if(Ava == -1) Ava =0;
+     		
+      	if(a == 0)
+        {
+          //If employee e can do task t (cando, is not not available, is not time blocked in S and weekhr<e.req)
+          if( canDo && Ava && E[k].week_hrs < E[k].preffered_hours) return true;	//preffered_hours
+          else
+          {
+            
+            return false;
+          }
+        }
+        if(a == 1)
+        {
+          if( canDo && Ava && E[k].week_hrs < maxhrs)return true;	//preffered_hours
+          else return false;
+        }
+        if(a == 2)
+        {
+          if( canDo && Ava && E[k])return true;	//preffered_hours
+          else return false;
+        }
+        
+      }
+      function generate(callback)
+      {
+        for(var i = 0 ; i<1; i ++)
+        {
+          //j == task
+         	for(var j = 0; j< T.length; j++)
+          {
+            //k == employee
+            
+            for(var k = 0; k < E.length; k++)
+            {
+              //console.log(j);
+              //console.log((i,j,k));
+              if(callback(i,j,k))
+              {
+                  
+                	var index = isAvailable(T[j],E[k]);
+                	//console.log("j " + j + "k " + k);
+                	//console.log(isAvailable(T[0],E[0]));
+                
+                //console.log(T.length);
+                S.push({"taskID":T[j]["taskID"],
+										"start_time":IndexToTime(index),
+										"end_time":IndexToTime(index+T[j].duration),
+										"employeeID":E[k].employeeID,
+                    "task_name":T[j].name,
+                   	"task_date":"emptyfornow",
+                   	"day_of_week":"whateverDay"});
+                for(var alpha = 0; alpha < T[j].duration; alpha ++){
+                	E[k].Schedule[index + alpha] = T[j];
+                  
+             			//checkCando(T[j].taskID,E[k].employeeID)
+                  //console.log("i " + i + " j " + j);
+                  //console.log(checkCando(T[j].taskID,E[k].employeeID));
+                	T[j].employees_needed -= 1;
+                //weekhalf hours instead of hrs
+                	E.sort(compareEmployees);
+                	E[k].week_hrs += T[j].duration;
+                	if(T[j].employees_needed == 0)
+                  {
+                  	T.splice(j,j);
+                    break;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      //console.log(checkCando(1,1));
+      generate(LoopCondition);
+      
+      for(var i = 0; i< 24; i++)
+      {
+       //console.log("index " + i + " " + E[0].Schedule[i]);
+      }
+      /*
+      console.log(isAvailable(T[0],E[0]));
+      console.log(IndexToTime(10));*/
+      for(var i = 0; i< S.length; i++)
+      {
+        //console.log(S[i]);
+      }
+      
+    }
+    //console.log("it works2");
+    generator(10);
+  </script>
+</body>
+</html>
